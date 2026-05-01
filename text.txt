@@ -1,0 +1,47 @@
+[1/2] /usr/local/cuda-13.2/bin/nvcc -MD -MF sampling.cuda.o.d -DTORCH_EXTENSION_NAME=sample -DTORCH_API_INCLUDE_EXTENSION_H -isystem /home/njzy/rwkv_agent/.venv/lib/python3.13/site-packages/torch/include -isystem /home/njzy/rwkv_agent/.venv/lib/python3.13/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda-13.2/include -isystem /usr/include/python3.13 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 --compiler-options '-fPIC' -O3 -res-usage --extra-device-vectorization -Xptxas -O3 -std=c++17 -c /home/njzy/rwkv_agent/server/reference/cuda/sampling.cu -o sampling.cuda.o 
+ptxas info    : 218094 bytes gmem
+ptxas info    : Compiling entry function '_ZN3cub17_V_300200_SM_12006detail11EmptyKernelIvEEvv' for 'sm_120'
+ptxas info    : Function properties for _ZN3cub17_V_300200_SM_12006detail11EmptyKernelIvEEvv
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 4 registers, used 0 barriers
+ptxas info    : Compile time = 21.339 ms
+ptxas info    : Compiling entry function '_Z26batch_sampling_topp_kerneliiiPKfPiP24curandStatePhilox4_32_10Pff' for 'sm_120'
+ptxas info    : Function properties for _Z26batch_sampling_topp_kerneliiiPKfPiP24curandStatePhilox4_32_10Pff
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 1 barriers, 300 bytes smem
+ptxas info    : Compile time = 69.925 ms
+ptxas info    : Compiling entry function '_Z43batch_sampling_temperature_topk_topp_kerneliiiPKfPiP24curandStatePhilox4_32_10Pffif' for 'sm_120'
+ptxas info    : Function properties for _Z43batch_sampling_temperature_topk_topp_kerneliiiPKfPiP24curandStatePhilox4_32_10Pffif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 52 registers, used 1 barriers, 316 bytes smem
+ptxas info    : Compile time = 76.664 ms
+ptxas info    : Compiling entry function '_Z54batch_sampling_repetition_temperature_topk_topp_kerneliiiPKfPfPiP24curandStatePhilox4_32_10S1_S0_PKiS0_S0_S0_S0_PKb' for 'sm_120'
+ptxas info    : Function properties for _Z54batch_sampling_repetition_temperature_topk_topp_kerneliiiPKfPfPiP24curandStatePhilox4_32_10S1_S0_PKiS0_S0_S0_S0_PKb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 58 registers, used 1 barriers, 316 bytes smem
+ptxas info    : Compile time = 83.251 ms
+ptxas info    : Compiling entry function '_Z17setup_rand_kernelP24curandStatePhilox4_32_10y' for 'sm_120'
+ptxas info    : Function properties for _Z17setup_rand_kernelP24curandStatePhilox4_32_10y
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 26 registers, used 0 barriers
+ptxas info    : Compile time = 1.879 ms
+[2/2] c++ sampling.o sampling.cuda.o -shared -L/home/njzy/rwkv_agent/.venv/lib/python3.13/site-packages/torch/lib -lc10 -lc10_cuda -ltorch_cpu -ltorch_cuda -ltorch -ltorch_python -L/usr/local/cuda-13.2/lib64 -lcudart -o sample.so
+=== 对照试验1：候选ID索引错误（向量化PyTorch CUDA vs 有缺陷CUDA核函数） ===
+
+--- 对照组（向量化PyTorch CUDA官方实现） ---
+采样结果统计：tensor([  0, 100])
+是否全选1：True
+平均采样耗时：0.6483 ms
+
+--- 试验组（有缺陷的CUDA核函数） ---
+采样结果统计：tensor([100])
+是否全选0：True
+平均采样耗时：0.1974 ms
+
+--- 试验结论 ---
+✅ 验证成功：CUDA核函数候选ID索引错误，永远选0！
+
+--- 性能对比（均为CUDA向量化） ---
+向量化PyTorch CUDA平均耗时：0.6483 ms
+有缺陷CUDA核函数平均耗时：0.1974 ms
+⚡ 有缺陷CUDA核函数比向量化PyTorch CUDA快 3.28x（但结果错误！）
