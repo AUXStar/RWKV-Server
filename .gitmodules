@@ -1,0 +1,6 @@
+[submodule "server/reference/rwkv"]
+	path = server/reference/rwkv
+	url = https://github.com/BlinkDL/Albatross.git
+[submodule "server/reference/sampler"]
+	path = server/reference/sampler
+	url = https://github.com/AUXStar/Rapid-Sampling
