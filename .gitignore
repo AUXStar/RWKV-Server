@@ -9,6 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
+# .vscode/
+
 model/
 
 rwkv_lightning/
