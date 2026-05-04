@@ -1,4 +1,4 @@
-from server.pipeline import RWKV070ModelLoader,SimpleTaskManager
+from server.pipeline import RWKV070ModelLoader,SimpleScheduler
 import time
 
 from server.pipeline.task import Status
@@ -73,7 +73,7 @@ pipeline = RWKV070ModelLoader(
     "/home/njzy/rwkv_agent/server/model/rwkv7-g1f-2.9b-20260420-ctx8192"
 )
 
-task_manager = SimpleTaskManager(pipeline, max_batch_size=35, buffer_size=1000)
+task_manager = SimpleScheduler(pipeline, max_batch_size=35, buffer_size=32)
 
 t = time.time()
 ttts = [
@@ -86,6 +86,8 @@ ttts = [
         temperature=1,
         top_k=-1,
         top_p=0.5,
+        collect_callback=str,
+        finish_callback=str
     )
     for prompt in prompts[:5]
 ]

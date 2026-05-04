@@ -1,3 +1,6 @@
+import torch
+
+
 from ..reference.sampler.sampler import Sampler
 
 
@@ -8,7 +11,7 @@ class BatchSampler:
     def setup_rand(self, seed, batch):
         return self.sampler.setup_rand(seed, batch)
 
-    def sample(self, *args, **kwargs):
+    def sample(self, logits: torch.Tensor, *args, **kwargs):
         """
         执行带**存在惩罚**和**重复惩罚**的批量采样（支持向量化参数）。
 
@@ -40,4 +43,5 @@ class BatchSampler:
 
         Performs batch sampling with **presence penalty** and **repetition penalty** (supports vectorized parameters).
         """
-        return self.sampler.sample_repetition(*args, **kwargs)
+        logits = logits.float()
+        return self.sampler.raw_sample_repetition_fast(logits, *args, **kwargs)

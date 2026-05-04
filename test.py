@@ -1,7 +1,8 @@
-from server.pipeline import RWKV070ModelLoader,DynamicTaskManager
+from server.pipeline import RWKV070ModelLoader,DynamicScheduler
 import time
 
-from server.pipeline.task import Status
+from server import setup_logging
+setup_logging()
 
 prompts = """请精心创作一个奇幻故事，字数需达到500字以上。故事必须包含以下核心元素：一条能够与人类交流的智慧巨龙、一片笼罩着古老诅咒的魔法森林、一座悬浮于天际的失落古城，以及一支怀揣秘密的寻宝冒险者小队。文中需设置至少三个出人意料的剧情转折点，并着重运用细腻的环境描写（如光影、气息）与深入的心理描写（如恐惧、贪婪、抉择）来增强叙事的沉浸感。
 请基于以下开头续写一篇科幻故事：“实验室刺耳的警报声骤然响起，培养舱内的液体急速排空，那个克隆婴儿缓缓睁开了眼睛……” 请将故事续写至约800字，构建一个充满悬念的结局。重点刻画该克隆体展现的异常超能力（如精神控制或预知未来）与主导实验的科学家之间的激烈冲突与对峙。
@@ -74,7 +75,7 @@ pipeline = RWKV070ModelLoader(
     "/home/njzy/rwkv_agent/server/model/rwkv7-g1f-2.9b-20260420-ctx8192"
 )
 
-task_manager = DynamicTaskManager(pipeline, max_batch_size=35, buffer_size=32)
+task_manager = DynamicScheduler(pipeline, max_batch_size=35, buffer_size=32)
 
 t = time.time()
 ttts = [
