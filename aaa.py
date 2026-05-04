@@ -120,8 +120,8 @@ def run_pipeline_benchmark(
 # ======================
 if __name__ == "__main__":
     # 导入你的两个 pipeline
-    from server.pipeline import pipeline as pipelineA
-    from server.pipeline import pipeline1 as pipelineB
+    from server.scheduler import pipeline as pipelineA
+    from server.scheduler import pipeline1 as pipelineB
 
     # 生成测试数据
     prompts = generate_test_prompts(TEST_CONFIG["prompt_count"])

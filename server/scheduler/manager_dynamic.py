@@ -21,12 +21,11 @@ class DynamicScheduler(BaseScheduler):
     ):
         super().__init__(model_loader, BatchSampler, max_batch_size, buffer_size)
         self.worker = self._init_worker_slots(self.max_batch_size)
-        self.worker["stop_flags"] = torch.zeros(self.max_batch_size, dtype=torch.bool, device="cuda")
+        self.worker["stop_flags"] = torch.zeros(
+            self.max_batch_size, dtype=torch.bool, device="cuda"
+        )
         self.engine = InferEngine(
-            self.model.model,
-            self.sampler,
-            self.buffer_size,
-            self.model.batch_is_eos
+            self.model.model, self.sampler, self.buffer_size, self.model.batch_is_eos
         )
         cap = self._next_power_of_two(initial_capacity)
         self.current_capacity = cap if cap <= max_batch_size else max_batch_size
@@ -42,13 +41,43 @@ class DynamicScheduler(BaseScheduler):
         if new_capacity == self.current_capacity:
             return
         t0 = time.time()
-        active_indices = [i for i in range(self.current_capacity)
-                         if not self.mask[i].item() and self.worker["tasks"][i] is not None]
+        active_indices = [
+            i
+            for i in range(self.current_capacity)
+            if not self.mask[i].item() and self.worker["tasks"][i] is not None
+        ]
         active_cnt = len(active_indices)
         w = self.worker
-        cap_max = self.max_batch_size
+        state_size = 64  # 每个随机状态占用的元素个数
 
-        # 移动所有张量
+        # 获取当前 rand_state 的物理槽位数（基于实际元素个数）
+        total_elements = w["rand_state"].numel()
+        total_slots = total_elements // state_size
+        # 断言 active_indices 中的最大值 < total_slots
+        rand_view = w["rand_state"].view(total_slots, state_size)
+
+        # 移动数据（注意 active_indices 是原始槽位索引，必须 < total_slots）
+        # 只移动前 active_cnt 个位置
+        rand_view[:active_cnt] = rand_view[active_indices]
+
+        # 创建新视图（物理容量不变，但逻辑视图缩小至 new_capacity）
+        # 如果 new_capacity > total_slots，需要重新分配更大的张量（一般不会发生，因为 new_capacity <= max_batch_size 且初始化时 total_slots >= max_batch_size）
+        if new_capacity > total_slots:
+            # 扩容：需要分配更大的 rand_state，复制旧数据后再添加新空间
+            new_rand = torch.empty(
+                (new_capacity, state_size),
+                dtype=w["rand_state"].dtype,
+                device=w["rand_state"].device,
+            )
+            new_rand[:total_slots] = rand_view[:total_slots]
+            if new_capacity > total_slots:
+                new_rand[total_slots:].zero_()
+            w["rand_state"] = new_rand.reshape(-1)
+        else:
+            # 缩小：直接切片视图
+            w["rand_state"] = rand_view[:new_capacity].reshape(-1)
+
+        # 移动其他张量（原有逻辑不变）
         w["last_tokens"][:active_cnt] = w["last_tokens"][active_indices]
         w["max_tokens"][:active_cnt] = w["max_tokens"][active_indices]
         w["generated_tokens"][:active_cnt] = w["generated_tokens"][active_indices]
@@ -57,14 +86,17 @@ class DynamicScheduler(BaseScheduler):
         w["penalties"][:active_cnt] = w["penalties"][active_indices]
         w["stop_flags"][:active_cnt] = w["stop_flags"][active_indices]
 
-        rand_view = w["rand_state"].view(cap_max, -1)
-        rand_view[:active_cnt] = rand_view[active_indices]
-        w["rand_state"] = rand_view.reshape(-1)
-
-        for k in ["presence_penalties", "repetition_penalties", "penalty_decays",
-                  "temperatures", "top_ps", "top_ks"]:
+        for k in [
+            "presence_penalties",
+            "repetition_penalties",
+            "penalty_decays",
+            "temperatures",
+            "top_ps",
+            "top_ks",
+        ]:
             w[k][:active_cnt] = w[k][active_indices]
 
+        # 移动任务对象
         old_tasks = w["tasks"]
         new_tasks = [None] * new_capacity
         for i, idx in enumerate(active_indices):
@@ -72,39 +104,50 @@ class DynamicScheduler(BaseScheduler):
                 new_tasks[i] = old_tasks[idx]
         w["tasks"] = new_tasks
 
+        # 更新 mask
         new_mask = torch.ones(new_capacity, dtype=torch.bool, device="cuda")
         new_mask[:active_cnt] = False
         self.mask = new_mask
-        old_cap = self.current_capacity
-        self.current_capacity = new_capacity
 
+        # 清理新增空闲槽位（如果 new_capacity > active_cnt）
         if active_cnt < new_capacity:
             w["state0"][:, :, active_cnt:new_capacity, :].zero_()
             w["state1"][:, active_cnt:new_capacity, ...].zero_()
             w["penalties"][active_cnt:new_capacity].zero_()
             w["stop_flags"][active_cnt:new_capacity].zero_()
 
-        log.info(f"Compact {active_cnt} tasks, cap {old_cap} -> {new_capacity} in {time.time()-t0:.4f}s")
+        log.info(
+            f"Compact {active_cnt} tasks, cap {self.current_capacity} -> {new_capacity} in {time.time()-t0:.4f}s"
+        )
+        self.current_capacity = new_capacity
 
     def _adjust_capacity(self, ready_count: int = None):
         if ready_count is None:
             ready_count = sum(1 for t in self.tasks if t.status == Status.READY)
-        active = sum(1 for i in range(self.current_capacity)
-                    if not self.mask[i].item() and self.worker["tasks"][i] is not None)
+        active = sum(
+            1
+            for i in range(self.current_capacity)
+            if not self.mask[i].item() and self.worker["tasks"][i] is not None
+        )
         total_needed = active + ready_count
         target = self._next_power_of_two(total_needed)
         if target > self.max_batch_size:
             target = self.max_batch_size
         if target != self.current_capacity:
-            log.info(f"Adjust capacity {self.current_capacity} -> {target} (active={active}, ready={ready_count})")
+            log.info(
+                f"Adjust capacity {self.current_capacity} -> {target} (active={active}, ready={ready_count})"
+            )
             self._compact_and_resize(target)
 
     def clear_worker(self):
         self._clear_worker(self.worker)
 
     def update_batch(self, mask: torch.Tensor):
-        free_slots = [i for i in range(self.current_capacity)
-                     if mask[i].item() and self.worker["tasks"][i] is None]
+        free_slots = [
+            i
+            for i in range(self.current_capacity)
+            if mask[i].item() and self.worker["tasks"][i] is None
+        ]
         if not free_slots:
             return
         ready_tasks = [t for t in self.tasks if t.status == Status.READY]
@@ -126,17 +169,21 @@ class DynamicScheduler(BaseScheduler):
             w["state1"][:, slot, ...] = task.state1
             w["penalties"][slot] = task.penalties
             w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
-            for k, v in [("presence_penalties", task.presence_penalty),
-                         ("repetition_penalties", task.repetition_penalty),
-                         ("penalty_decays", task.penalty_decay),
-                         ("temperatures", task.temperature),
-                         ("top_ps", task.top_p),
-                         ("top_ks", task.top_k)]:
+            for k, v in [
+                ("presence_penalties", task.presence_penalty),
+                ("repetition_penalties", task.repetition_penalty),
+                ("penalty_decays", task.penalty_decay),
+                ("temperatures", task.temperature),
+                ("top_ps", task.top_p),
+                ("top_ks", task.top_k),
+            ]:
                 w[k][slot] = v
             mask[slot] = False
 
     def run(self):
-        self._adjust_capacity(ready_count=sum(1 for t in self.tasks if t.status == Status.READY))
+        self._adjust_capacity(
+            ready_count=sum(1 for t in self.tasks if t.status == Status.READY)
+        )
         it = 0
         while self.tasks:
             it += 1
@@ -144,9 +191,14 @@ class DynamicScheduler(BaseScheduler):
             self._adjust_capacity()
             self.update_batch(self.mask)
 
-            active_cnt = sum(1 for i in range(self.current_capacity)
-                           if not self.mask[i].item() and self.worker["tasks"][i] is not None)
-            if active_cnt == 0 and not any(t.status == Status.READY for t in self.tasks):
+            active_cnt = sum(
+                1
+                for i in range(self.current_capacity)
+                if not self.mask[i].item() and self.worker["tasks"][i] is not None
+            )
+            if active_cnt == 0 and not any(
+                t.status == Status.READY for t in self.tasks
+            ):
                 break
 
             st = time.time()
@@ -155,16 +207,21 @@ class DynamicScheduler(BaseScheduler):
             pulse_time = time.time() - st
             self._collect()
 
-            active = sum(1 for i in range(self.current_capacity)
-                        if not self.mask[i].item() and self.worker["tasks"][i] is not None)
+            active = sum(
+                1
+                for i in range(self.current_capacity)
+                if not self.mask[i].item() and self.worker["tasks"][i] is not None
+            )
             if active and pulse_time > 0:
                 speed = active * self.buffer_size / pulse_time
-                log.info(f"Iter {it} cap={self.current_capacity} active={active} speed={speed:.2f} tok/s")
+                log.info(
+                    f"Iter {it} cap={self.current_capacity} active={active} speed={speed:.2f} tok/s"
+                )
 
     def _collect(self):
         t0 = time.time()
         cur = self.current_capacity
-        gen = self.worker["generated_tokens"][:cur, :self.buffer_size]
+        gen = self.worker["generated_tokens"][:cur, : self.buffer_size]
         tasks = self.worker["tasks"][:cur]
         nonz = gen != 0
         any_row = nonz.any(dim=1)

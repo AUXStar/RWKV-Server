@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 import torch
+import threading
+import time
 
 from .loader import RWKV070ModelLoader
 from .sampler import BatchSampler
@@ -21,6 +23,8 @@ class BaseScheduler(ABC):
         self.buffer_size = buffer_size
         self.tasks: List[Task] = []
         self.finished_tasks: List[Task] = []
+        self._stop_event = False
+        self._tasks_lock = threading.Lock()
 
     def new_task(
         self,
@@ -51,7 +55,8 @@ class BaseScheduler(ABC):
             collect_callback=collect_callback,
             finish_callback=finish_callback,
         )
-        self.tasks.append(task)
+        with self._tasks_lock:
+            self.tasks.append(task)
         return task
 
     def _init_worker_slots(self, batch_size: int) -> dict:
@@ -78,6 +83,29 @@ class BaseScheduler(ABC):
 
     def _clear_worker(self, worker: dict):
         worker["tasks"] = [None] * len(worker["tasks"])
+
+    def add_task(self, task: Task):
+        """外部添加任务（已创建好的 Task 对象）"""
+        with self._tasks_lock:
+            self.tasks.append(task)
+
+    def background(self):
+        while 1:
+            if self._stop_event:
+                return
+            if self.tasks:
+                self.run()
+            else:
+                time.sleep(0.5)
+    
+    def start_daemon(self):
+        self.backthr = threading.Thread(target=self.background,daemon=True)
+        self.backthr.start()
+        return self.backthr
+
+    def shutdown(self):
+        if not self._stop_event:
+            self._stop_event = True
 
     @abstractmethod
     def run(self):

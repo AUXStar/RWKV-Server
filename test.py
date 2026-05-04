@@ -1,4 +1,4 @@
-from server.pipeline import RWKV070ModelLoader,DynamicScheduler
+from server.scheduler import RWKV070ModelLoader,DynamicScheduler
 import time
 
 from server import setup_logging
