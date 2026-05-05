@@ -16,7 +16,7 @@ class DynamicScheduler(BaseScheduler):
     def __init__(
         self,
         model_loader: RWKV070ModelLoader,
-        max_batch_size: int = 15,
+        max_batch_size: int = 35,
         buffer_size: int = 50,
     ):
         super().__init__(model_loader, BatchSampler, max_batch_size, buffer_size)

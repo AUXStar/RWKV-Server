@@ -192,7 +192,7 @@ class Task:
 
     def finish(self):
         self.cpu()
-        self.finish_callback()
+        self.finish_callback(self.model.raw_decode(self.generated_tokens))
 
     def _default_finish_callback(self):
         print("!" * 30, "\n", self.model.raw_decode(self.generated_tokens))
