@@ -17,7 +17,7 @@ class BaseScheduler(ABC):
         max_batch_size: int,
         buffer_size: int = 100,
     ):
-        self.model = model_loader
+        self.model_loader = model_loader
         self.sampler = batch_sampler()
         self.max_batch_size = max_batch_size
         self.buffer_size = buffer_size
@@ -42,7 +42,7 @@ class BaseScheduler(ABC):
     ) -> Task:
         task = Task(
             prompt=prompt,
-            model_loader=self.model,
+            model_loader=self.model_loader,
             batch_sampler=self.sampler,
             max_tokens=max_tokens,
             presence_penalty=presence_penalty,
@@ -60,8 +60,9 @@ class BaseScheduler(ABC):
         return task
 
     def _init_worker_slots(self, batch_size: int) -> dict:
-        vocab_size = self.model.model.args.vocab_size
-        state0, state1 = self.model.gen_state(batch_size)
+        vocab_size = self.model_loader.vocab_size
+        shift_state, wkv_state, elapsed_t = self.model_loader.gen_state(batch_size)
+        # torch.Size([32, 2, B, 2560]) torch.Size([32, B, 40, 64, 64]) torch.Size([B])
         return {
             "last_tokens": torch.zeros(batch_size, dtype=torch.int32, device="cuda"),
             "max_tokens": torch.zeros(batch_size, dtype=torch.int32, device="cuda"),
@@ -69,8 +70,9 @@ class BaseScheduler(ABC):
             "generated_tokens": torch.zeros(
                 (batch_size, self.buffer_size), dtype=torch.int32, device="cuda"
             ),
-            "state0": state0,
-            "state1": state1,
+            "shift_state": shift_state,
+            "wkv_state": wkv_state,
+            "elapsed_t": elapsed_t,
             "penalties": torch.zeros(batch_size, vocab_size, dtype=torch.float32, device="cuda"),
             "rand_state": torch.zeros(64 * batch_size, dtype=torch.int8, device="cuda"),
             "presence_penalties": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),

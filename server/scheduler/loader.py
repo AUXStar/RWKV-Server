@@ -1,35 +1,21 @@
-import os
 import torch
 import time
 
-from .patch import PatchedRWKV7
-from ..reference import rwkv7, utils
-
-reference_path = os.path.dirname(os.path.abspath(rwkv7.__file__))
-
+from ..reference import RWKV7
+from rwkv.utils import PIPELINE # from pip module rwkv
 
 class RWKV070ModelLoader:
     def __init__(
         self,
         model_path: str,
-        vocab_path: str = None,
-        head_size: int = 64,
-        vocab_size: int = 65536,
+        vocab_path: str = "rwkv_vocab_v20230424",
     ):
-        if not vocab_path:
-            vocab_path = os.path.join(reference_path, "rwkv_vocab_v20230424.txt")
         load_time = time.time()
-        args = type(
-            "Args",
-            (),
-            {
-                "MODEL_NAME": model_path,
-                "head_size": head_size,
-                "vocab_size": vocab_size,
-            },
-        )()
-        self.model = PatchedRWKV7(args)
-        self.tokenizer = utils.TRIE_TOKENIZER(vocab_path)
+        
+        self.model = RWKV7(model_path)
+        self.vocab_size = self.model.z["emb.weight"].shape[0]
+        pipeline = PIPELINE(self.model,vocab_path)
+        self.tokenizer = pipeline.tokenizer
         # 预定义 EOS 检测常量（速度优化）
         self._eos_single_token = torch.tensor(0, dtype=torch.int32, device="cuda")
         self._eos_pair_prev = torch.tensor(261, dtype=torch.int32, device="cuda")
@@ -38,9 +24,10 @@ class RWKV070ModelLoader:
             f"[Pipeline] Initialized in {time.time() - load_time:.2f} seconds. Model path: {model_path}"
         )
 
-    def gen_state(self, batch_size: int = 0) -> list[torch.Tensor]:
-        state = self.model.generate_zero_state(batch_size)
-        return state
+    def gen_state(self, batch_size: int = 1) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        batch_size = max(batch_size, 1)
+        shift_state, wkv_state, elapsed_t = self.model.zero_state(batch_size)
+        return shift_state, wkv_state, elapsed_t
 
     def raw_encode(self, text) -> list[int]:
         return self.tokenizer.encode(text)

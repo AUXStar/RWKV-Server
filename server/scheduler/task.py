@@ -55,12 +55,10 @@ class Task:
     ):
         self.collect_callback = collect_callback or self._default_collect_callback
         self.finish_callback = finish_callback or self._default_finish_callback
-        self.state0, self.state1 = model_loader.gen_state()
+        self.shift_state, self.wkv_state, self.elapsed_t = model_loader.gen_state()
         self.rand_state = batch_sampler.setup_rand(seed, 1)
-        self.penalties = torch.zeros(
-            model_loader.model.args.vocab_size, dtype=torch.float32
-        )
-        self.model = model_loader
+        self.penalties = torch.zeros(model_loader.vocab_size, dtype=torch.float32)
+        self.model_loader = model_loader
         self.lock = lock if lock is not None else NullLock()
 
         self.max_tokens = max_tokens
@@ -91,10 +89,11 @@ class Task:
         if self.current_token != -1:
             prompt.insert(0, self.current_token)
         if len(prompt) >= 2:
-            if self.state0.device != "cuda":
+            if self.shift_state.device != "cuda":
                 self.cuda()
+            tokens = torch.tensor(prompt[:-1], dtype=torch.long, device="cpu")
             self.lock.acquire()
-            self.model.model.forward_seq(prompt[:-1], (self.state0, self.state1), False)
+            self.model_loader.model.forward(tokens,(self.shift_state, self.wkv_state, self.elapsed_t))
             self.lock.release()
         self.current_token = prompt[-1]
         self.status = Status.READY
@@ -103,15 +102,18 @@ class Task:
         def _prefill_worker():
             prompt_tokens = self.tokenize(prompt)
             self.generated_tokens += prompt_tokens
-            assert len(prompt_tokens) >= 1 and all(isinstance(i, int) for i in prompt_tokens)
+            assert len(prompt_tokens) >= 1 and all(
+                isinstance(i, int) for i in prompt_tokens
+            )
             if self.current_token != -1:
                 prompt_tokens.insert(0, self.current_token)
             if len(prompt_tokens) >= 2:
-                need_cuda = self.state0.device != "cuda"
+                need_cuda = self.shift_state.device != "cuda"
                 if need_cuda:
                     self.cuda()
+                tokens = torch.tensor(prompt_tokens[:-1], dtype=torch.long, device="cpu")
                 self.lock.acquire()
-                self.model.model.forward_seq(prompt_tokens[:-1], (self.state0, self.state1), False)
+                self.model_loader.model.forward(tokens,(self.shift_state, self.wkv_state, self.elapsed_t))
                 self.lock.release()
                 if need_cuda:
                     self.cpu()
@@ -126,19 +128,22 @@ class Task:
         session_id = uuid.uuid4().hex
         current_token = torch.tensor(self.current_token, dtype=torch.int32)
         state_pool.get_state_manager().put_state(
-            session_id, [self.state0, self.state1, current_token]
+            session_id,
+            [self.shift_state, self.wkv_state, self.elapsed_t, current_token],
         )
         return session_id
 
     def load_state(self, session_id: str):
-        self.state0, self.state1, current_token = state_pool.get_state_manager().get_state(session_id)
+        self.shift_state, self.wkv_state, self.elapsed_t, current_token = (
+            state_pool.get_state_manager().get_state(session_id)
+        )
         self.current_token = current_token.item()
         return session_id
 
     # ---------- 辅助方法 ----------
     def tokenize(self, prompt: str) -> list[int]:
         if isinstance(prompt, str):
-            prompt = self.model.tokenizer.encode(prompt)
+            prompt = self.model_loader.tokenizer.encode(prompt)
         return prompt
 
     def continue_gen(self):
@@ -167,15 +172,17 @@ class Task:
             self.status = Status.STOP
 
     def cuda(self):
-        self.state0 = self.state0.cuda()
-        self.state1 = self.state1.cuda()
+        self.shift_state = self.shift_state.cuda()
+        self.wkv_state = self.wkv_state.cuda()
+        self.elapsed_t = self.elapsed_t.cuda()
         self.rand_state = self.rand_state.cuda()
         self.penalties = self.penalties.cuda()
         return self
 
     def cpu(self):
-        self.state0 = self.state0.cpu()
-        self.state1 = self.state1.cpu()
+        self.shift_state = self.shift_state.cpu()
+        self.wkv_state = self.wkv_state.cpu()
+        self.elapsed_t = self.elapsed_t.cpu()
         self.rand_state = self.rand_state.cpu()
         self.penalties = self.penalties.cpu()
         return self
@@ -186,13 +193,14 @@ class Task:
 
     def _default_collect_callback(self, tokens: list[int]):
         try:
-            print("#" * 30, "\n", self.model.raw_decode(tokens))
+            print("#" * 30, "\n", self.model_loader.raw_decode(tokens))
         except Exception:
             print("broken tokens")
 
     def finish(self):
         self.cpu()
-        self.finish_callback(self.model.raw_decode(self.generated_tokens))
+        print(self.generated_tokens)
+        self.finish_callback(self.model_loader.raw_decode(self.generated_tokens))
 
-    def _default_finish_callback(self):
-        print("!" * 30, "\n", self.model.raw_decode(self.generated_tokens))
+    def _default_finish_callback(self,_):
+        print("!" * 30, "\n", self.model_loader.raw_decode(self.generated_tokens))

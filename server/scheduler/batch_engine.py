@@ -6,6 +6,8 @@ from typing import TypedDict
 
 from .task import Task
 
+from ..reference import RWKV7
+
 
 log = logger.bind(module="engine.infer")
 
@@ -28,7 +30,7 @@ class WorkerState(TypedDict):
 class InferEngine:
     __slots__ = ("model", "sampler", "buffer_size", "eos_fn")
 
-    def __init__(self, model, sampler, buffer_size: int, eos_fn):
+    def __init__(self, model: RWKV7, sampler, buffer_size: int, eos_fn):
         self.model = model          # PatchedRWKV7 实例
         self.sampler = sampler      # BatchSampler 实例
         self.buffer_size = buffer_size
@@ -71,22 +73,25 @@ class InferEngine:
         top_p = w["top_ps"][:cur_batch]
         top_k = w["top_ks"][:cur_batch]
         
-        s0_full = w["state0"]
-        s1_full = w["state1"]
+        shift_state = w["shift_state"]
+        wkv_state = w["wkv_state"]
+        elapsed_full = w["elapsed_t"]
         
         # 初始 mask：已完成槽位不再参与前向
         # 将已完成槽位的 state 清零（避免影响后续可能复用的槽位）
         mask_view = mask.view(1, 1, cur_batch, 1)
-        s0_full[:, :, :cur_batch, :] *= ~mask_view
-        s1_full[:, :cur_batch, ...] *= ~mask.view(1, cur_batch, 1, 1, 1)
+        shift_state[:, :, :cur_batch, :] *= ~mask_view
+        wkv_state[:, :cur_batch, ...] *= ~mask.view(1, cur_batch, 1, 1, 1)
+        elapsed_full[:cur_batch] *= ~mask.view(cur_batch)
         
         step = 0
         for step in range(self.buffer_size):
             # 切片视图
-            s0 = s0_full[:, :, :cur_batch, :]
-            s1 = s1_full[:, :cur_batch, ...]
+            s0 = shift_state[:, :, :cur_batch, :]
+            s1 = wkv_state[:, :cur_batch, ...]
+            s3 = elapsed_full[:cur_batch]
             
-            logits = self.model.patch_forward_seq_batch(last.unsqueeze(-1), [s0, s1])
+            logits = self.model.forward(last.unsqueeze(-1), [s0, s1, s3])
             tokens = self.sampler.sample(
                 logits=logits,
                 penalties=pen,
@@ -121,18 +126,20 @@ class InferEngine:
             
             # 更新 state（已完成槽位的 state 清零）
             if new_finish.any():
-                s0_full[:, :, :cur_batch, :] *= ~new_finish.view(1, 1, cur_batch, 1)
-                s1_full[:, :cur_batch, ...] *= ~new_finish.view(1, cur_batch, 1, 1, 1)
+                shift_state[:, :, :cur_batch, :] *= ~new_finish.view(1, 1, cur_batch, 1)
+                wkv_state[:, :cur_batch, ...] *= ~new_finish.view(1, cur_batch, 1, 1, 1)
+                elapsed_full[:cur_batch] *= ~new_finish.view(cur_batch)
                 # 将完成的任务状态回写到 Task 对象（以便后续保存状态）
                 finished_indices = torch.where(new_finish)[0].tolist()
                 tasks = w["tasks"]
                 for idx in finished_indices:
-                    task = tasks[idx]
+                    task:Task = tasks[idx]
                     if task is None:
                         continue
                     task.current_token = tokens[idx].item()
-                    task.state0.copy_(s0_full[:, :, idx])
-                    task.state1.copy_(s1_full[:, idx])
+                    task.shift_state.copy_(shift_state[:, :, [idx]])
+                    task.wkv_state.copy_(wkv_state[:, [idx]])
+                    task.elapsed_t.copy_(elapsed_full[[idx]])
                     task.penalties.copy_(pen[idx])
                     task.rand_state.copy_(rand[idx*64:(idx+1)*64])
                     # 如果因为 stop_flag 结束，重置标志

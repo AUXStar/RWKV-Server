@@ -21,10 +21,10 @@ class SimpleScheduler(BaseScheduler):
         super().__init__(model_loader, BatchSampler, max_batch_size, buffer_size)
         self.worker = self._init_worker_slots(self.max_batch_size)
         self.engine = InferEngine(
-            self.model.model,
+            self.model_loader.model,
             self.sampler,
             self.buffer_size,
-            self.model.batch_is_eos
+            self.model_loader.batch_is_eos
         )
         log.info(f"Init capacity = {self.max_batch_size} (fixed)")
 
@@ -44,8 +44,9 @@ class SimpleScheduler(BaseScheduler):
             w["last_tokens"][slot] = task.current_token
             w["max_tokens"][slot] = task.max_tokens
             w["tasks"][slot] = task
-            w["state0"][:, :, slot, :] = task.state0
-            w["state1"][:, slot, :, :, :] = task.state1
+            w["shift_state"][:, :, slot, :] = task.shift_state
+            w["wkv_state"][:, slot, :, :, :] = task.wkv_state
+            w["elapsed_t"][slot] = task.elapsed_t
             w["penalties"][slot] = task.penalties
             w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
             w["presence_penalties"][slot] = task.presence_penalty

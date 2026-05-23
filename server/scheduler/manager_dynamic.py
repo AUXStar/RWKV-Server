@@ -1,4 +1,5 @@
 import torch
+import gc
 import time
 from loguru import logger
 
@@ -25,7 +26,7 @@ class DynamicScheduler(BaseScheduler):
             self.max_batch_size, dtype=torch.bool, device="cuda"
         )
         self.engine = InferEngine(
-            self.model.model, self.sampler, self.buffer_size, self.model.batch_is_eos
+            self.model_loader.model, self.sampler, self.buffer_size, self.model_loader.batch_is_eos
         )
         cap = self._next_power_of_two(initial_capacity)
         self.current_capacity = cap if cap <= max_batch_size else max_batch_size
@@ -81,8 +82,9 @@ class DynamicScheduler(BaseScheduler):
         w["last_tokens"][:active_cnt] = w["last_tokens"][active_indices]
         w["max_tokens"][:active_cnt] = w["max_tokens"][active_indices]
         w["generated_tokens"][:active_cnt] = w["generated_tokens"][active_indices]
-        w["state0"][:, :, :active_cnt, :] = w["state0"][:, :, active_indices, :]
-        w["state1"][:, :active_cnt, ...] = w["state1"][:, active_indices, ...]
+        w["shift_state"][:, :, :active_cnt, :] = w["shift_state"][:, :, active_indices, :]
+        w["wkv_state"][:, :active_cnt, ...] = w["wkv_state"][:, active_indices, ...]
+        w["elapsed_t"][:active_cnt] = w["elapsed_t"][active_indices]
         w["penalties"][:active_cnt] = w["penalties"][active_indices]
         w["stop_flags"][:active_cnt] = w["stop_flags"][active_indices]
 
@@ -111,11 +113,14 @@ class DynamicScheduler(BaseScheduler):
 
         # 清理新增空闲槽位（如果 new_capacity > active_cnt）
         if active_cnt < new_capacity:
-            w["state0"][:, :, active_cnt:new_capacity, :].zero_()
-            w["state1"][:, active_cnt:new_capacity, ...].zero_()
+            w["shift_state"][:, :, active_cnt:new_capacity, :].zero_()
+            w["wkv_state"][:, active_cnt:new_capacity, ...].zero_()
+            w["elapsed_t"][active_cnt:new_capacity].zero_()
             w["penalties"][active_cnt:new_capacity].zero_()
             w["stop_flags"][active_cnt:new_capacity].zero_()
 
+        gc.collect()
+        torch.cuda.empty_cache()
         log.info(
             f"Compact {active_cnt} tasks, cap {self.current_capacity} -> {new_capacity} in {time.time()-t0:.4f}s"
         )
@@ -138,6 +143,8 @@ class DynamicScheduler(BaseScheduler):
                 f"Adjust capacity {self.current_capacity} -> {target} (active={active}, ready={ready_count})"
             )
             self._compact_and_resize(target)
+        gc.collect()
+        torch.cuda.empty_cache()
 
     def clear_worker(self):
         self._clear_worker(self.worker)
@@ -155,6 +162,8 @@ class DynamicScheduler(BaseScheduler):
             return
         num = min(len(free_slots), len(ready_tasks))
         w = self.worker
+        gc.collect()
+        torch.cuda.empty_cache()
         for i in range(num):
             slot = free_slots[i]
             task = ready_tasks[i]
@@ -165,8 +174,9 @@ class DynamicScheduler(BaseScheduler):
             w["last_tokens"][slot] = task.current_token
             w["max_tokens"][slot] = task.max_tokens
             w["tasks"][slot] = task
-            w["state0"][:, :, slot, :] = task.state0
-            w["state1"][:, slot, ...] = task.state1
+            w["shift_state"][:, :, [slot], :] = task.shift_state
+            w["wkv_state"][:, [slot], ...] = task.wkv_state
+            w["elapsed_t"][slot] = task.elapsed_t
             w["penalties"][slot] = task.penalties
             w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
             for k, v in [
@@ -186,6 +196,8 @@ class DynamicScheduler(BaseScheduler):
         )
         it = 0
         while self.tasks:
+            gc.collect()
+            torch.cuda.empty_cache()
             it += 1
             self.update_batch(self.mask)
             self._adjust_capacity()
