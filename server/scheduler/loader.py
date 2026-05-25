@@ -18,7 +18,6 @@ class RWKV070ModelLoader:
         self.tokenizer = pipeline.tokenizer
         # 预定义 EOS 检测常量（速度优化）
         self._eos_single_token = torch.tensor(0, dtype=torch.int32, device="cuda")
-        self._eos_flower_token = torch.tensor(10060, dtype=torch.int32, device="cuda")
         self._eos_pair_prev = torch.tensor(261, dtype=torch.int32, device="cuda")
         self._eos_pair_cur = torch.tensor(24281, dtype=torch.int32, device="cuda")
         print(
@@ -61,5 +60,4 @@ class RWKV070ModelLoader:
         cond1 = cur_tokens == self._eos_single_token
         # 条件2: prev_token == 261 and cur_token == 24281
         cond2 = (prev_tokens == self._eos_pair_prev) & (cur_tokens == self._eos_pair_cur)
-        cond3 = cur_tokens == self._eos_flower_token
-        return cond1 | cond2 | cond3
+        return cond1 | cond2
