@@ -3,9 +3,9 @@ import time
 from loguru import logger
 
 from .loader import RWKV070ModelLoader
-from .manager_base import BaseScheduler
+from .scheduler_base import BaseScheduler
 from .sampler import BatchSampler
-from .task import Status
+from ..task import Status
 from .batch_engine import InferEngine
 
 log = logger.bind(module="scheduler.simple")
@@ -40,22 +40,22 @@ class SimpleScheduler(BaseScheduler):
             slot = free_slots[i]
             task = batch_tasks[i]
             task.status = Status.RUNNING
-            task.prepare()
-            w["last_tokens"][slot] = task.current_token
-            w["max_tokens"][slot] = task.max_tokens
-            w["tasks"][slot] = task
-            w["shift_state"][:, :, slot, :] = task.shift_state
-            w["wkv_state"][:, slot, :, :, :] = task.wkv_state
-            w["elapsed_t"][slot] = task.elapsed_t
-            w["penalties"][slot] = task.penalties
-            w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
-            w["presence_penalties"][slot] = task.presence_penalty
-            w["repetition_penalties"][slot] = task.repetition_penalty
-            w["penalty_decays"][slot] = task.penalty_decay
-            w["temperatures"][slot] = task.temperature
-            w["top_ps"][slot] = task.top_p
-            w["top_ks"][slot] = task.top_k
-            mask[slot] = False
+            with task:
+                w["last_tokens"][slot] = task.current_token
+                w["max_tokens"][slot] = task.max_tokens
+                w["tasks"][slot] = task
+                w["shift_state"][:, :, slot, :] = task.shift_state
+                w["wkv_state"][:, slot, :, :, :] = task.wkv_state
+                w["elapsed_t"][slot] = task.elapsed_t
+                w["penalties"][slot] = task.penalties
+                w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
+                w["presence_penalties"][slot] = task.presence_penalty
+                w["repetition_penalties"][slot] = task.repetition_penalty
+                w["penalty_decays"][slot] = task.penalty_decay
+                w["temperatures"][slot] = task.temperature
+                w["top_ps"][slot] = task.top_p
+                w["top_ks"][slot] = task.top_k
+                mask[slot] = False
 
     def run(self):
         mask = torch.ones(self.max_batch_size, dtype=torch.bool, device="cuda")

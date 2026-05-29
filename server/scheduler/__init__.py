@@ -6,5 +6,6 @@ torch.backends.cudnn.allow_tf32 = True
 torch.backends.cuda.matmul.allow_tf32 = True
 
 from .loader import RWKV070ModelLoader
-from .manager_simple import SimpleScheduler
-from .manager_dynamic import DynamicScheduler
+from .scheduler_base import BaseScheduler
+from .scheduler_simple import SimpleScheduler
+from .scheduler_dynamic import DynamicScheduler

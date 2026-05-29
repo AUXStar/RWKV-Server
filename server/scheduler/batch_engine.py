@@ -4,7 +4,7 @@ from loguru import logger
 
 from typing import TypedDict
 
-from .task import Task
+from ..task import Task
 
 from ..reference import RWKV7
 
@@ -137,11 +137,11 @@ class InferEngine:
                     if task is None:
                         continue
                     task.current_token = tokens[idx].item()
-                    task.shift_state.copy_(shift_state[:, :, [idx]])
-                    task.wkv_state.copy_(wkv_state[:, [idx]])
-                    task.elapsed_t.copy_(elapsed_full[[idx]])
-                    task.penalties.copy_(pen[idx])
-                    task.rand_state.copy_(rand[idx*64:(idx+1)*64])
+                    task.shift_state.copy_(shift_state[:, :, [idx]].cpu())
+                    task.wkv_state.copy_(wkv_state[:, [idx]].cpu())
+                    task.elapsed_t.copy_(elapsed_full[[idx]].cpu())
+                    task.penalties.copy_(pen[idx].cpu())
+                    task.rand_state.copy_(rand[idx*64:(idx+1)*64].cpu())
                     # 如果因为 stop_flag 结束，重置标志
                     if stop_flags is not None:
                         stop_flags[idx] = False

@@ -4,9 +4,9 @@ import time
 from loguru import logger
 
 from .loader import RWKV070ModelLoader
-from .manager_base import BaseScheduler
+from .scheduler_base import BaseScheduler
 from .sampler import BatchSampler
-from .task import Status
+from ..task import Status
 from .batch_engine import InferEngine
 
 initial_capacity: int = 1
@@ -168,27 +168,27 @@ class DynamicScheduler(BaseScheduler):
             slot = free_slots[i]
             task = ready_tasks[i]
             task.status = Status.RUNNING
-            task.prepare()
-            task.stop_flag_tensor = w["stop_flags"][slot]
-            w["stop_flags"][slot] = False
-            w["last_tokens"][slot] = task.current_token
-            w["max_tokens"][slot] = task.max_tokens
-            w["tasks"][slot] = task
-            w["shift_state"][:, :, [slot], :] = task.shift_state
-            w["wkv_state"][:, [slot], ...] = task.wkv_state
-            w["elapsed_t"][slot] = task.elapsed_t
-            w["penalties"][slot] = task.penalties
-            w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
-            for k, v in [
-                ("presence_penalties", task.presence_penalty),
-                ("repetition_penalties", task.repetition_penalty),
-                ("penalty_decays", task.penalty_decay),
-                ("temperatures", task.temperature),
-                ("top_ps", task.top_p),
-                ("top_ks", task.top_k),
-            ]:
-                w[k][slot] = v
-            mask[slot] = False
+            with task: # 自动完成to gpu 然后to cpu
+                task.stop_flag_tensor = w["stop_flags"][slot]
+                w["stop_flags"][slot] = False
+                w["last_tokens"][slot] = task.current_token
+                w["max_tokens"][slot] = task.max_tokens
+                w["tasks"][slot] = task
+                w["shift_state"][:, :, [slot], :] = task.shift_state
+                w["wkv_state"][:, [slot], ...] = task.wkv_state
+                w["elapsed_t"][slot] = task.elapsed_t
+                w["penalties"][slot] = task.penalties
+                w["rand_state"][slot * 64 : (slot + 1) * 64] = task.rand_state
+                for k, v in [
+                    ("presence_penalties", task.presence_penalty),
+                    ("repetition_penalties", task.repetition_penalty),
+                    ("penalty_decays", task.penalty_decay),
+                    ("temperatures", task.temperature),
+                    ("top_ps", task.top_p),
+                    ("top_ks", task.top_k),
+                ]:
+                    w[k][slot] = v
+                mask[slot] = False
 
     def run(self):
         self._adjust_capacity(

@@ -5,9 +5,9 @@ import torch
 import uuid
 import enum
 
-from ..state_manager import state_pool
-from .loader import RWKV070ModelLoader
-from .sampler import BatchSampler
+from .state_manager import state_pool
+from .scheduler.loader import RWKV070ModelLoader
+from .scheduler.sampler import BatchSampler
 
 
 class Status(enum.Enum):
@@ -80,6 +80,13 @@ class Task:
         else:
             self._sync_prefill(prompt)
             self.cpu()
+    
+    def __enter__(self):
+        self.prepare()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cpu()
 
     # ---------- 预填充逻辑（原样保留） ----------
     def _sync_prefill(self, prompt: Iterable[int] | str):

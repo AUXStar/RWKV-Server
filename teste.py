@@ -1,7 +1,7 @@
 from server.scheduler import RWKV070ModelLoader,DynamicScheduler
 import time
 
-from server.scheduler.task import Status
+from server.task import Status
 
 prompts = """请精心创作一个奇幻故事，字数需达到500字以上。故事必须包含以下核心元素：一条能够与人类交流的智慧巨龙、一片笼罩着古老诅咒的魔法森林、一座悬浮于天际的失落古城，以及一支怀揣秘密的寻宝冒险者小队。文中需设置至少三个出人意料的剧情转折点，并着重运用细腻的环境描写（如光影、气息）与深入的心理描写（如恐惧、贪婪、抉择）来增强叙事的沉浸感。
 """.split(

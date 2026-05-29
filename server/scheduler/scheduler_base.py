@@ -6,7 +6,7 @@ import time
 
 from .loader import RWKV070ModelLoader
 from .sampler import BatchSampler
-from .task import Task, Status
+from ..task import Task, Status
 
 
 class BaseScheduler(ABC):
