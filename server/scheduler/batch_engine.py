@@ -66,6 +66,7 @@ class InferEngine:
     ) -> torch.Tensor:
         """
         执行批量生成（原地更新 worker_state 和 mask）。
+        请注意，推理是根据mask.shape确定范围！
 
         Args:
             worker_state: 包含所有 GPU 张量的字典（keys: last_tokens, max_tokens, generated_tokens,

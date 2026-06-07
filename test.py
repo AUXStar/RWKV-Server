@@ -83,7 +83,7 @@ pipeline = RWKV070ModelLoader(
     settings.model_path,
     settings.vocab_path,
 )
-scheduler = DynamicScheduler(
+scheduler = SimpleScheduler(
     pipeline,
     max_batch_size=settings.max_batch_size,
     buffer_size=settings.buffer_size,

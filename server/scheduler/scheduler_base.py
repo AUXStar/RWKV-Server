@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
+from loguru import logger
 import torch
 import threading
 import time
@@ -20,17 +21,27 @@ class BaseScheduler(ABC):
         self.model_loader = model_loader
         self.sampler = BatchSampler()
         self.max_batch_size = max_batch_size
+        # 默认初始能力max cap，适应不同规划方法
+        self.current_capacity = max_batch_size
+
         self.buffer_size = buffer_size
         self.tasks: List[Task] = []
         self.finished_tasks: List[Task] = []
         self._stop_event = False
         self._tasks_lock = threading.Lock()
-        
+
         self.worker = self._init_worker_slots(self.max_batch_size)
-        
+
         self.engine = InferEngine(
-            self.model_loader.model, self.sampler, self.buffer_size, self.model_loader.batch_is_eos
+            self.model_loader.model,
+            self.sampler,
+            self.buffer_size,
+            self.model_loader.batch_is_eos,
         )
+        self.mask = self.worker["mask"]
+        module_name = f'scheduler.{self.__class__.__name__.replace("Scheduler", "").lower()}'
+        self.log = logger.bind(module=module_name)
+        self.log.info(f"Init {module_name} with max batch size {self.max_batch_size}")
 
     def new_task(
         self,
@@ -96,10 +107,8 @@ class BaseScheduler(ABC):
             "top_ps": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
             "top_ks": torch.zeros(batch_size, dtype=torch.int, device="cuda"),
             "stop_flags": torch.zeros(batch_size, dtype=torch.bool, device="cuda"),
+            "mask": torch.ones(batch_size, dtype=torch.bool, device="cuda"),
         }
-
-    def _clear_worker(self, worker: dict):
-        worker["tasks"] = [None] * len(worker["tasks"])
 
     def add_task(self, task: Task):
         """外部添加任务（已创建好的 Task 对象）"""
@@ -124,6 +133,180 @@ class BaseScheduler(ABC):
         if not self._stop_event:
             self._stop_event = True
 
-    @abstractmethod
     def run(self):
-        pass
+        it = 0
+        while self.tasks:
+            it += 1
+            self.update_batch()
+
+            active_cnt = self._get_active_count()
+            if active_cnt == 0 and not any(
+                t.status == Status.READY for t in self.tasks
+            ):
+                break
+
+            st = time.time()
+            # 传入 stop_flags
+            self.engine.generate(self.worker, self.mask, self.worker["stop_flags"])
+            pulse_time = time.time() - st
+            self._collect()
+            self.log_speed(it,pulse_time)
+
+    def log_speed(self,it,pulse_time):
+        active = self._get_active_count()
+        if active and pulse_time > 0:
+            speed = active * self.buffer_size / pulse_time
+            self.log.info(
+                f"Iter {it} cap={self.current_capacity} active={active} speed={speed:.2f} tok/s per_task={speed/active:.2f} tok/s"
+            )
+
+    def _get_active_indices(self):
+        """获取当前活跃任务的索引列表"""
+        return [
+            i
+            for i in range(self.current_capacity)
+            if not self.mask[i].item() and self.worker["tasks"][i] is not None
+        ]
+
+    def _get_active_count(self):
+        """获取当前活跃任务的数量"""
+        return len(self._get_active_indices())
+
+    def update_batch(self):
+        free_slots = [
+            i
+            for i in range(self.current_capacity)
+            if self.mask[i].item() and self.worker["tasks"][i] is None
+        ]
+        if not free_slots:
+            return
+        ready_tasks = [t for t in self.tasks if t.status == Status.READY]
+        if not ready_tasks:
+            return
+        num = min(len(free_slots), len(ready_tasks))
+        w = self.worker
+
+        # 统一字段映射（合并原重复赋值代码）
+        field_mappings = [
+            ("stop_flags", lambda s: s, False),
+            ("last_tokens", lambda s: s, lambda t: t.current_token),
+            ("max_tokens", lambda s: s, lambda t: t.max_tokens),
+            ("tasks", lambda s: s, lambda t: t),
+            (
+                "shift_state",
+                lambda s: (slice(None), slice(None), [s], slice(None)),
+                lambda t: t.shift_state,
+            ),
+            ("wkv_state", lambda s: (slice(None), [s], ...), lambda t: t.wkv_state),
+            ("elapsed_t", lambda s: s, lambda t: t.elapsed_t),
+            ("penalties", lambda s: s, lambda t: t.penalties),
+            (
+                "rand_state",
+                lambda s: slice(s * 64, (s + 1) * 64),
+                lambda t: t.rand_state,
+            ),
+            ("presence_penalties", lambda s: s, lambda t: t.presence_penalty),
+            ("repetition_penalties", lambda s: s, lambda t: t.repetition_penalty),
+            ("penalty_decays", lambda s: s, lambda t: t.penalty_decay),
+            ("temperatures", lambda s: s, lambda t: t.temperature),
+            ("top_ps", lambda s: s, lambda t: t.top_p),
+            ("top_ks", lambda s: s, lambda t: t.top_k),
+        ]
+
+        for i in range(num):
+            slot = free_slots[i]
+            task = ready_tasks[i]
+            task.status = Status.RUNNING
+            with task:  # 自动完成to gpu 然后to cpu
+                task.stop_flag_tensor = w["stop_flags"][slot]
+                # 统一处理所有字段赋值
+                for field_name, idx_fn, value_fn in field_mappings:
+                    idx = idx_fn(slot)
+                    value = value_fn(task) if callable(value_fn) else value_fn
+                    w[field_name][idx] = value
+                self.mask[slot] = False
+
+    def _process_terminated_indices(self, indices, data_generator=None):
+        """
+        处理真正终止的任务（zero_row和partial_row）
+        :param indices: 终止的任务索引张量
+        :param data_generator: 生成每个任务收集数据的函数
+        """
+        if indices.numel() == 0:
+            return
+        indices_list = indices.tolist()
+        tasks = self.worker["tasks"][: self.current_capacity]
+
+        for idx, i in enumerate(indices_list):
+            task = tasks[i]
+            if task is None:
+                continue
+            # 生成要收集的token数据
+            tokens = data_generator(idx, i) if data_generator else []
+            task.collect(tokens)
+            task.status = Status.FINISHED
+            task.finish()
+            tasks[i] = None
+            self.worker["tasks"][i] = None
+
+        # 统一更新mask和stop_flags
+        self.mask[indices] = True
+        self.worker["stop_flags"][indices] = False
+
+    def _process_full_buffer_indices(self, indices, data_generator):
+        """
+        处理满buffer生成的任务（all_row）：只收集数据，不终止任务
+        :param indices: 满buffer的任务索引张量
+        :param data_generator: 生成每个任务收集数据的函数
+        """
+        if indices.numel() == 0:
+            return
+        indices_list = indices.tolist()
+        tasks = self.worker["tasks"][: self.current_capacity]
+
+        for idx, i in enumerate(indices_list):
+            task = tasks[i]
+            if task is None:
+                continue
+            # 只收集数据，不修改任务状态
+            tokens = data_generator(idx, i)
+            task.collect(tokens)
+
+        # 只重置stop_flags，不修改mask
+        self.worker["stop_flags"][indices] = False
+
+    def _collect(self):
+        t0 = time.time()
+        cur = self.current_capacity
+        gen = self.worker["generated_tokens"][:cur, : self.buffer_size]
+        tasks = self.worker["tasks"][:cur]
+        non_z = gen != 0
+        any_row = non_z.any(dim=1)
+        all_row = non_z.all(dim=1)
+        zero_row = ~any_row
+
+        self._process_terminated_indices(torch.where(zero_row)[0].cpu())
+
+        all_indices = torch.where(all_row)[0].cpu()
+        gen_all = gen[all_indices].cpu()
+        self._process_full_buffer_indices(
+            all_indices, data_generator=lambda idx, _: gen_all[idx].tolist()
+        )
+
+        partial_indices = torch.where(any_row & ~all_row)[0].cpu()
+        gen_partial = gen[partial_indices].cpu()
+
+        def partial_data_gen(idx, i):
+            row = gen_partial[idx]
+            val = row[row != 0].tolist()
+            if tasks[i].current_token == 0:
+                val.append(0)
+            return val
+
+        self._process_terminated_indices(
+            partial_indices, data_generator=partial_data_gen
+        )
+
+        with self._tasks_lock:
+            self.tasks = [t for t in self.tasks if t.status != Status.FINISHED]
+        self.log.info(f"Collect finished in {time.time()-t0:.2f}s")

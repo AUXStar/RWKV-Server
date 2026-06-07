@@ -29,7 +29,7 @@ DISCONNECT_CHECK_INTERVAL = 0.1
 CHAT_TEMPLATES = {
     # RWKV v0.7 官方标准模板 - 这是最关键的修复！
     "rwkv-v0.7": lambda msgs: (
-        "以下是用户和AI助手之间的对话。AI助手乐于助人、知识渊博、诚实可靠，并且总是用中文回答问题。\n\n"
+        "以下是用户和AI助手之间的对话。AI助手乐于助人、知识渊博、诚实可靠，并且总是用\n\n"
         + "".join([
             f"User: {msg['content']}\n\nAssistant:" if msg['role'] == 'user' 
             else f"{msg['content']}\n\n" 
