@@ -1,13 +1,16 @@
-import threading
 from typing import Iterable
 
 import torch
 import uuid
 import enum
+import loguru
 
 from .state_manager import state_pool
 from .scheduler.loader import RWKV070ModelLoader
-from .scheduler.sampler import BatchSampler
+from .scheduler.batch_sampler import BatchSampler
+from .utils import NullLock, nop
+
+log = loguru.logger.bind(module="task")
 
 
 class Status(enum.Enum):
@@ -15,17 +18,6 @@ class Status(enum.Enum):
     READY = 1
     RUNNING = 2
     FINISHED = 3
-    STOP = 4
-
-
-class NullLock:
-    """空锁，用于不需要同步的场景"""
-
-    def acquire(self):
-        pass
-
-    def release(self):
-        pass
 
 
 class Task:
@@ -53,8 +45,8 @@ class Task:
         lock=None,
         async_prefill: bool = False,
     ):
-        self.collect_callback = collect_callback or self._default_collect_callback
-        self.finish_callback = finish_callback or self._default_finish_callback
+        self.collect_callback = collect_callback or nop
+        self.finish_callback = finish_callback or nop
         self.shift_state, self.wkv_state, self.elapsed_t = model_loader.gen_state()
         self.rand_state = batch_sampler.setup_rand(seed, 1)
         self.penalties = torch.zeros(model_loader.vocab_size, dtype=torch.float32)
@@ -80,18 +72,17 @@ class Task:
         else:
             self._sync_prefill(prompt)
             self.cpu()
-    
+
     def __enter__(self):
         self.prepare()
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cpu()
 
-    # ---------- 预填充逻辑（原样保留） ----------
     def _sync_prefill(self, prompt: Iterable[int] | str):
         prompt = self.tokenize(prompt)
-        self.generated_tokens += prompt
+
         assert len(prompt) >= 1 and all(isinstance(i, int) for i in prompt)
         if self.current_token != -1:
             prompt.insert(0, self.current_token)
@@ -100,54 +91,44 @@ class Task:
                 self.cuda()
             tokens = torch.tensor(prompt[:-1], dtype=torch.long, device="cpu")
             self.lock.acquire()
-            self.model_loader.model.forward(tokens,(self.shift_state, self.wkv_state, self.elapsed_t))
+            self.model_loader.model.forward(
+                tokens, (self.shift_state, self.wkv_state, self.elapsed_t)
+            )
             self.lock.release()
         self.current_token = prompt[-1]
-        self.status = Status.READY
-
-    def _start_async_prefill(self, prompt: Iterable[int] | str):
-        def _prefill_worker():
-            prompt_tokens = self.tokenize(prompt)
-            self.generated_tokens += prompt_tokens
-            assert len(prompt_tokens) >= 1 and all(
-                isinstance(i, int) for i in prompt_tokens
-            )
-            if self.current_token != -1:
-                prompt_tokens.insert(0, self.current_token)
-            if len(prompt_tokens) >= 2:
-                need_cuda = self.shift_state.device != "cuda"
-                if need_cuda:
-                    self.cuda()
-                tokens = torch.tensor(prompt_tokens[:-1], dtype=torch.long, device="cpu")
-                self.lock.acquire()
-                self.model_loader.model.forward(tokens,(self.shift_state, self.wkv_state, self.elapsed_t))
-                self.lock.release()
-                if need_cuda:
-                    self.cpu()
-            self.current_token = prompt_tokens[-1]
+        if self.max_tokens == 0:
+            self.status = Status.FINISHED
+        else:
             self.status = Status.READY
 
-        self.prefill_thread = threading.Thread(target=_prefill_worker)
-        self.prefill_thread.start()
-
-    # ---------- 状态保存/加载 ----------
     def save_state(self):
-        session_id = uuid.uuid4().hex
+        session_id = f"STATE_{uuid.uuid4().hex}"
         current_token = torch.tensor(self.current_token, dtype=torch.int32)
         state_pool.get_state_manager().put_state(
             session_id,
-            [self.shift_state, self.wkv_state, self.elapsed_t, current_token],
+            [
+                self.shift_state,
+                self.wkv_state,
+                self.elapsed_t,
+                current_token,
+                self.rand_state,
+                self.penalties,
+            ],
         )
         return session_id
 
     def load_state(self, session_id: str):
-        self.shift_state, self.wkv_state, self.elapsed_t, current_token = (
-            state_pool.get_state_manager().get_state(session_id)
-        )
+        (
+            self.shift_state,
+            self.wkv_state,
+            self.elapsed_t,
+            current_token,
+            self.rand_state,
+            self.penalties,
+        ) = state_pool.get_state_manager().get_state(session_id)
         self.current_token = current_token.item()
         return session_id
 
-    # ---------- 辅助方法 ----------
     def tokenize(self, prompt: str) -> list[int]:
         if isinstance(prompt, str):
             prompt = self.model_loader.tokenizer.encode(prompt)
@@ -176,7 +157,7 @@ class Task:
         if self.stop_flag_tensor is not None:
             self.stop_flag_tensor[...] = True
         else:
-            self.status = Status.STOP
+            self.status = Status.FINISHED
 
     def cuda(self):
         self.shift_state = self.shift_state.cuda()
@@ -206,8 +187,7 @@ class Task:
 
     def finish(self):
         self.cpu()
-        print(self.generated_tokens)
-        self.finish_callback(self.model_loader.raw_decode(self.generated_tokens))
+        self.finish_callback(self.generated_tokens)
 
-    def _default_finish_callback(self,_):
-        print("!" * 30, "\n", self.model_loader.raw_decode(self.generated_tokens))
+    def _default_finish_callback(self, tokens: list[int]):
+        print("!" * 30, "\n", self.model_loader.raw_decode(tokens))

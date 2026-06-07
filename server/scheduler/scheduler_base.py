@@ -5,7 +5,8 @@ import threading
 import time
 
 from .loader import RWKV070ModelLoader
-from .sampler import BatchSampler
+from .batch_engine import InferEngine
+from .batch_sampler import BatchSampler
 from ..task import Task, Status
 
 
@@ -13,18 +14,23 @@ class BaseScheduler(ABC):
     def __init__(
         self,
         model_loader: RWKV070ModelLoader,
-        batch_sampler: BatchSampler,
         max_batch_size: int,
-        buffer_size: int = 100,
+        buffer_size: int = 32,
     ):
         self.model_loader = model_loader
-        self.sampler = batch_sampler()
+        self.sampler = BatchSampler()
         self.max_batch_size = max_batch_size
         self.buffer_size = buffer_size
         self.tasks: List[Task] = []
         self.finished_tasks: List[Task] = []
         self._stop_event = False
         self._tasks_lock = threading.Lock()
+        
+        self.worker = self._init_worker_slots(self.max_batch_size)
+        
+        self.engine = InferEngine(
+            self.model_loader.model, self.sampler, self.buffer_size, self.model_loader.batch_is_eos
+        )
 
     def new_task(
         self,
@@ -73,14 +79,23 @@ class BaseScheduler(ABC):
             "shift_state": shift_state,
             "wkv_state": wkv_state,
             "elapsed_t": elapsed_t,
-            "penalties": torch.zeros(batch_size, vocab_size, dtype=torch.float32, device="cuda"),
+            "penalties": torch.zeros(
+                batch_size, vocab_size, dtype=torch.float32, device="cuda"
+            ),
             "rand_state": torch.zeros(64 * batch_size, dtype=torch.int8, device="cuda"),
-            "presence_penalties": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
-            "repetition_penalties": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
-            "penalty_decays": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
+            "presence_penalties": torch.zeros(
+                batch_size, dtype=torch.float32, device="cuda"
+            ),
+            "repetition_penalties": torch.zeros(
+                batch_size, dtype=torch.float32, device="cuda"
+            ),
+            "penalty_decays": torch.zeros(
+                batch_size, dtype=torch.float32, device="cuda"
+            ),
             "temperatures": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
             "top_ps": torch.zeros(batch_size, dtype=torch.float32, device="cuda"),
             "top_ks": torch.zeros(batch_size, dtype=torch.int, device="cuda"),
+            "stop_flags": torch.zeros(batch_size, dtype=torch.bool, device="cuda"),
         }
 
     def _clear_worker(self, worker: dict):
@@ -99,9 +114,9 @@ class BaseScheduler(ABC):
                 self.run()
             else:
                 time.sleep(0.5)
-    
+
     def start_daemon(self):
-        self.backthr = threading.Thread(target=self.background,daemon=True)
+        self.backthr = threading.Thread(target=self.background, daemon=True)
         self.backthr.start()
         return self.backthr
 
@@ -111,12 +126,4 @@ class BaseScheduler(ABC):
 
     @abstractmethod
     def run(self):
-        pass
-
-    @abstractmethod
-    def update_batch(self, mask: torch.Tensor):
-        pass
-
-    @abstractmethod
-    def _collect(self):
         pass

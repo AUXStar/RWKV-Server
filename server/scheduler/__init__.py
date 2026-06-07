@@ -9,3 +9,5 @@ from .loader import RWKV070ModelLoader
 from .scheduler_base import BaseScheduler
 from .scheduler_simple import SimpleScheduler
 from .scheduler_dynamic import DynamicScheduler
+from .batch_engine import InferEngine
+from .batch_sampler import BatchSampler
