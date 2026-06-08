@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "aiohttp>=3.14.1",
     "black>=26.3.1",
+    "colorama>=0.4.6",
     "fastapi[all]>=0.136.1",
     "flashinfer-python>=0.6.7",
     "loguru>=0.7.3",
@@ -14,6 +16,7 @@ dependencies = [
     "pydantic>=2.12.5",
     "robyn>=0.82.1",
     "rwkv>=0.8.32",
+    "tabulate>=0.10.0",
     "torch",
     "torchvision",
 ]

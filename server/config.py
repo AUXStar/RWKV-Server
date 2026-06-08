@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     default_repetition_penalty: float = 0
     default_penalty_decay: float = 1.0
 
-    verbose: bool = True
+    verbose: bool = False
 
     vocab_path: str | None = "server/eof_v20230424.txt"
 

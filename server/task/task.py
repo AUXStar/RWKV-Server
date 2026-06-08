@@ -1,7 +1,8 @@
 from typing import Iterable
 import torch
 import threading
-import enum,sys
+import enum
+import time
 import loguru
 from ..scheduler.loader import RWKV070ModelLoader
 from ..scheduler.batch_sampler import BatchSampler
@@ -18,6 +19,11 @@ class Status(enum.Enum):
 
 
 class Task:
+    run_time: float = 0
+    finish_time: float = 0
+    prefill_time: float = 0
+    per_speed: float = 0
+
     def __init__(
         self,
         prompt: str | list[int],
@@ -66,23 +72,23 @@ class Task:
 
     def __getstate__(self):
         state = {
-            'task_id': self.task_id,
-            'shift_state': self.shift_state.cpu(),
-            'wkv_state': self.wkv_state.cpu(),
-            'elapsed_t': self.elapsed_t.cpu(),
-            'rand_state': self.rand_state.cpu(),
-            'penalties': self.penalties.cpu(),
-            'max_tokens': self.max_tokens,
-            'presence_penalty': self.presence_penalty,
-            'repetition_penalty': self.repetition_penalty,
-            'penalty_decay': self.penalty_decay,
-            'temperature': self.temperature,
-            'top_k': self.top_k,
-            'top_p': self.top_p,
-            'seed': self.seed,
-            'current_token': self.current_token,
-            '_status': self._status,
-            '_generated_tokens': self._generated_tokens,
+            "task_id": self.task_id,
+            "shift_state": self.shift_state.cpu(),
+            "wkv_state": self.wkv_state.cpu(),
+            "elapsed_t": self.elapsed_t.cpu(),
+            "rand_state": self.rand_state.cpu(),
+            "penalties": self.penalties.cpu(),
+            "max_tokens": self.max_tokens,
+            "presence_penalty": self.presence_penalty,
+            "repetition_penalty": self.repetition_penalty,
+            "penalty_decay": self.penalty_decay,
+            "temperature": self.temperature,
+            "top_k": self.top_k,
+            "top_p": self.top_p,
+            "seed": self.seed,
+            "current_token": self.current_token,
+            "_status": self._status,
+            "_generated_tokens": self._generated_tokens,
         }
         return state
 
@@ -110,6 +116,7 @@ class Task:
         prompt = self.tokenize(prompt)
 
         assert len(prompt) >= 1 and all(isinstance(i, int) for i in prompt)
+        t = time.time()
         if self.current_token != -1:
             prompt.insert(0, self.current_token)
         if len(prompt) >= 2:
@@ -128,6 +135,7 @@ class Task:
             self.finish()
         else:
             self._status = Status.READY
+        self.prefill_time = time.time() - t
 
     def tokenize(self, prompt: str) -> list[int]:
         if isinstance(prompt, str):
@@ -140,6 +148,8 @@ class Task:
 
     def prepare(self):
         self.cuda()
+        self.run_time = time.time()
+        self.finish_time = 0
 
     def stop(self):
         if self.stop_flag_tensor is not None:
@@ -172,10 +182,11 @@ class Task:
         with self.tokens_lock:
             tokens = self._generated_tokens[:]
             self._generated_tokens.clear()
-            return tokens
+        return tokens
 
     def finish(self):
         self.cpu()
+        self.finish_time = time.time()
         self.finish_callback(self._generated_tokens)
 
     @property

@@ -12,6 +12,7 @@ from ..task.task import Task, Status
 
 
 class BaseScheduler(ABC):
+    per_speed:int = 0
     def __init__(
         self,
         model_loader: RWKV070ModelLoader,
@@ -156,8 +157,9 @@ class BaseScheduler(ABC):
         active = self._get_active_count()
         if active and pulse_time > 0:
             speed = active * self.buffer_size / pulse_time
+            self.per_speed = speed/active
             self.log.info(
-                f"Iter {it} cap={self.current_capacity} active={active} speed={speed:.2f} tok/s per_task={speed/active:.2f} tok/s"
+                f"Iter {it} cap={self.current_capacity} active={active} speed={speed:.2f} tok/s per_task={self.per_speed:.2f} tok/s"
             )
 
     def _get_active_indices(self):

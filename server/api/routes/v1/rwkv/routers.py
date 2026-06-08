@@ -27,7 +27,6 @@ async def tmp_task(
     data: TmpTaskModel, scheduler: BaseScheduler = Depends(get_scheduler)
 ):
     future, callback = finish_callback()
-    prefill_time = time.time()
     task = scheduler.new_task(
         prompt=data.prompt,
         max_tokens=data.max_tokens,
@@ -40,7 +39,6 @@ async def tmp_task(
         seed=data.seed,
         finish_callback=callback,
     )
-    prefill_time = time.time() - prefill_time
 
     gen_time = time.time()
     result = await future
@@ -49,7 +47,7 @@ async def tmp_task(
     result = task.model_loader.decode(result[0])
     return TaskResponseModel(
         result=result,
-        prefill_time=prefill_time,
+        prefill_time=task.prefill_time,
         gen_time=gen_time,
         speed=speed,
     )
@@ -61,14 +59,14 @@ async def _stream_sse(
     yield f"data: {json.dumps({'task_id': task_id, 'prefill_time': prefill_time})}\n\n".encode()
 
     gen_time = time.time()
-    async for chunk in future:
-        chunk = task.model_loader.decode(chunk)
+    async for chunk_toks in future:
+        chunk = task.model_loader.decode(chunk_toks)
         df = DataFrame(
             data=chunk,
             task_id=task_id,
             gen_time=time.time() - gen_time,
             speed=(
-                len(chunk) / (time.time() - gen_time)
+                len(chunk_toks) / (time.time() - gen_time)
                 if time.time() - gen_time > 0
                 else 0
             ),
@@ -83,7 +81,6 @@ async def _stream_sse(
 async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_scheduler)):
     future, collect, finish = stream_callback()
 
-    prefill_time = time.time()
     task = scheduler.new_task(
         prompt=data.prompt,
         max_tokens=data.max_tokens,
@@ -97,7 +94,6 @@ async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_schedu
         collect_callback=collect,
         finish_callback=finish,
     )
-    prefill_time = time.time() - prefill_time
 
     task_id = f"TASK_{uuid.uuid4().hex}"
     task_manager.put_task(task_id, task)
@@ -106,14 +102,14 @@ async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_schedu
         return TaskResponseModel(
             task_id=task_id,
             result="",
-            prefill_time=prefill_time,
+            prefill_time=task.prefill_time,
             gen_time=0,
             speed=0,
             finished=False,
         )
 
     return StreamingResponse(
-        _stream_sse(task, task_id, future, prefill_time),
+        _stream_sse(task, task_id, future, task.prefill_time),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
@@ -124,7 +120,8 @@ async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_schedu
 
 
 @router.get("/{task_id}/get_result", response_model=TaskResponseModel)
-async def get_result(task_id: str):
+async def get_result(task_id: str,
+    scheduler: BaseScheduler = Depends(get_scheduler),):
     task = task_manager.get_task(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
@@ -134,9 +131,9 @@ async def get_result(task_id: str):
     return TaskResponseModel(
         task_id=task_id,
         result=result,
-        prefill_time=0,
-        gen_time=0,
-        speed=0,
+        prefill_time=task.prefill_time,
+        gen_time=max(0, task.finish_time-task.run_time),
+        speed=scheduler.per_speed,
         finished=(task.status == Status.FINISHED),
     )
 
@@ -165,10 +162,8 @@ async def continue_task(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
 
-    prefill_time = time.time()
     if data.prompt is not None:
         task.prefill(data.prompt)
-    prefill_time = time.time() - prefill_time
 
     for field in [
         "max_tokens",
@@ -191,14 +186,14 @@ async def continue_task(
         return TaskResponseModel(
             task_id=task_id,
             result="",
-            prefill_time=prefill_time,
+            prefill_time=task.prefill_time,
             gen_time=0,
             speed=0,
             finished=False,
         )
 
     return StreamingResponse(
-        _stream_sse(task, task_id, future, prefill_time),
+        _stream_sse(task, task_id, future, task.prefill_time),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

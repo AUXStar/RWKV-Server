@@ -13,4 +13,4 @@ wheels/
 
 model/
 
-rwkv_lightning/
+rwkv_tasks.*
