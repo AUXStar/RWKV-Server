@@ -10,6 +10,7 @@ dependencies = [
     "colorama>=0.4.6",
     "fastapi[all]>=0.136.1",
     "flashinfer-python>=0.6.7",
+    "locust>=2.44.1",
     "loguru>=0.7.3",
     "ninja>=1.13.0",
     "numpy>=2.4.3",
