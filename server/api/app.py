@@ -1,10 +1,11 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 import time
-from ..scheduler import RWKV070ModelLoader
-from ..scheduler import DynamicScheduler
+
+from ..scheduler import RWKV070ModelLoader, DynamicScheduler
+from ..task.manager import get_task_manager, shutdown_task_manager
 from ..config import settings
-from .routes import tasks, openai
+from .routes.v1 import router
 
 
 @asynccontextmanager
@@ -18,14 +19,15 @@ async def lifespan(app: FastAPI):
     )
     scheduler.start_daemon()
     app.state.scheduler = scheduler
+    get_task_manager().set_dependencies(scheduler.model_loader,scheduler.sampler)
     yield
     # 关闭
     scheduler.shutdown()
+    shutdown_task_manager()
     time.sleep(0.5)
 
 
 def create_app():
     app = FastAPI(lifespan=lifespan)
-    app.include_router(tasks.router)
-    app.include_router(openai.router)
+    app.include_router(router)
     return app

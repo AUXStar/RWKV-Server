@@ -2,7 +2,8 @@ import torch
 import time
 
 from ..reference import RWKV7
-from rwkv.utils import PIPELINE # from pip module rwkv
+from ..utils import tokenizer
+from rwkv.utils import PIPELINE
 
 class RWKV070ModelLoader:
     def __init__(
@@ -11,12 +12,13 @@ class RWKV070ModelLoader:
         vocab_path: str|None = None,
     ):
         load_time = time.time()
-        if not vocab_path:
-            vocab_path = "rwkv_vocab_v20230424"
         self.model = RWKV7(model_path)
         self.vocab_size = self.model.z["emb.weight"].shape[0]
-        pipeline = PIPELINE(self.model,vocab_path)
-        self.tokenizer = pipeline.tokenizer
+        if vocab_path:
+            self.tokenizer = tokenizer(vocab_path)
+        else:
+            vocab_path = "rwkv_vocab_v20230424"
+            self.tokenizer = PIPELINE(...,vocab_path).tokenizer
         self._eos_single_token = torch.tensor(0, dtype=torch.int32, device="cuda")#0
         self._eos_pair_prev0 = torch.tensor(261, dtype=torch.int32, device="cuda") #\n\n
         self._eos_pair_prev1 = torch.tensor(11, dtype=torch.int32, device="cuda") #\n

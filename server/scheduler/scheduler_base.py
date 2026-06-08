@@ -8,7 +8,7 @@ import time
 from .loader import RWKV070ModelLoader
 from .batch_engine import InferEngine
 from .batch_sampler import BatchSampler
-from ..task import Task, Status
+from ..task.task import Task, Status
 
 
 class BaseScheduler(ABC):
@@ -243,8 +243,8 @@ class BaseScheduler(ABC):
                 continue
             # 生成要收集的token数据
             tokens = data_generator(idx, i) if data_generator else []
-            task.collect(tokens)
             task.status = Status.FINISHED
+            task.collect(tokens)
             task.finish()
             tasks[i] = None
             self.worker["tasks"][i] = None

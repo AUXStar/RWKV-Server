@@ -2,7 +2,7 @@
 
 
 from server import RWKV070ModelLoader, DynamicScheduler, SimpleScheduler
-import time
+import time, copy
 
 from server.config import settings
 
@@ -84,7 +84,7 @@ pipeline = RWKV070ModelLoader(
     settings.model_path,
     settings.vocab_path,
 )
-scheduler = SimpleScheduler(
+scheduler = DynamicScheduler(
     pipeline,
     max_batch_size=settings.max_batch_size,
     buffer_size=settings.buffer_size,
@@ -94,8 +94,8 @@ t = time.time()
 ttts = [
     scheduler.new_task(
         # prompt,
-        f"User: {prompt}\n\nAssistant: <thinking>好的，用户的语言是",
-        max_tokens=settings.default_max_tokens*100,
+        f"User: {prompt}\n\nAssistant: <think>我应该回答简短一些",
+        max_tokens=settings.default_max_tokens,
         presence_penalty=settings.default_presence_penalty,
         repetition_penalty=settings.default_repetition_penalty,
         penalty_decay=settings.default_penalty_decay,
@@ -104,10 +104,10 @@ ttts = [
         top_p=settings.default_top_p,
         seed=time.time_ns(),
     )
-    for prompt in prompts[:5]
+    for prompt in prompts[:300]
 ]
 # for ttt in ttts:
-#     ttt.finish_callback = ttt._default_finish_callback
+#     ttt.finish_callback = lambda x:print(ttt.decode(x))
 # while ttts[0].status != Status.READY:time.sleep(1)
 print("任务已添加到队列，开始处理...", time.time() - t)
 # exit()

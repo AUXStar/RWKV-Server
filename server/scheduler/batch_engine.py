@@ -4,7 +4,7 @@ from loguru import logger
 
 from typing import TypedDict
 
-from ..task import Task
+from ..task.task import Task
 
 from ..reference import RWKV7
 

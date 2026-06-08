@@ -4,7 +4,7 @@ import time
 
 from .loader import RWKV070ModelLoader
 from .scheduler_base import BaseScheduler
-from ..task import Status
+from ..task.task import Status
 
 initial_capacity: int = 1
 
