@@ -11,7 +11,6 @@ from .....task.task import Task, Status
 from .....utils import finish_callback, stream_callback
 from ....dependencies import get_scheduler
 from .schemas import (
-    TmpTaskModel,
     TaskResponseModel,
     TaskCreate,
     TaskUpdate,
@@ -22,35 +21,16 @@ router = APIRouter(prefix="/tasks", tags=["rwkv"])
 task_manager = get_task_manager()
 
 
-@router.post("/tmp", response_model=TaskResponseModel)
-async def tmp_task(
-    data: TmpTaskModel, scheduler: BaseScheduler = Depends(get_scheduler)
-):
-    future, callback = finish_callback()
-    task = scheduler.new_task(
-        prompt=data.prompt,
-        max_tokens=data.max_tokens,
-        presence_penalty=data.presence_penalty,
-        repetition_penalty=data.repetition_penalty,
-        penalty_decay=data.penalty_decay,
-        temperature=data.temperature,
-        top_k=data.top_k,
-        top_p=data.top_p,
-        seed=data.seed,
-        finish_callback=callback,
-    )
+def gen_id(tmp=False):
+    if tmp:
+        return f"TMP_{uuid.uuid4().hex}"
+    return f"TASK_{uuid.uuid4().hex}"
 
-    gen_time = time.time()
-    result = await future
-    gen_time = time.time() - gen_time
-    speed = len(result[0]) / gen_time if gen_time > 0 else 0
-    result = task.model_loader.decode(result[0])
-    return TaskResponseModel(
-        result=result,
-        prefill_time=task.prefill_time,
-        gen_time=gen_time,
-        speed=speed,
-    )
+
+@router.post("/tmp", response_model=TaskResponseModel)
+async def tmp_task(data: TaskCreate, scheduler: BaseScheduler = Depends(get_scheduler)):
+    task_id = gen_id(True)
+    return await create(task_id, data, scheduler)
 
 
 async def _stream_sse(
@@ -78,9 +58,16 @@ async def _stream_sse(
 
 
 @router.post("/create")
-async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_scheduler)):
-    future, collect, finish = stream_callback()
+async def create_task(
+    data: TaskCreate, scheduler: BaseScheduler = Depends(get_scheduler)
+):
 
+    task_id = gen_id(False)
+    return await create(task_id, data, scheduler)
+
+
+async def create(task_id:str, data: TaskCreate, scheduler: BaseScheduler):
+    future, collect, finish = stream_callback()
     task = scheduler.new_task(
         prompt=data.prompt,
         max_tokens=data.max_tokens,
@@ -95,7 +82,6 @@ async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_schedu
         finish_callback=finish,
     )
 
-    task_id = f"TASK_{uuid.uuid4().hex}"
     task_manager.put_task(task_id, task)
 
     if not data.stream:
@@ -120,8 +106,10 @@ async def create(data: TaskCreate, scheduler: BaseScheduler = Depends(get_schedu
 
 
 @router.get("/{task_id}/get_result", response_model=TaskResponseModel)
-async def get_result(task_id: str,
-    scheduler: BaseScheduler = Depends(get_scheduler),):
+async def get_result(
+    task_id: str,
+    scheduler: BaseScheduler = Depends(get_scheduler),
+):
     task = task_manager.get_task(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
@@ -132,7 +120,7 @@ async def get_result(task_id: str,
         task_id=task_id,
         result=result,
         prefill_time=task.prefill_time,
-        gen_time=max(0, task.finish_time-task.run_time),
+        gen_time=max(0, task.finish_time - task.run_time),
         speed=scheduler.per_speed,
         finished=(task.status == Status.FINISHED),
     )
@@ -142,13 +130,14 @@ async def get_result(task_id: str,
 async def fork(
     task_id: str,
     data: TaskUpdate,
+    tmp: bool = False,
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
     source_task = task_manager.get_task(task_id)
     if not source_task:
         raise HTTPException(status_code=404, detail="Source task not found")
 
-    new_task_id = task_manager.fork_template(task_id)
+    new_task_id = task_manager.fork_template(task_id, gen_id(tmp))
     return await continue_task(new_task_id, data, scheduler)
 
 
@@ -222,8 +211,8 @@ async def convert_to_template(task_id: str):
         raise HTTPException(status_code=400, detail="Task is already a template")
 
     new_template_id = f"_TMPL_{uuid.uuid4().hex}"
-    
-    task_manager.fork_template(task_id, new_task_id=new_template_id, deep_copy=False)
+
+    task_manager.fork_template(task_id, new_task_id=new_template_id)
     return TaskResponseModel(
         task_id=new_template_id,
         result="",
@@ -252,7 +241,7 @@ async def delete(task_id: str, force: bool = False):
 @router.get("/list")
 async def list_tasks():
     status = task_manager.list_all_tasks()
-    
+
     return {
         "cpu_cache_count": len(status["cpu_cache"]),
         "database_count": len(status["database"]),

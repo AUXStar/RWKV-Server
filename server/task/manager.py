@@ -102,7 +102,17 @@ class TaskManager:
     def _deserialize(self, blob: bytes) -> Any:
         return pickle.loads(blob)
 
+    def is_temporary(self, task_id: str) -> bool:
+        return task_id.startswith("TMP_")
+
+    def is_readonly(self, task_id: str) -> bool:
+        return task_id.startswith("_")
+
     def _persist_task(self, task_id: str, obj: Any):
+        if self.is_temporary(task_id):
+            log.debug(f"Skip persisting temporary task {task_id}")
+            return
+
         is_template = 1 if self.is_readonly(task_id) else 0
         try:
             blob = self._serialize(obj)
@@ -112,7 +122,6 @@ class TaskManager:
                     (task_id, blob, time.time(), is_template),
                 )
                 self.db_conn.commit()
-            # 清理非模板任务（超出容量）
             with self.db_lock:
                 self.db_cursor.execute(
                     "SELECT COUNT(*) FROM tasks WHERE is_template = 0"
@@ -134,8 +143,7 @@ class TaskManager:
         if task_id is None or obj is None:
             return
 
-        # 检查是否尝试修改只读模板
-        if self.is_readonly(task_id):
+        if self.is_readonly(task_id) and not self.is_temporary(task_id):
             exists = task_id in self.l1_cache
             if not exists:
                 with self.db_lock:
@@ -157,7 +165,8 @@ class TaskManager:
                 if self.is_readonly(evicted_id):
                     continue
                 evicted.append(evicted_id)
-                self.io_executor.submit(self._persist_task, evicted_id, evicted_obj)
+                if not self.is_temporary(evicted_id):
+                    self.io_executor.submit(self._persist_task, evicted_id, evicted_obj)
             if evicted:
                 log.debug(f"Evicted tasks due to capacity limit: {evicted}")
 
@@ -170,6 +179,9 @@ class TaskManager:
                 obj = self.l1_cache[task_id]
                 self.l1_cache.move_to_end(task_id)
                 return obj
+
+        if self.is_temporary(task_id):
+            return None
 
         if self.is_readonly(task_id):
             return None
@@ -196,9 +208,6 @@ class TaskManager:
             log.error(f"Failed to deserialize task {task_id} from DB: {e}")
             return None
 
-    def is_readonly(self, task_id: str) -> bool:
-        return task_id.startswith("_")
-
     def set_dependencies(self, model_loader, batch_sampler):
         self.model_loader = model_loader
         self.batch_sampler = batch_sampler
@@ -211,7 +220,7 @@ class TaskManager:
         if new_task_id is None:
             new_task_id = f"TASK_{uuid.uuid4().hex}"
         else:
-            if self.is_readonly(new_task_id):
+            if self.is_readonly(new_task_id) and not self.is_temporary(new_task_id):
                 raise ValueError("Forked task ID cannot be read-only")
 
         new_obj = copy.copy(src_obj)
@@ -224,11 +233,13 @@ class TaskManager:
         with self.cache_lock:
             if task_id in self.l1_cache:
                 obj = self.l1_cache.pop(task_id)
-                if not self.is_readonly(task_id):
+                if not self.is_readonly(task_id) and not self.is_temporary(task_id):
                     obj_to_save = obj
         if obj_to_save is not None:
             self.io_executor.submit(self._persist_task, task_id, obj_to_save)
             log.debug(f"Closed task {task_id}, scheduled for persistence")
+        elif self.is_temporary(task_id):
+            log.debug(f"Closed temporary task {task_id}, no persistence")
 
     def delete_task_from_any_level(self, task_id: str, force: bool = False) -> bool:
         if self.is_readonly(task_id) and not force:
@@ -240,12 +251,16 @@ class TaskManager:
             if task_id in self.l1_cache:
                 del self.l1_cache[task_id]
                 deleted = True
-        # 数据库删除（无论是否只读，只要 force 允许）
-        with self.db_lock:
-            self.db_cursor.execute("DELETE FROM tasks WHERE task_id = ?", (task_id,))
-            self.db_conn.commit()
-            if self.db_cursor.rowcount > 0:
-                deleted = True
+
+        if not self.is_temporary(task_id):
+            with self.db_lock:
+                self.db_cursor.execute("DELETE FROM tasks WHERE task_id = ?", (task_id,))
+                self.db_conn.commit()
+                if self.db_cursor.rowcount > 0:
+                    deleted = True
+        else:
+            log.debug(f"Temporary task {task_id} has no DB record, cache deletion only")
+
         if deleted:
             log.info(f"Deleted task {task_id} (force={force})")
         else:
@@ -258,7 +273,7 @@ class TaskManager:
         tasks_to_save = []
         with self.cache_lock:
             for tid, obj in list(self.l1_cache.items()):
-                if not self.is_readonly(tid):
+                if not self.is_readonly(tid) and not self.is_temporary(tid):
                     tasks_to_save.append((tid, obj))
             self.l1_cache.clear()
 
@@ -291,10 +306,11 @@ class TaskManager:
         with self.cache_lock:
             cpu_tasks = list(self.l1_cache.keys())
         db_tasks = self.list_tasks_in_db()
+        db_task_ids = [tid for tid, _ in db_tasks if not self.is_temporary(tid)]
         return {
             "cpu_cache": cpu_tasks,
-            "database": [tid for tid, _ in db_tasks],
-            "total_count": len(cpu_tasks) + len(db_tasks),
+            "database": db_task_ids,
+            "total_count": len(cpu_tasks) + len(db_task_ids),
         }
 
     def print_all_tasks_status(self):
