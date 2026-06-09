@@ -123,8 +123,8 @@ class AsyncBatchTester:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default="http://localhost:8000")
-    parser.add_argument("--concurrency", type=int, default=10)
-    parser.add_argument("--total", type=int, default=50)
+    parser.add_argument("--concurrency", type=int, default=256)
+    parser.add_argument("--total", type=int, default=300)
     parser.add_argument("--timeout", type=int, default=180)
     args = parser.parse_args()
 

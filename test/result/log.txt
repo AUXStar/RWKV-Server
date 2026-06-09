@@ -1,0 +1,1217 @@
+[rwkv7_fast_v3a] loading CUDA extensions v3a_ops + fast_ops + wkv=fp16
+[rwkv7_fast_v3a] CUDA extensions loaded in 0.083s
+[rwkv7_fast_v3a] loading weights from server/model/rwkv7-g1g-2.9b-20260526-ctx8192.pth
+[rwkv7_fast_v3a] weights mmap loaded in 0.035s tensors=1062
+[rwkv7_fast_v3a] detected model C=2560 H=40 N=64 V=65536
+[rwkv7_fast_v3a] cmix no-fc path: rows<=19 row20_t<=5
+[rwkv7_fast_v3a] moving and preprocessing weights to CUDA emb=cpu
+[rwkv7_fast_v3a] model ready in 5.603s L=32 C=2560 H=40 N=64 V=65536
+[rwkv7_fast_v3a] gpu_mem used=6.47GiB allocated=5.20GiB reserved=5.26GiB total=11.94GiB
+[Pipeline] Initialized in 7.32 seconds. Model path: server/model/rwkv7-g1g-2.9b-20260526-ctx8192.pth
+[32m21:28:35.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mInit scheduler.dynamic with max batch size 256[0m
+[32m21:28:35.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mInit capacity = 1 (max=256)[0m
+
+============================================================
+  RWKV 推 理 压 力 测 试
+============================================================
+  模型:      2.9B
+  显卡:      RTX 5070 Ti Laptop GPU
+  显存:      11.9 GB
+  任务数:    256
+  批上限:    256
+  Buffer:    32
+  温度:      1.0
+============================================================
+
+任务已入队（共 256 个），开始调度处理...
+入队耗时: 10.16s
+预计总输入 tokens: 20,140
+
+[32m21:28:46.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 1 -> 256 (active=0, ready=256)[0m
+[32m21:28:46.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 0 tasks, cap 1 -> 256 in 0.0012s[0m
+[32m21:28:53.05[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.79s[0m
+[32m21:28:53.05[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:28:53.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 1 cap=256 active=256 speed=4573.00 tok/s per_task=17.86 tok/s[0m
+[32m21:28:54.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:28:54.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:28:54.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 2 cap=256 active=256 speed=5030.86 tok/s per_task=19.65 tok/s[0m
+[32m21:28:56.52[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:28:56.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:28:56.54[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 3 cap=256 active=256 speed=4941.41 tok/s per_task=19.30 tok/s[0m
+[32m21:28:58.27[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:28:58.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:28:58.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 4 cap=256 active=256 speed=4933.01 tok/s per_task=19.27 tok/s[0m
+[32m21:29:00.04[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.68s[0m
+[32m21:29:00.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:00.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 5 cap=256 active=256 speed=4879.24 tok/s per_task=19.06 tok/s[0m
+[32m21:29:01.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:01.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:01.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 6 cap=256 active=256 speed=4981.13 tok/s per_task=19.46 tok/s[0m
+[32m21:29:03.47[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.62s[0m
+[32m21:29:03.47[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:03.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 7 cap=256 active=256 speed=5043.96 tok/s per_task=19.70 tok/s[0m
+[32m21:29:05.19[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:29:05.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:05.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 8 cap=256 active=256 speed=5017.84 tok/s per_task=19.60 tok/s[0m
+[32m21:29:06.92[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:06.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:06.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 9 cap=256 active=256 speed=4997.40 tok/s per_task=19.52 tok/s[0m
+[32m21:29:08.64[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:29:08.64[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:08.66[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 10 cap=256 active=256 speed=5025.32 tok/s per_task=19.63 tok/s[0m
+[32m21:29:10.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:29:10.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:10.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 11 cap=256 active=256 speed=5018.24 tok/s per_task=19.60 tok/s[0m
+[32m21:29:12.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:12.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:12.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 12 cap=256 active=256 speed=4933.17 tok/s per_task=19.27 tok/s[0m
+[32m21:29:13.84[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:29:13.84[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:13.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 13 cap=256 active=256 speed=5022.46 tok/s per_task=19.62 tok/s[0m
+[32m21:29:15.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:15.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:15.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 14 cap=256 active=256 speed=4983.20 tok/s per_task=19.47 tok/s[0m
+[32m21:29:17.35[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:29:17.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:17.39[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 15 cap=256 active=255 speed=4835.51 tok/s per_task=18.96 tok/s[0m
+[32m21:29:19.10[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:19.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:19.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 16 cap=256 active=255 speed=4977.77 tok/s per_task=19.52 tok/s[0m
+[32m21:29:20.87[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:29:20.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:20.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 17 cap=256 active=253 speed=4836.06 tok/s per_task=19.11 tok/s[0m
+[32m21:29:22.62[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:22.62[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:22.64[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 18 cap=256 active=252 speed=4863.07 tok/s per_task=19.30 tok/s[0m
+[32m21:29:24.41[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.70s[0m
+[32m21:29:24.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:24.43[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 19 cap=256 active=252 speed=4743.43 tok/s per_task=18.82 tok/s[0m
+[32m21:29:26.14[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:26.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:26.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 20 cap=256 active=252 speed=4919.08 tok/s per_task=19.52 tok/s[0m
+[32m21:29:27.87[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:27.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:27.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 21 cap=256 active=252 speed=4916.84 tok/s per_task=19.51 tok/s[0m
+[32m21:29:29.60[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:29.60[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:29.62[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 22 cap=256 active=252 speed=4921.13 tok/s per_task=19.53 tok/s[0m
+[32m21:29:31.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:31.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:31.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 23 cap=256 active=252 speed=4907.05 tok/s per_task=19.47 tok/s[0m
+[32m21:29:33.07[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.64s[0m
+[32m21:29:33.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:33.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 24 cap=256 active=252 speed=4910.97 tok/s per_task=19.49 tok/s[0m
+[32m21:29:34.83[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:34.83[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:34.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 25 cap=256 active=251 speed=4844.93 tok/s per_task=19.30 tok/s[0m
+[32m21:29:36.60[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:29:36.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:36.62[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 26 cap=256 active=250 speed=4740.86 tok/s per_task=18.96 tok/s[0m
+[32m21:29:38.35[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.65s[0m
+[32m21:29:38.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:38.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 27 cap=256 active=250 speed=4835.64 tok/s per_task=19.34 tok/s[0m
+[32m21:29:40.14[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:29:40.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:40.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 28 cap=256 active=250 speed=4745.74 tok/s per_task=18.98 tok/s[0m
+[32m21:29:41.92[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:29:41.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:41.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 29 cap=256 active=249 speed=4721.48 tok/s per_task=18.96 tok/s[0m
+[32m21:29:43.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.70s[0m
+[32m21:29:43.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:43.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 30 cap=256 active=249 speed=4693.05 tok/s per_task=18.85 tok/s[0m
+[32m21:29:45.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:29:45.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:45.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 31 cap=256 active=248 speed=4694.55 tok/s per_task=18.93 tok/s[0m
+[32m21:29:47.29[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.71s[0m
+[32m21:29:47.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:47.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 32 cap=256 active=246 speed=4596.61 tok/s per_task=18.69 tok/s[0m
+[32m21:29:49.05[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:49.05[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:49.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 33 cap=256 active=245 speed=4720.71 tok/s per_task=19.27 tok/s[0m
+[32m21:29:50.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.63s[0m
+[32m21:29:50.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:50.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 34 cap=256 active=245 speed=4823.04 tok/s per_task=19.69 tok/s[0m
+[32m21:29:52.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.70s[0m
+[32m21:29:52.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:52.60[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 35 cap=256 active=242 speed=4548.56 tok/s per_task=18.80 tok/s[0m
+[32m21:29:54.38[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.70s[0m
+[32m21:29:54.39[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:54.40[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 36 cap=256 active=239 speed=4485.53 tok/s per_task=18.77 tok/s[0m
+[32m21:29:56.14[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:56.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:56.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 37 cap=256 active=238 speed=4575.22 tok/s per_task=19.22 tok/s[0m
+[32m21:29:57.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.75s[0m
+[32m21:29:57.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:58.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 38 cap=256 active=233 speed=4263.51 tok/s per_task=18.30 tok/s[0m
+[32m21:29:59.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:29:59.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:29:59.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 39 cap=256 active=233 speed=4497.95 tok/s per_task=19.30 tok/s[0m
+[32m21:30:01.51[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.68s[0m
+[32m21:30:01.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:01.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 40 cap=256 active=232 speed=4410.32 tok/s per_task=19.01 tok/s[0m
+[32m21:30:03.27[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:30:03.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:03.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 41 cap=256 active=231 speed=4425.43 tok/s per_task=19.16 tok/s[0m
+[32m21:30:05.17[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.80s[0m
+[32m21:30:05.17[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:05.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 42 cap=256 active=224 speed=3977.13 tok/s per_task=17.76 tok/s[0m
+[32m21:30:06.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.72s[0m
+[32m21:30:06.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:07.01[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 43 cap=256 active=220 speed=4089.88 tok/s per_task=18.59 tok/s[0m
+[32m21:30:08.89[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.75s[0m
+[32m21:30:08.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:08.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 44 cap=256 active=216 speed=3945.30 tok/s per_task=18.27 tok/s[0m
+[32m21:30:10.65[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:30:10.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:10.67[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 45 cap=256 active=215 speed=4120.88 tok/s per_task=19.17 tok/s[0m
+[32m21:30:12.46[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.72s[0m
+[32m21:30:12.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:12.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 46 cap=256 active=211 speed=3927.38 tok/s per_task=18.61 tok/s[0m
+[32m21:30:14.21[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.66s[0m
+[32m21:30:14.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:14.23[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 47 cap=256 active=210 speed=4052.05 tok/s per_task=19.30 tok/s[0m
+[32m21:30:16.06[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.75s[0m
+[32m21:30:16.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:16.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 48 cap=256 active=207 speed=3777.29 tok/s per_task=18.25 tok/s[0m
+[32m21:30:17.94[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.78s[0m
+[32m21:30:17.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:17.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 49 cap=256 active=201 speed=3612.77 tok/s per_task=17.97 tok/s[0m
+[32m21:30:19.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.72s[0m
+[32m21:30:19.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:19.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 50 cap=256 active=198 speed=3675.10 tok/s per_task=18.56 tok/s[0m
+[32m21:30:21.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.74s[0m
+[32m21:30:21.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:21.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 51 cap=256 active=192 speed=3524.07 tok/s per_task=18.35 tok/s[0m
+[32m21:30:23.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:30:23.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:23.40[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 52 cap=256 active=191 speed=3665.28 tok/s per_task=19.19 tok/s[0m
+[32m21:30:25.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.71s[0m
+[32m21:30:25.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:25.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 53 cap=256 active=188 speed=3523.59 tok/s per_task=18.74 tok/s[0m
+[32m21:30:27.04[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.75s[0m
+[32m21:30:27.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:27.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 54 cap=256 active=182 speed=3319.82 tok/s per_task=18.24 tok/s[0m
+[32m21:30:28.88[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.74s[0m
+[32m21:30:28.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:28.90[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 55 cap=256 active=179 speed=3286.42 tok/s per_task=18.36 tok/s[0m
+[32m21:30:30.65[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:30:30.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:30.68[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 56 cap=256 active=177 speed=3389.77 tok/s per_task=19.15 tok/s[0m
+[32m21:30:32.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.82s[0m
+[32m21:30:32.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:32.60[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 57 cap=256 active=173 speed=3048.84 tok/s per_task=17.62 tok/s[0m
+[32m21:30:34.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.67s[0m
+[32m21:30:34.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:34.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 58 cap=256 active=172 speed=3295.81 tok/s per_task=19.16 tok/s[0m
+[32m21:30:36.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.75s[0m
+[32m21:30:36.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:36.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 59 cap=256 active=167 speed=3060.58 tok/s per_task=18.33 tok/s[0m
+[32m21:30:37.97[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.69s[0m
+[32m21:30:37.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:37.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 60 cap=256 active=165 speed=3125.56 tok/s per_task=18.94 tok/s[0m
+[32m21:30:39.78[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.72s[0m
+[32m21:30:39.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:39.80[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 61 cap=256 active=161 speed=2995.71 tok/s per_task=18.61 tok/s[0m
+[32m21:30:41.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.71s[0m
+[32m21:30:41.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:41.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 62 cap=256 active=157 speed=2935.48 tok/s per_task=18.70 tok/s[0m
+[32m21:30:43.42[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.73s[0m
+[32m21:30:43.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:43.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 63 cap=256 active=153 speed=2827.41 tok/s per_task=18.48 tok/s[0m
+[32m21:30:45.31[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.79s[0m
+[32m21:30:45.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:45.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 64 cap=256 active=146 speed=2608.35 tok/s per_task=17.87 tok/s[0m
+[32m21:30:47.14[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.73s[0m
+[32m21:30:47.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:47.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 65 cap=256 active=142 speed=2630.72 tok/s per_task=18.53 tok/s[0m
+[32m21:30:48.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.73s[0m
+[32m21:30:48.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:48.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 66 cap=256 active=138 speed=2557.31 tok/s per_task=18.53 tok/s[0m
+[32m21:30:50.91[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.86s[0m
+[32m21:30:50.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:50.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 67 cap=256 active=133 speed=2290.90 tok/s per_task=17.22 tok/s[0m
+[32m21:30:52.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.72s[0m
+[32m21:30:52.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:52.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 68 cap=256 active=128 speed=2375.70 tok/s per_task=18.56 tok/s[0m
+[32m21:30:52.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 256 -> 128 (active=128, ready=0)[0m
+[32m21:30:52.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 128 tasks, cap 256 -> 128 in 0.0623s[0m
+[32m21:30:54.19[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.06s[0m
+[32m21:30:54.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:54.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 69 cap=128 active=123 speed=3718.61 tok/s per_task=30.23 tok/s[0m
+[32m21:30:55.33[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.09s[0m
+[32m21:30:55.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:55.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 70 cap=128 active=118 speed=3447.34 tok/s per_task=29.21 tok/s[0m
+[32m21:30:56.47[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.10s[0m
+[32m21:30:56.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:56.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 71 cap=128 active=113 speed=3294.10 tok/s per_task=29.15 tok/s[0m
+[32m21:30:57.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.06s[0m
+[32m21:30:57.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:57.60[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 72 cap=128 active=109 speed=3294.87 tok/s per_task=30.23 tok/s[0m
+[32m21:30:58.70[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.06s[0m
+[32m21:30:58.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:58.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 73 cap=128 active=104 speed=3131.09 tok/s per_task=30.11 tok/s[0m
+[32m21:30:59.82[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.07s[0m
+[32m21:30:59.82[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:30:59.83[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 74 cap=128 active=99 speed=2968.59 tok/s per_task=29.99 tok/s[0m
+[32m21:31:00.99[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.12s[0m
+[32m21:31:00.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:01.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 75 cap=128 active=90 speed=2572.66 tok/s per_task=28.59 tok/s[0m
+[32m21:31:02.09[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.05s[0m
+[32m21:31:02.09[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:02.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 76 cap=128 active=85 speed=2582.39 tok/s per_task=30.38 tok/s[0m
+[32m21:31:03.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.06s[0m
+[32m21:31:03.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:03.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 77 cap=128 active=81 speed=2446.14 tok/s per_task=30.20 tok/s[0m
+[32m21:31:04.31[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.05s[0m
+[32m21:31:04.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:04.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 78 cap=128 active=75 speed=2281.79 tok/s per_task=30.42 tok/s[0m
+[32m21:31:05.39[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.03s[0m
+[32m21:31:05.39[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:05.40[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 79 cap=128 active=72 speed=2239.90 tok/s per_task=31.11 tok/s[0m
+[32m21:31:06.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.05s[0m
+[32m21:31:06.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:06.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 80 cap=128 active=68 speed=2071.44 tok/s per_task=30.46 tok/s[0m
+[32m21:31:07.64[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.10s[0m
+[32m21:31:07.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:07.66[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 81 cap=128 active=61 speed=1776.58 tok/s per_task=29.12 tok/s[0m
+[32m21:31:07.68[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 128 -> 64 (active=61, ready=0)[0m
+[32m21:31:07.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 61 tasks, cap 128 -> 64 in 0.0321s[0m
+[32m21:31:08.81[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.82s[0m
+[32m21:31:08.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:08.82[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 82 cap=64 active=58 speed=2275.40 tok/s per_task=39.23 tok/s[0m
+[32m21:31:09.67[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.83s[0m
+[32m21:31:09.67[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:09.67[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 83 cap=64 active=55 speed=2119.11 tok/s per_task=38.53 tok/s[0m
+[32m21:31:10.44[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.74s[0m
+[32m21:31:10.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:10.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 84 cap=64 active=53 speed=2285.95 tok/s per_task=43.13 tok/s[0m
+[32m21:31:11.23[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.77s[0m
+[32m21:31:11.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:11.25[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 85 cap=64 active=50 speed=2077.69 tok/s per_task=41.55 tok/s[0m
+[32m21:31:12.08[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.80s[0m
+[32m21:31:12.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:12.09[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 86 cap=64 active=44 speed=1767.67 tok/s per_task=40.17 tok/s[0m
+[32m21:31:12.80[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.70s[0m
+[32m21:31:12.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:12.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 87 cap=64 active=43 speed=1963.05 tok/s per_task=45.65 tok/s[0m
+[32m21:31:13.60[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.77s[0m
+[32m21:31:13.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:13.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 88 cap=64 active=38 speed=1572.65 tok/s per_task=41.39 tok/s[0m
+[32m21:31:14.33[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.70s[0m
+[32m21:31:14.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:14.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 89 cap=64 active=36 speed=1637.66 tok/s per_task=45.49 tok/s[0m
+[32m21:31:15.13[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.77s[0m
+[32m21:31:15.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:15.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 90 cap=64 active=35 speed=1448.36 tok/s per_task=41.38 tok/s[0m
+[32m21:31:15.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.80s[0m
+[32m21:31:15.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:15.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 91 cap=64 active=35 speed=1396.89 tok/s per_task=39.91 tok/s[0m
+[32m21:31:16.74[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.75s[0m
+[32m21:31:16.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:16.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 92 cap=64 active=34 speed=1445.59 tok/s per_task=42.52 tok/s[0m
+[32m21:31:17.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.72s[0m
+[32m21:31:17.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:17.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 93 cap=64 active=30 speed=1330.88 tok/s per_task=44.36 tok/s[0m
+[32m21:31:17.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 64 -> 32 (active=30, ready=0)[0m
+[32m21:31:17.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 30 tasks, cap 64 -> 32 in 0.0166s[0m
+[32m21:31:18.45[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.70s[0m
+[32m21:31:18.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:18.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 94 cap=32 active=28 speed=1281.26 tok/s per_task=45.76 tok/s[0m
+[32m21:31:19.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.72s[0m
+[32m21:31:19.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:19.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 95 cap=32 active=26 speed=1161.89 tok/s per_task=44.69 tok/s[0m
+[32m21:31:19.91[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.72s[0m
+[32m21:31:19.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:19.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 96 cap=32 active=23 speed=1027.85 tok/s per_task=44.69 tok/s[0m
+[32m21:31:20.68[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.75s[0m
+[32m21:31:20.68[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:20.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 97 cap=32 active=21 speed=891.68 tok/s per_task=42.46 tok/s[0m
+[32m21:31:21.41[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.71s[0m
+[32m21:31:21.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:21.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 98 cap=32 active=19 speed=851.47 tok/s per_task=44.81 tok/s[0m
+[32m21:31:22.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.69s[0m
+[32m21:31:22.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:22.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 99 cap=32 active=16 speed=744.19 tok/s per_task=46.51 tok/s[0m
+[32m21:31:22.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 32 -> 16 (active=16, ready=0)[0m
+[32m21:31:22.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 16 tasks, cap 32 -> 16 in 0.0130s[0m
+[32m21:31:23.21[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.83s[0m
+[32m21:31:23.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:23.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 100 cap=16 active=15 speed=579.48 tok/s per_task=38.63 tok/s[0m
+[32m21:31:23.86[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.64s[0m
+[32m21:31:23.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:23.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 101 cap=16 active=14 speed=700.37 tok/s per_task=50.03 tok/s[0m
+[32m21:31:24.65[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.78s[0m
+[32m21:31:24.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:24.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 102 cap=16 active=13 speed=532.78 tok/s per_task=40.98 tok/s[0m
+[32m21:31:25.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.69s[0m
+[32m21:31:25.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:25.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 103 cap=16 active=12 speed=558.88 tok/s per_task=46.57 tok/s[0m
+[32m21:31:26.03[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.68s[0m
+[32m21:31:26.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:26.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 104 cap=16 active=10 speed=469.89 tok/s per_task=46.99 tok/s[0m
+[32m21:31:26.69[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.64s[0m
+[32m21:31:26.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:26.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 105 cap=16 active=10 speed=496.63 tok/s per_task=49.66 tok/s[0m
+[32m21:31:27.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.67s[0m
+[32m21:31:27.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:27.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 106 cap=16 active=10 speed=479.94 tok/s per_task=47.99 tok/s[0m
+[32m21:31:28.03[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.66s[0m
+[32m21:31:28.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:28.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 107 cap=16 active=9 speed=437.92 tok/s per_task=48.66 tok/s[0m
+[32m21:31:28.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.67s[0m
+[32m21:31:28.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:28.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 108 cap=16 active=9 speed=427.79 tok/s per_task=47.53 tok/s[0m
+[32m21:31:29.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.65s[0m
+[32m21:31:29.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:29.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 109 cap=16 active=9 speed=439.55 tok/s per_task=48.84 tok/s[0m
+[32m21:31:30.06[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.68s[0m
+[32m21:31:30.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:30.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 110 cap=16 active=9 speed=423.23 tok/s per_task=47.03 tok/s[0m
+[32m21:31:31.10[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 1.03s[0m
+[32m21:31:31.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:31.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 111 cap=16 active=9 speed=279.37 tok/s per_task=31.04 tok/s[0m
+[32m21:31:31.90[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.79s[0m
+[32m21:31:31.90[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:31.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 112 cap=16 active=8 speed=323.06 tok/s per_task=40.38 tok/s[0m
+[32m21:31:31.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 16 -> 8 (active=8, ready=0)[0m
+[32m21:31:31.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 8 tasks, cap 16 -> 8 in 0.0069s[0m
+[32m21:31:32.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.57s[0m
+[32m21:31:32.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:32.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 113 cap=8 active=8 speed=445.69 tok/s per_task=55.71 tok/s[0m
+[32m21:31:33.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.60s[0m
+[32m21:31:33.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:33.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 114 cap=8 active=8 speed=427.35 tok/s per_task=53.42 tok/s[0m
+[32m21:31:33.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.58s[0m
+[32m21:31:33.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:33.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 115 cap=8 active=8 speed=437.78 tok/s per_task=54.72 tok/s[0m
+[32m21:31:34.50[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.56s[0m
+[32m21:31:34.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:34.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 116 cap=8 active=8 speed=452.99 tok/s per_task=56.62 tok/s[0m
+[32m21:31:35.22[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.72s[0m
+[32m21:31:35.23[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:35.23[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 117 cap=8 active=7 speed=310.63 tok/s per_task=44.38 tok/s[0m
+[32m21:31:35.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.54s[0m
+[32m21:31:35.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:35.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 118 cap=8 active=7 speed=414.52 tok/s per_task=59.22 tok/s[0m
+[32m21:31:36.32[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.55s[0m
+[32m21:31:36.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:36.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 119 cap=8 active=7 speed=409.26 tok/s per_task=58.47 tok/s[0m
+[32m21:31:36.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.60s[0m
+[32m21:31:36.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:36.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 120 cap=8 active=7 speed=372.46 tok/s per_task=53.21 tok/s[0m
+[32m21:31:37.63[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.70s[0m
+[32m21:31:37.64[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:37.64[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 121 cap=8 active=6 speed=274.73 tok/s per_task=45.79 tok/s[0m
+[32m21:31:38.50[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.86s[0m
+[32m21:31:38.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.01s[0m
+[32m21:31:38.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 122 cap=8 active=5 speed=186.54 tok/s per_task=37.31 tok/s[0m
+[32m21:31:39.19[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.67s[0m
+[32m21:31:39.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:39.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 123 cap=8 active=5 speed=237.11 tok/s per_task=47.42 tok/s[0m
+[32m21:31:39.76[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.56s[0m
+[32m21:31:39.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:39.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 124 cap=8 active=5 speed=284.11 tok/s per_task=56.82 tok/s[0m
+[32m21:31:40.45[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.69s[0m
+[32m21:31:40.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:40.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 125 cap=8 active=5 speed=232.61 tok/s per_task=46.52 tok/s[0m
+[32m21:31:41.02[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.57s[0m
+[32m21:31:41.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:41.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 126 cap=8 active=4 speed=224.62 tok/s per_task=56.16 tok/s[0m
+[32m21:31:41.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 8 -> 4 (active=4, ready=0)[0m
+[32m21:31:41.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 4 tasks, cap 8 -> 4 in 0.0041s[0m
+[32m21:31:41.86[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.58s[0m
+[32m21:31:41.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:41.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 127 cap=4 active=4 speed=219.92 tok/s per_task=54.98 tok/s[0m
+[32m21:31:42.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:31:42.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:42.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 128 cap=4 active=4 speed=306.12 tok/s per_task=76.53 tok/s[0m
+[32m21:31:42.74[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.46s[0m
+[32m21:31:42.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:42.74[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 129 cap=4 active=4 speed=276.89 tok/s per_task=69.22 tok/s[0m
+[32m21:31:43.21[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.47s[0m
+[32m21:31:43.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:43.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 130 cap=4 active=2 speed=136.83 tok/s per_task=68.42 tok/s[0m
+[32m21:31:43.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 4 -> 2 (active=2, ready=0)[0m
+[32m21:31:43.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 2 tasks, cap 4 -> 2 in 0.0022s[0m
+[32m21:31:43.99[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.51s[0m
+[32m21:31:44.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:44.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 131 cap=2 active=2 speed=125.90 tok/s per_task=62.95 tok/s[0m
+[32m21:31:44.44[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.44s[0m
+[32m21:31:44.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:44.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 132 cap=2 active=2 speed=145.79 tok/s per_task=72.90 tok/s[0m
+[32m21:31:44.89[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:31:44.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:44.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 133 cap=2 active=2 speed=142.95 tok/s per_task=71.48 tok/s[0m
+[32m21:31:45.27[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:31:45.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:45.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 134 cap=2 active=2 speed=170.13 tok/s per_task=85.06 tok/s[0m
+[32m21:31:45.68[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:45.68[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:45.68[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 135 cap=2 active=2 speed=157.47 tok/s per_task=78.74 tok/s[0m
+[32m21:31:46.09[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:46.09[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:46.09[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 136 cap=2 active=2 speed=156.54 tok/s per_task=78.27 tok/s[0m
+[32m21:31:46.50[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:46.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:46.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 137 cap=2 active=2 speed=154.50 tok/s per_task=77.25 tok/s[0m
+[32m21:31:46.92[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:46.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:46.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 138 cap=2 active=2 speed=154.52 tok/s per_task=77.26 tok/s[0m
+[32m21:31:47.38[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:31:47.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:47.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 139 cap=2 active=2 speed=141.76 tok/s per_task=70.88 tok/s[0m
+[32m21:31:47.80[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:31:47.80[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:47.80[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 140 cap=2 active=2 speed=151.98 tok/s per_task=75.99 tok/s[0m
+[32m21:31:48.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:48.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:48.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 141 cap=2 active=2 speed=162.11 tok/s per_task=81.05 tok/s[0m
+[32m21:31:48.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:48.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:48.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 142 cap=2 active=2 speed=156.21 tok/s per_task=78.11 tok/s[0m
+[32m21:31:49.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.56s[0m
+[32m21:31:49.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:49.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 143 cap=2 active=2 speed=113.93 tok/s per_task=56.96 tok/s[0m
+[32m21:31:49.58[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:31:49.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:49.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 144 cap=2 active=2 speed=161.34 tok/s per_task=80.67 tok/s[0m
+[32m21:31:50.24[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.66s[0m
+[32m21:31:50.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:50.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 145 cap=2 active=2 speed=96.75 tok/s per_task=48.37 tok/s[0m
+[32m21:31:50.63[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:50.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:50.64[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 146 cap=2 active=2 speed=164.31 tok/s per_task=82.16 tok/s[0m
+[32m21:31:51.07[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:31:51.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:51.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 147 cap=2 active=2 speed=147.63 tok/s per_task=73.81 tok/s[0m
+[32m21:31:51.48[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:51.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:51.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 148 cap=2 active=2 speed=156.65 tok/s per_task=78.32 tok/s[0m
+[32m21:31:51.88[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:31:51.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:51.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 149 cap=2 active=2 speed=161.34 tok/s per_task=80.67 tok/s[0m
+[32m21:31:52.30[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:52.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:52.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 150 cap=2 active=2 speed=155.06 tok/s per_task=77.53 tok/s[0m
+[32m21:31:52.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:31:52.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:52.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 151 cap=2 active=2 speed=148.80 tok/s per_task=74.40 tok/s[0m
+[32m21:31:53.16[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:31:53.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:53.17[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 152 cap=2 active=2 speed=148.52 tok/s per_task=74.26 tok/s[0m
+[32m21:31:53.56[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:53.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:53.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 153 cap=2 active=2 speed=163.46 tok/s per_task=81.73 tok/s[0m
+[32m21:31:53.95[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:53.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:53.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 154 cap=2 active=2 speed=163.43 tok/s per_task=81.72 tok/s[0m
+[32m21:31:54.35[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:54.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:54.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 155 cap=2 active=2 speed=163.43 tok/s per_task=81.72 tok/s[0m
+[32m21:31:54.78[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:31:54.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:54.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 156 cap=2 active=2 speed=147.66 tok/s per_task=73.83 tok/s[0m
+[32m21:31:55.17[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:55.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:55.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 157 cap=2 active=2 speed=164.40 tok/s per_task=82.20 tok/s[0m
+[32m21:31:55.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:55.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:55.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 158 cap=2 active=2 speed=164.67 tok/s per_task=82.34 tok/s[0m
+[32m21:31:55.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:55.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:55.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 159 cap=2 active=2 speed=154.60 tok/s per_task=77.30 tok/s[0m
+[32m21:31:56.40[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:31:56.40[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:56.40[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 160 cap=2 active=2 speed=155.96 tok/s per_task=77.98 tok/s[0m
+[32m21:31:56.79[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:56.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:56.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 161 cap=2 active=2 speed=163.33 tok/s per_task=81.67 tok/s[0m
+[32m21:31:57.19[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:57.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:57.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 162 cap=2 active=2 speed=162.84 tok/s per_task=81.42 tok/s[0m
+[32m21:31:57.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:31:57.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:57.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 163 cap=2 active=2 speed=160.15 tok/s per_task=80.08 tok/s[0m
+[32m21:31:57.99[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:31:57.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:57.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 164 cap=2 active=2 speed=162.76 tok/s per_task=81.38 tok/s[0m
+[32m21:31:58.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:31:58.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:58.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 165 cap=2 active=2 speed=166.31 tok/s per_task=83.15 tok/s[0m
+[32m21:31:58.78[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:31:58.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:58.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 166 cap=2 active=2 speed=158.37 tok/s per_task=79.18 tok/s[0m
+[32m21:31:59.47[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.69s[0m
+[32m21:31:59.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:59.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 167 cap=2 active=2 speed=92.82 tok/s per_task=46.41 tok/s[0m
+[32m21:31:59.88[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:31:59.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:31:59.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 168 cap=2 active=2 speed=160.02 tok/s per_task=80.01 tok/s[0m
+[32m21:32:00.27[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:00.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:00.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 169 cap=2 active=2 speed=163.94 tok/s per_task=81.97 tok/s[0m
+[32m21:32:00.69[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:00.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:00.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 170 cap=2 active=2 speed=153.72 tok/s per_task=76.86 tok/s[0m
+[32m21:32:01.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:01.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:01.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 171 cap=2 active=2 speed=154.23 tok/s per_task=77.11 tok/s[0m
+[32m21:32:01.50[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:01.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:01.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 172 cap=2 active=2 speed=164.41 tok/s per_task=82.20 tok/s[0m
+[32m21:32:01.89[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:01.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:01.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 173 cap=2 active=2 speed=163.69 tok/s per_task=81.84 tok/s[0m
+[32m21:32:02.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:02.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:02.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 174 cap=2 active=2 speed=165.32 tok/s per_task=82.66 tok/s[0m
+[32m21:32:02.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:02.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:02.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 175 cap=2 active=2 speed=149.31 tok/s per_task=74.65 tok/s[0m
+[32m21:32:03.12[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:03.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:03.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 176 cap=2 active=2 speed=158.14 tok/s per_task=79.07 tok/s[0m
+[32m21:32:03.52[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:03.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:03.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 177 cap=2 active=2 speed=161.31 tok/s per_task=80.66 tok/s[0m
+[32m21:32:03.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:03.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:03.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 178 cap=2 active=2 speed=157.95 tok/s per_task=78.98 tok/s[0m
+[32m21:32:04.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:04.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:04.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 179 cap=2 active=2 speed=147.68 tok/s per_task=73.84 tok/s[0m
+[32m21:32:04.83[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.46s[0m
+[32m21:32:04.83[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:04.83[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 180 cap=2 active=2 speed=139.90 tok/s per_task=69.95 tok/s[0m
+[32m21:32:05.26[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:05.26[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:05.26[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 181 cap=2 active=2 speed=149.59 tok/s per_task=74.80 tok/s[0m
+[32m21:32:05.69[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:05.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:05.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 182 cap=2 active=2 speed=149.04 tok/s per_task=74.52 tok/s[0m
+[32m21:32:06.10[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:06.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:06.10[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 183 cap=2 active=2 speed=157.81 tok/s per_task=78.91 tok/s[0m
+[32m21:32:06.51[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:06.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:06.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 184 cap=2 active=2 speed=157.65 tok/s per_task=78.83 tok/s[0m
+[32m21:32:06.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:06.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:06.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 185 cap=2 active=2 speed=152.56 tok/s per_task=76.28 tok/s[0m
+[32m21:32:07.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:07.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:07.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 186 cap=2 active=2 speed=149.60 tok/s per_task=74.80 tok/s[0m
+[32m21:32:07.77[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:07.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:07.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 187 cap=2 active=2 speed=155.43 tok/s per_task=77.72 tok/s[0m
+[32m21:32:08.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:08.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:08.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 188 cap=2 active=2 speed=158.30 tok/s per_task=79.15 tok/s[0m
+[32m21:32:08.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:08.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:08.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 189 cap=2 active=2 speed=151.17 tok/s per_task=75.59 tok/s[0m
+[32m21:32:09.03[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:09.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:09.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 190 cap=2 active=2 speed=151.85 tok/s per_task=75.92 tok/s[0m
+[32m21:32:09.46[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:09.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:09.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 191 cap=2 active=2 speed=151.29 tok/s per_task=75.64 tok/s[0m
+[32m21:32:09.88[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:09.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:09.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 192 cap=2 active=2 speed=151.31 tok/s per_task=75.65 tok/s[0m
+[32m21:32:10.31[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:10.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:10.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 193 cap=2 active=2 speed=150.55 tok/s per_task=75.27 tok/s[0m
+[32m21:32:10.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:10.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:10.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 194 cap=2 active=2 speed=161.81 tok/s per_task=80.90 tok/s[0m
+[32m21:32:11.13[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:11.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:11.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 195 cap=2 active=2 speed=154.82 tok/s per_task=77.41 tok/s[0m
+[32m21:32:11.52[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:11.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:11.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 196 cap=2 active=2 speed=162.70 tok/s per_task=81.35 tok/s[0m
+[32m21:32:11.91[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:11.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:11.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 197 cap=2 active=2 speed=165.50 tok/s per_task=82.75 tok/s[0m
+[32m21:32:12.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:12.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:12.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 198 cap=2 active=2 speed=150.65 tok/s per_task=75.32 tok/s[0m
+[32m21:32:12.78[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.44s[0m
+[32m21:32:12.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:12.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 199 cap=2 active=2 speed=145.94 tok/s per_task=72.97 tok/s[0m
+[32m21:32:13.35[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.57s[0m
+[32m21:32:13.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:13.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 200 cap=2 active=2 speed=112.99 tok/s per_task=56.49 tok/s[0m
+[32m21:32:13.76[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:13.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:13.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 201 cap=2 active=2 speed=158.53 tok/s per_task=79.27 tok/s[0m
+[32m21:32:14.15[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:14.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:14.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 202 cap=2 active=2 speed=164.09 tok/s per_task=82.05 tok/s[0m
+[32m21:32:15.08[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.92s[0m
+[32m21:32:15.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:15.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 203 cap=2 active=2 speed=69.64 tok/s per_task=34.82 tok/s[0m
+[32m21:32:15.48[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:15.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:15.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 204 cap=2 active=2 speed=159.48 tok/s per_task=79.74 tok/s[0m
+[32m21:32:15.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.47s[0m
+[32m21:32:15.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:15.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 205 cap=2 active=2 speed=135.74 tok/s per_task=67.87 tok/s[0m
+[32m21:32:16.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:16.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:16.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 206 cap=2 active=2 speed=157.18 tok/s per_task=78.59 tok/s[0m
+[32m21:32:16.76[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:16.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:16.77[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 207 cap=2 active=2 speed=162.96 tok/s per_task=81.48 tok/s[0m
+[32m21:32:17.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:17.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:17.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 208 cap=2 active=2 speed=156.09 tok/s per_task=78.04 tok/s[0m
+[32m21:32:17.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:17.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:17.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 209 cap=2 active=2 speed=156.32 tok/s per_task=78.16 tok/s[0m
+[32m21:32:18.01[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:18.01[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:18.01[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 210 cap=2 active=2 speed=154.34 tok/s per_task=77.17 tok/s[0m
+[32m21:32:18.46[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:32:18.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:18.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 211 cap=2 active=2 speed=143.07 tok/s per_task=71.54 tok/s[0m
+[32m21:32:18.86[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:18.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:18.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 212 cap=2 active=2 speed=160.90 tok/s per_task=80.45 tok/s[0m
+[32m21:32:19.31[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:32:19.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:19.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 213 cap=2 active=2 speed=141.81 tok/s per_task=70.91 tok/s[0m
+[32m21:32:19.72[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:19.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:19.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 214 cap=2 active=2 speed=158.81 tok/s per_task=79.40 tok/s[0m
+[32m21:32:20.15[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:20.15[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:20.15[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 215 cap=2 active=2 speed=150.10 tok/s per_task=75.05 tok/s[0m
+[32m21:32:20.55[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:20.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:20.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 216 cap=2 active=2 speed=163.21 tok/s per_task=81.60 tok/s[0m
+[32m21:32:21.26[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.71s[0m
+[32m21:32:21.26[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:21.26[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 217 cap=2 active=2 speed=90.47 tok/s per_task=45.23 tok/s[0m
+[32m21:32:21.64[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:32:21.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:21.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 218 cap=2 active=2 speed=166.80 tok/s per_task=83.40 tok/s[0m
+[32m21:32:22.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.63s[0m
+[32m21:32:22.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:22.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 219 cap=2 active=2 speed=100.84 tok/s per_task=50.42 tok/s[0m
+[32m21:32:22.87[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.58s[0m
+[32m21:32:22.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:22.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 220 cap=2 active=2 speed=110.27 tok/s per_task=55.14 tok/s[0m
+[32m21:32:23.32[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:32:23.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:23.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 221 cap=2 active=2 speed=143.21 tok/s per_task=71.61 tok/s[0m
+[32m21:32:23.72[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:23.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:23.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 222 cap=2 active=2 speed=160.48 tok/s per_task=80.24 tok/s[0m
+[32m21:32:24.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.62s[0m
+[32m21:32:24.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:24.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 223 cap=2 active=2 speed=103.03 tok/s per_task=51.51 tok/s[0m
+[32m21:32:25.23[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.88s[0m
+[32m21:32:25.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:25.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 224 cap=2 active=2 speed=72.36 tok/s per_task=36.18 tok/s[0m
+[32m21:32:25.63[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:25.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:25.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 225 cap=2 active=2 speed=162.07 tok/s per_task=81.04 tok/s[0m
+[32m21:32:26.03[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:26.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:26.03[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 226 cap=2 active=2 speed=161.30 tok/s per_task=80.65 tok/s[0m
+[32m21:32:26.42[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:32:26.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:26.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 227 cap=2 active=2 speed=166.22 tok/s per_task=83.11 tok/s[0m
+[32m21:32:26.82[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:26.82[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:26.82[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 228 cap=2 active=2 speed=160.75 tok/s per_task=80.38 tok/s[0m
+[32m21:32:27.22[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:27.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:27.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 229 cap=2 active=2 speed=163.23 tok/s per_task=81.61 tok/s[0m
+[32m21:32:27.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:27.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:27.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 230 cap=2 active=2 speed=163.95 tok/s per_task=81.97 tok/s[0m
+[32m21:32:28.04[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:28.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:28.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 231 cap=2 active=2 speed=150.02 tok/s per_task=75.01 tok/s[0m
+[32m21:32:28.46[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:28.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:28.46[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 232 cap=2 active=2 speed=151.81 tok/s per_task=75.91 tok/s[0m
+[32m21:32:29.22[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.75s[0m
+[32m21:32:29.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:29.22[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 233 cap=2 active=2 speed=84.80 tok/s per_task=42.40 tok/s[0m
+[32m21:32:29.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:29.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:29.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 234 cap=2 active=2 speed=165.58 tok/s per_task=82.79 tok/s[0m
+[32m21:32:30.00[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:30.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:30.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 235 cap=2 active=2 speed=165.01 tok/s per_task=82.51 tok/s[0m
+[32m21:32:30.41[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:30.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:30.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 236 cap=2 active=2 speed=158.23 tok/s per_task=79.12 tok/s[0m
+[32m21:32:30.81[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:30.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:30.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 237 cap=2 active=2 speed=162.27 tok/s per_task=81.13 tok/s[0m
+[32m21:32:31.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:31.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:31.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 238 cap=2 active=2 speed=162.01 tok/s per_task=81.00 tok/s[0m
+[32m21:32:31.62[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:31.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:31.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 239 cap=2 active=2 speed=153.58 tok/s per_task=76.79 tok/s[0m
+[32m21:32:32.04[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:32.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:32.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 240 cap=2 active=2 speed=154.13 tok/s per_task=77.06 tok/s[0m
+[32m21:32:32.43[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:32.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:32.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 241 cap=2 active=2 speed=163.89 tok/s per_task=81.95 tok/s[0m
+[32m21:32:32.85[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:32.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:32.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 242 cap=2 active=2 speed=155.60 tok/s per_task=77.80 tok/s[0m
+[32m21:32:33.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:33.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:33.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 243 cap=2 active=2 speed=148.93 tok/s per_task=74.46 tok/s[0m
+[32m21:32:33.69[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:33.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:33.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 244 cap=2 active=2 speed=158.77 tok/s per_task=79.39 tok/s[0m
+[32m21:32:34.08[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:34.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:34.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 245 cap=2 active=2 speed=163.82 tok/s per_task=81.91 tok/s[0m
+[32m21:32:34.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:34.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:34.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 246 cap=2 active=2 speed=156.63 tok/s per_task=78.32 tok/s[0m
+[32m21:32:34.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:34.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:34.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 247 cap=2 active=2 speed=149.19 tok/s per_task=74.59 tok/s[0m
+[32m21:32:35.32[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:35.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:35.32[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 248 cap=2 active=2 speed=164.56 tok/s per_task=82.28 tok/s[0m
+[32m21:32:35.75[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:35.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:35.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 249 cap=2 active=2 speed=150.63 tok/s per_task=75.32 tok/s[0m
+[32m21:32:36.15[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:36.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:36.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 250 cap=2 active=2 speed=157.89 tok/s per_task=78.94 tok/s[0m
+[32m21:32:36.55[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:36.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:36.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 251 cap=2 active=2 speed=164.55 tok/s per_task=82.27 tok/s[0m
+[32m21:32:36.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:36.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:36.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 252 cap=2 active=2 speed=147.68 tok/s per_task=73.84 tok/s[0m
+[32m21:32:37.41[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:37.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:37.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 253 cap=2 active=2 speed=152.41 tok/s per_task=76.20 tok/s[0m
+[32m21:32:37.80[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:37.80[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:37.80[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 254 cap=2 active=2 speed=165.02 tok/s per_task=82.51 tok/s[0m
+[32m21:32:38.23[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:38.23[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:38.23[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 255 cap=2 active=2 speed=149.42 tok/s per_task=74.71 tok/s[0m
+[32m21:32:38.63[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:38.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:38.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 256 cap=2 active=2 speed=161.02 tok/s per_task=80.51 tok/s[0m
+[32m21:32:39.06[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:39.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:39.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 257 cap=2 active=2 speed=148.08 tok/s per_task=74.04 tok/s[0m
+[32m21:32:39.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:39.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:39.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 258 cap=2 active=2 speed=149.59 tok/s per_task=74.80 tok/s[0m
+[32m21:32:39.91[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:39.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:39.91[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 259 cap=2 active=2 speed=156.40 tok/s per_task=78.20 tok/s[0m
+[32m21:32:40.30[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:40.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:40.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 260 cap=2 active=2 speed=163.79 tok/s per_task=81.90 tok/s[0m
+[32m21:32:40.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:40.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:40.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 261 cap=2 active=2 speed=157.92 tok/s per_task=78.96 tok/s[0m
+[32m21:32:41.12[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:41.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:41.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 262 cap=2 active=2 speed=156.23 tok/s per_task=78.11 tok/s[0m
+[32m21:32:41.56[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:41.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:41.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 263 cap=2 active=2 speed=148.43 tok/s per_task=74.22 tok/s[0m
+[32m21:32:41.95[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:41.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:41.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 264 cap=2 active=2 speed=165.08 tok/s per_task=82.54 tok/s[0m
+[32m21:32:42.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:42.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:42.35[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 265 cap=2 active=2 speed=162.45 tok/s per_task=81.22 tok/s[0m
+[32m21:32:42.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:32:42.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:42.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 266 cap=2 active=2 speed=166.32 tok/s per_task=83.16 tok/s[0m
+[32m21:32:43.12[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:43.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:43.13[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 267 cap=2 active=2 speed=164.14 tok/s per_task=82.07 tok/s[0m
+[32m21:32:43.53[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:43.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:43.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 268 cap=2 active=2 speed=159.72 tok/s per_task=79.86 tok/s[0m
+[32m21:32:43.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:43.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:43.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 269 cap=2 active=2 speed=148.33 tok/s per_task=74.17 tok/s[0m
+[32m21:32:44.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:44.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:44.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 270 cap=2 active=2 speed=159.02 tok/s per_task=79.51 tok/s[0m
+[32m21:32:44.76[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:44.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:44.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 271 cap=2 active=2 speed=163.06 tok/s per_task=81.53 tok/s[0m
+[32m21:32:45.16[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:45.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:45.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 272 cap=2 active=2 speed=161.06 tok/s per_task=80.53 tok/s[0m
+[32m21:32:45.56[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:45.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:45.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 273 cap=2 active=2 speed=160.64 tok/s per_task=80.32 tok/s[0m
+[32m21:32:45.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:45.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:45.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 274 cap=2 active=2 speed=155.90 tok/s per_task=77.95 tok/s[0m
+[32m21:32:46.45[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.47s[0m
+[32m21:32:46.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:46.45[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 275 cap=2 active=2 speed=137.09 tok/s per_task=68.54 tok/s[0m
+[32m21:32:46.85[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:46.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:46.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 276 cap=2 active=2 speed=160.24 tok/s per_task=80.12 tok/s[0m
+[32m21:32:47.25[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:47.25[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:47.25[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 277 cap=2 active=2 speed=159.67 tok/s per_task=79.83 tok/s[0m
+[32m21:32:47.68[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:47.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:47.69[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 278 cap=2 active=2 speed=148.85 tok/s per_task=74.42 tok/s[0m
+[32m21:32:48.08[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:48.08[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:48.09[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 279 cap=2 active=2 speed=162.46 tok/s per_task=81.23 tok/s[0m
+[32m21:32:48.51[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:48.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:48.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 280 cap=2 active=2 speed=150.27 tok/s per_task=75.13 tok/s[0m
+[32m21:32:48.97[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:32:48.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:48.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 281 cap=2 active=2 speed=142.00 tok/s per_task=71.00 tok/s[0m
+[32m21:32:49.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:49.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:49.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 282 cap=2 active=2 speed=165.13 tok/s per_task=82.56 tok/s[0m
+[32m21:32:49.81[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:32:49.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:49.81[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 283 cap=2 active=2 speed=143.12 tok/s per_task=71.56 tok/s[0m
+[32m21:32:50.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:32:50.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:50.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 284 cap=2 active=2 speed=166.75 tok/s per_task=83.37 tok/s[0m
+[32m21:32:50.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:50.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:50.60[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 285 cap=2 active=2 speed=162.32 tok/s per_task=81.16 tok/s[0m
+[32m21:32:51.02[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:51.02[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:51.02[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 286 cap=2 active=2 speed=150.80 tok/s per_task=75.40 tok/s[0m
+[32m21:32:51.44[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:51.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:51.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 287 cap=2 active=2 speed=154.70 tok/s per_task=77.35 tok/s[0m
+[32m21:32:51.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.52s[0m
+[32m21:32:51.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:51.96[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 288 cap=2 active=2 speed=123.67 tok/s per_task=61.84 tok/s[0m
+[32m21:32:52.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:52.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:52.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 289 cap=2 active=2 speed=154.71 tok/s per_task=77.36 tok/s[0m
+[32m21:32:52.78[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:32:52.78[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:52.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 290 cap=2 active=2 speed=158.17 tok/s per_task=79.09 tok/s[0m
+[32m21:32:53.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:53.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:53.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 291 cap=2 active=2 speed=154.83 tok/s per_task=77.41 tok/s[0m
+[32m21:32:53.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:32:53.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:53.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 292 cap=2 active=2 speed=157.51 tok/s per_task=78.75 tok/s[0m
+[32m21:32:54.04[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:54.04[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:54.05[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 293 cap=2 active=2 speed=148.48 tok/s per_task=74.24 tok/s[0m
+[32m21:32:54.48[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:54.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:54.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 294 cap=2 active=2 speed=147.32 tok/s per_task=73.66 tok/s[0m
+[32m21:32:54.94[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.46s[0m
+[32m21:32:54.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:54.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 295 cap=2 active=2 speed=139.59 tok/s per_task=69.80 tok/s[0m
+[32m21:32:55.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:55.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:55.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 296 cap=2 active=2 speed=153.62 tok/s per_task=76.81 tok/s[0m
+[32m21:32:55.79[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:55.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:55.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 297 cap=2 active=2 speed=151.45 tok/s per_task=75.73 tok/s[0m
+[32m21:32:56.18[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:56.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:56.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 298 cap=2 active=2 speed=163.67 tok/s per_task=81.83 tok/s[0m
+[32m21:32:56.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:32:56.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:56.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 299 cap=2 active=2 speed=164.84 tok/s per_task=82.42 tok/s[0m
+[32m21:32:57.00[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:57.01[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:57.01[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 300 cap=2 active=2 speed=149.03 tok/s per_task=74.51 tok/s[0m
+[32m21:32:57.43[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:57.43[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:57.44[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 301 cap=2 active=2 speed=150.10 tok/s per_task=75.05 tok/s[0m
+[32m21:32:57.86[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:57.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:57.86[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 302 cap=2 active=2 speed=151.28 tok/s per_task=75.64 tok/s[0m
+[32m21:32:58.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:32:58.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:58.29[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 303 cap=2 active=2 speed=151.93 tok/s per_task=75.96 tok/s[0m
+[32m21:32:58.71[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:32:58.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:58.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 304 cap=2 active=2 speed=149.82 tok/s per_task=74.91 tok/s[0m
+[32m21:32:59.31[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.59s[0m
+[32m21:32:59.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:59.31[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 305 cap=2 active=2 speed=108.57 tok/s per_task=54.29 tok/s[0m
+[32m21:32:59.70[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:32:59.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:32:59.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 306 cap=2 active=2 speed=166.12 tok/s per_task=83.06 tok/s[0m
+[32m21:33:00.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:00.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:00.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 307 cap=2 active=2 speed=156.63 tok/s per_task=78.32 tok/s[0m
+[32m21:33:00.56[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.45s[0m
+[32m21:33:00.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:00.56[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 308 cap=2 active=2 speed=141.95 tok/s per_task=70.98 tok/s[0m
+[32m21:33:00.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:00.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:00.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 309 cap=2 active=2 speed=159.82 tok/s per_task=79.91 tok/s[0m
+[32m21:33:01.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:01.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:01.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 310 cap=2 active=2 speed=162.72 tok/s per_task=81.36 tok/s[0m
+[32m21:33:01.79[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:01.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:01.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 311 cap=2 active=2 speed=149.10 tok/s per_task=74.55 tok/s[0m
+[32m21:33:02.19[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:02.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:02.19[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 312 cap=2 active=2 speed=161.88 tok/s per_task=80.94 tok/s[0m
+[32m21:33:02.58[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:02.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:02.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 313 cap=2 active=2 speed=166.11 tok/s per_task=83.05 tok/s[0m
+[32m21:33:03.00[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:03.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:03.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 314 cap=2 active=2 speed=153.36 tok/s per_task=76.68 tok/s[0m
+[32m21:33:03.49[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.49s[0m
+[32m21:33:03.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:03.50[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 315 cap=2 active=2 speed=130.27 tok/s per_task=65.13 tok/s[0m
+[32m21:33:03.88[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:03.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:03.88[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 316 cap=2 active=2 speed=166.29 tok/s per_task=83.14 tok/s[0m
+[32m21:33:04.27[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:04.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:04.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 317 cap=2 active=2 speed=166.23 tok/s per_task=83.11 tok/s[0m
+[32m21:33:04.70[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:04.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:04.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 318 cap=2 active=2 speed=150.37 tok/s per_task=75.18 tok/s[0m
+[32m21:33:05.12[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:05.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:05.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 319 cap=2 active=2 speed=153.62 tok/s per_task=76.81 tok/s[0m
+[32m21:33:05.51[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:05.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:05.51[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 320 cap=2 active=2 speed=164.21 tok/s per_task=82.10 tok/s[0m
+[32m21:33:05.94[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:05.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:05.94[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 321 cap=2 active=2 speed=150.90 tok/s per_task=75.45 tok/s[0m
+[32m21:33:06.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:06.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:06.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 322 cap=2 active=2 speed=161.14 tok/s per_task=80.57 tok/s[0m
+[32m21:33:06.75[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:06.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:06.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 323 cap=2 active=2 speed=156.40 tok/s per_task=78.20 tok/s[0m
+[32m21:33:07.17[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:07.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:07.18[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 324 cap=2 active=2 speed=151.17 tok/s per_task=75.58 tok/s[0m
+[32m21:33:07.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:07.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:07.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 325 cap=2 active=2 speed=164.50 tok/s per_task=82.25 tok/s[0m
+[32m21:33:07.96[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:07.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:07.97[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 326 cap=2 active=2 speed=161.63 tok/s per_task=80.82 tok/s[0m
+[32m21:33:08.36[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:08.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:08.36[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 327 cap=2 active=2 speed=163.69 tok/s per_task=81.85 tok/s[0m
+[32m21:33:08.87[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.51s[0m
+[32m21:33:08.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:08.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 328 cap=2 active=2 speed=125.29 tok/s per_task=62.65 tok/s[0m
+[32m21:33:09.28[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:09.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:09.28[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 329 cap=2 active=2 speed=159.46 tok/s per_task=79.73 tok/s[0m
+[32m21:33:09.70[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:09.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:09.70[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 330 cap=2 active=2 speed=151.96 tok/s per_task=75.98 tok/s[0m
+[32m21:33:10.06[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.36s[0m
+[32m21:33:10.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:10.07[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 331 cap=2 active=2 speed=178.29 tok/s per_task=89.14 tok/s[0m
+[32m21:33:10.46[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:10.47[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:10.47[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 332 cap=2 active=2 speed=160.64 tok/s per_task=80.32 tok/s[0m
+[32m21:33:10.87[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:10.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:10.87[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 333 cap=2 active=2 speed=158.22 tok/s per_task=79.11 tok/s[0m
+[32m21:33:11.29[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:11.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:11.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 334 cap=2 active=2 speed=153.10 tok/s per_task=76.55 tok/s[0m
+[32m21:33:11.70[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:11.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:11.71[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 335 cap=2 active=2 speed=156.52 tok/s per_task=78.26 tok/s[0m
+[32m21:33:12.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:12.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:12.11[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 336 cap=2 active=2 speed=158.84 tok/s per_task=79.42 tok/s[0m
+[32m21:33:12.52[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:12.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:12.52[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 337 cap=2 active=2 speed=158.45 tok/s per_task=79.23 tok/s[0m
+[32m21:33:12.93[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:12.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:12.93[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 338 cap=2 active=2 speed=156.97 tok/s per_task=78.49 tok/s[0m
+[32m21:33:13.34[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:13.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:13.34[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 339 cap=2 active=2 speed=155.80 tok/s per_task=77.90 tok/s[0m
+[32m21:33:13.75[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:13.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:13.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 340 cap=2 active=2 speed=157.00 tok/s per_task=78.50 tok/s[0m
+[32m21:33:14.16[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:14.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:14.16[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 341 cap=2 active=2 speed=156.55 tok/s per_task=78.28 tok/s[0m
+[32m21:33:14.58[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:14.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:14.58[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 342 cap=2 active=2 speed=155.96 tok/s per_task=77.98 tok/s[0m
+[32m21:33:14.99[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:14.99[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:15.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 343 cap=2 active=2 speed=154.55 tok/s per_task=77.27 tok/s[0m
+[32m21:33:15.40[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:15.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:15.41[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 344 cap=2 active=2 speed=157.41 tok/s per_task=78.71 tok/s[0m
+[32m21:33:15.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.57s[0m
+[32m21:33:15.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:15.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 345 cap=2 active=2 speed=111.49 tok/s per_task=55.74 tok/s[0m
+[32m21:33:16.38[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:16.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:16.38[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 346 cap=2 active=2 speed=161.38 tok/s per_task=80.69 tok/s[0m
+[32m21:33:16.89[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.51s[0m
+[32m21:33:16.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:16.89[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 347 cap=2 active=2 speed=126.22 tok/s per_task=63.11 tok/s[0m
+[32m21:33:17.30[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:17.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:17.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 348 cap=2 active=2 speed=157.42 tok/s per_task=78.71 tok/s[0m
+[32m21:33:17.72[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:17.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:17.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 349 cap=2 active=2 speed=154.72 tok/s per_task=77.36 tok/s[0m
+[32m21:33:18.14[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:18.15[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:18.15[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 350 cap=2 active=2 speed=150.97 tok/s per_task=75.48 tok/s[0m
+[32m21:33:18.59[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.44s[0m
+[32m21:33:18.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:18.59[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 351 cap=2 active=2 speed=144.13 tok/s per_task=72.06 tok/s[0m
+[32m21:33:19.00[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:19.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:19.00[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 352 cap=2 active=2 speed=158.78 tok/s per_task=79.39 tok/s[0m
+[32m21:33:19.42[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:19.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:19.42[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 353 cap=2 active=2 speed=153.73 tok/s per_task=76.87 tok/s[0m
+[32m21:33:19.85[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:19.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:19.85[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 354 cap=2 active=2 speed=149.79 tok/s per_task=74.89 tok/s[0m
+[32m21:33:20.24[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:20.24[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:20.25[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 355 cap=2 active=2 speed=163.57 tok/s per_task=81.79 tok/s[0m
+[32m21:33:20.72[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.48s[0m
+[32m21:33:20.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:20.72[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 356 cap=2 active=2 speed=134.37 tok/s per_task=67.18 tok/s[0m
+[32m21:33:21.11[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:21.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:21.12[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 357 cap=2 active=2 speed=164.18 tok/s per_task=82.09 tok/s[0m
+[32m21:33:21.53[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:21.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:21.53[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 358 cap=2 active=2 speed=155.70 tok/s per_task=77.85 tok/s[0m
+[32m21:33:21.92[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:21.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:21.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 359 cap=2 active=2 speed=165.43 tok/s per_task=82.71 tok/s[0m
+[32m21:33:22.33[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:22.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:22.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 360 cap=2 active=2 speed=157.63 tok/s per_task=78.81 tok/s[0m
+[32m21:33:22.75[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:22.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:22.76[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 361 cap=2 active=2 speed=152.81 tok/s per_task=76.40 tok/s[0m
+[32m21:33:23.20[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.44s[0m
+[32m21:33:23.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:23.20[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 362 cap=2 active=2 speed=144.40 tok/s per_task=72.20 tok/s[0m
+[32m21:33:23.63[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:23.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:23.63[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 363 cap=2 active=2 speed=149.36 tok/s per_task=74.68 tok/s[0m
+[32m21:33:24.26[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.63s[0m
+[32m21:33:24.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:24.27[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 364 cap=2 active=2 speed=101.64 tok/s per_task=50.82 tok/s[0m
+[32m21:33:24.65[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:24.65[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:24.66[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 365 cap=2 active=2 speed=166.22 tok/s per_task=83.11 tok/s[0m
+[32m21:33:25.05[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:25.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:25.06[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 366 cap=2 active=2 speed=160.73 tok/s per_task=80.36 tok/s[0m
+[32m21:33:25.48[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:25.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:25.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 367 cap=2 active=2 speed=150.02 tok/s per_task=75.01 tok/s[0m
+[32m21:33:25.92[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.43s[0m
+[32m21:33:25.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:25.92[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 368 cap=2 active=2 speed=148.99 tok/s per_task=74.50 tok/s[0m
+[32m21:33:26.30[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:26.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:26.30[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 369 cap=2 active=2 speed=166.96 tok/s per_task=83.48 tok/s[0m
+[32m21:33:26.73[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:26.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:26.73[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 370 cap=2 active=2 speed=151.51 tok/s per_task=75.75 tok/s[0m
+[32m21:33:27.13[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:27.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:27.14[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 371 cap=2 active=2 speed=158.59 tok/s per_task=79.30 tok/s[0m
+[32m21:33:27.55[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:27.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:27.55[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 372 cap=2 active=2 speed=156.16 tok/s per_task=78.08 tok/s[0m
+[32m21:33:27.94[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.39s[0m
+[32m21:33:27.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:27.95[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 373 cap=2 active=2 speed=162.50 tok/s per_task=81.25 tok/s[0m
+[32m21:33:28.33[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:28.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:28.33[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 374 cap=2 active=2 speed=167.51 tok/s per_task=83.75 tok/s[0m
+[32m21:33:28.74[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:28.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:28.75[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 375 cap=2 active=2 speed=154.80 tok/s per_task=77.40 tok/s[0m
+[32m21:33:29.17[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:29.17[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:29.17[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 376 cap=2 active=2 speed=150.58 tok/s per_task=75.29 tok/s[0m
+[32m21:33:29.57[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:29.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:29.57[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 377 cap=2 active=2 speed=161.74 tok/s per_task=80.87 tok/s[0m
+[32m21:33:29.98[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:29.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:29.98[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 378 cap=2 active=2 speed=157.47 tok/s per_task=78.73 tok/s[0m
+[32m21:33:30.37[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.38s[0m
+[32m21:33:30.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:30.37[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 379 cap=2 active=2 speed=167.19 tok/s per_task=83.59 tok/s[0m
+[32m21:33:30.79[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:30.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:30.79[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 380 cap=2 active=2 speed=153.30 tok/s per_task=76.65 tok/s[0m
+[32m21:33:31.21[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.42s[0m
+[32m21:33:31.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:31.21[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 381 cap=2 active=2 speed=153.08 tok/s per_task=76.54 tok/s[0m
+[32m21:33:31.61[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.40s[0m
+[32m21:33:31.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:31.61[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 382 cap=2 active=2 speed=159.99 tok/s per_task=79.99 tok/s[0m
+[32m21:33:32.02[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.41s[0m
+[32m21:33:32.02[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:32.02[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mIter 383 cap=2 active=2 speed=157.80 tok/s per_task=78.90 tok/s[0m
+[32m21:33:32.48[0m | [1mINFO   [0m | [36mengine.infer       [0m | [1mPulse 32 steps in 0.46s[0m
+[32m21:33:32.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCollect finished in 0.00s[0m
+[32m21:33:32.48[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mAdjust capacity 2 -> 1 (active=0, ready=0)[0m
+[32m21:33:32.49[0m | [1mINFO   [0m | [36mscheduler.dynamic  [0m | [1mCompact 0 tasks, cap 2 -> 1 in 0.0005s[0m
+
+============================================================
+  压 力 测 试 结 果
+============================================================
+  总任务数:        256
+  完成数:          254
+  总耗时:          286.60s
+  显存使用:        已用 7.8 GB / 缓存 7.9 GB
+────────────────────────────────────
+  输入 tokens:     20,140
+  输出 tokens:     545,440
+  总 tokens:       565,580
+────────────────────────────────────
+  总吞吐量:        1,973.38 tok/s
+  输出吞吐:        1,903.11 tok/s
+  平均每任务输出:  2,147 tokens
+  平均每任务耗时:  1.13s
+============================================================
+

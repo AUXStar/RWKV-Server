@@ -61,6 +61,8 @@ def stream_callback():
             return
         _finished = True
         loop.call_soon_threadsafe(queue.put_nowait, None)
+        loop.call_soon_threadsafe(queue.put_nowait, None)
+        loop.call_soon_threadsafe(queue.put_nowait, None)
 
     return generator(), callback, finish
 

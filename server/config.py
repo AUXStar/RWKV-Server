@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     max_batch_size: int = 256
     buffer_size: int = 32
 
-    default_max_tokens: int = 2000
+    default_max_tokens: int = 4096
     default_temperature: float = 1
     default_top_p: float = 0.3
     default_top_k: int = 50

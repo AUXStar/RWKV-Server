@@ -131,6 +131,9 @@ class BaseScheduler(ABC):
         return self.backthr
 
     def shutdown(self):
+        [t.stop() for t in self.tasks]
+        self.log.success("等待任务完成回收-5s")
+        time.sleep(5)
         if not self._stop_event:
             self._stop_event = True
 
