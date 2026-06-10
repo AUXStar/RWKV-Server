@@ -18,18 +18,48 @@
 
 ---
 
-## ✨ 核心特性
+## 📊 性能表现
 
-| | | |
-|---|---|---|
-| 🚀 **自入队批量推理** | 提交即走，调度器自动攒批，无需手动管理 batch |
-| 📐 **2的幂次动态缩容** | 任务少时释放显存，多时自动扩容，最大化 GPU 利用率 |
-| ⚡ **CUDA Stream 异步零阻塞** | state 拷回不阻塞推理流水线 |
-| 🔌 **OpenAI 兼容 API** | 无缝接入 Chatbox、LobeChat、Open WebUI 等生态 |
-| 🎯 **Per-sample 向量化采样** | 批次内每个样本独立 temperature / top_k / top_p |
-| 📋 **提示词模板持久化** | 好用的提示词 prefill 一次，之后 fork 即用，零重复开销 |
-| 🌊 **流式输出 SSE** | 实时推送生成内容，首 token 延迟极低 |
-| 📊 **统一日志格式** | uvicorn / starlette 日志自动转发，格式一致 |
+### RWKV7 2.9B · RTX 5070 Ti Laptop（12GB）
+
+批量压力测试：256 个长 prompt 任务并发，`max_tokens=2000`，temperature=1.0，buffer_size=32。
+
+| 指标 | 数值 |
+|---|---|
+| **峰值吞吐** | **5,169 tok/s**（256 并发满载） |
+| 全程平均吞吐 | 1,973 tok/s |
+| 单任务速度（256 并发） | ~20 tok/s |
+| 单任务速度（低并发） | ~55-80 tok/s |
+| 总耗时 | 286s（256 任务 × 平均 ~2,147 token 输出） |
+| 显存占用 | 9.0 GB（模型 6.5GB + 256 任务 state ~2.5GB） |
+
+```
+ RWKV 推 理 压 力 测 试
+ 模型: 2.9B · 显卡: RTX 5070 Ti Laptop GPU · 任务数: 256 · 显存: 9.0 GB
+────────────────────────────────────────────────
+ 输入 tokens:  20,140       输出 tokens:  545,440
+ 总吞吐量:     1,973 tok/s  输出吞吐:     1,903 tok/s
+ 平均每任务输出: 2,147 tokens
+────────────────────────────────────────────────
+ 峰值: Iter 2 cap=256 active=256 speed=5168.75 tok/s per_task=20.19 tok/s
+```
+
+> 7.2B 模型的 4090 测试数据待补充。欢迎提交 PR 加入你的跑分结果。
+
+---
+
+项目提供了 [Locust](https://locust.io/) 压力测试脚本，默认使用 `/v1/tasks/tmp` 接口（临时任务自动清理），支持 Web UI 和无头模式：
+
+```bash
+# Web UI 模式（浏览器动态调整并发）
+locust -f test/locustfile.py --host=http://localhost:8000
+
+# 无头模式：256 并发，每秒 +10，持续 10 分钟
+locust -f test/locustfile.py --host=http://localhost:8000 --headless \
+  -u 256 -r 10 --run-time 10m --csv=perf_report
+```
+
+脚本会自动记录首包延迟 TTFT、流式总耗时等关键指标。
 
 ---
 
@@ -44,6 +74,7 @@
   - [📋 模板任务（Template Tasks）](#-模板任务template-tasks)
   - [🔌 LLM 门户接入](#-llm-门户接入)
   - [🔧 私有 API（任务管理）](#-私有-api任务管理)
+  - [🧩 直接调用调度器（Python SDK）](#-直接调用调度器python-sdk)
 - [🚀 快速开始](#-快速开始)
 - [🔬 架构深度解析](#-架构深度解析)
   - [请求-推理完整数据流](#请求-推理完整数据流)
@@ -51,11 +82,25 @@
   - [Task 生命周期](#task-生命周期)
   - [2的幂次动态缩容决策流程](#2的幂次动态缩容决策流程)
 - [⚙️ 配置说明](#️-配置说明)
-- [📊 性能表现](#-性能表现)
 - [📁 项目结构](#-项目结构)
 - [🙏 参考与致谢](#-参考与致谢)
 - [🤝 贡献指南](#-贡献指南)
 - [⭐ Star History](#-star-history)
+
+---
+
+## ✨ 核心特性
+
+| | | |
+|---|---|---|
+| 🚀 **自入队批量推理** | 提交即走，调度器自动攒批，无需手动管理 batch |
+| 📐 **2的幂次动态缩容** | 任务少时释放显存，多时自动扩容，最大化 GPU 利用率 |
+| ⚡ **CUDA Stream 异步零阻塞** | state 拷回不阻塞推理流水线 |
+| 🔌 **OpenAI 兼容 API** | 无缝接入 Chatbox、LobeChat、Open WebUI 等生态 |
+| 🎯 **Per-sample 向量化采样** | 批次内每个样本独立 temperature / top_k / top_p |
+| 📋 **提示词模板持久化** | 好用的提示词 prefill 一次，之后 fork 即用，零重复开销 |
+| 🌊 **流式输出 SSE** | 实时推送生成内容，首 token 延迟极低 |
+| 📊 **统一日志格式** | uvicorn / starlette 日志自动转发，格式一致 |
 
 ---
 
@@ -208,6 +253,27 @@ for chunk in stream:
     if chunk.choices[0].delta.content:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
+
+RWKV 原生支持 **`System:` 角色**，OpenAI API 中的 `system` 消息会被转换为 `System: {content}` 前缀：
+
+```python
+response = client.chat.completions.create(
+    model="rwkv-7",
+    messages=[
+        {"role": "system", "content": "你是一个专业的技术翻译，请将英文翻译为中文。"},
+        {"role": "user", "content": "LLMs use multi-head self-attention to process tokens in parallel."},
+    ],
+)
+# 实际 prompt：
+# System: 你是一个专业的技术翻译...
+#
+# User: LLMs use multi-head self-attention...
+#
+# Assistant:  thinking
+#  response
+```
+
+与直接拼文本不同，`System:` 标签让模型明确区分系统指令和用户对话，对角色扮演 / 风格约束 / 安全护栏等场景尤其有效。
 
 ### 🎭 Few-Shot 对话模板
 
@@ -427,6 +493,228 @@ curl -X POST http://localhost:8000/v1/tasks/TASK_abc123/delete
 # 查看所有活跃任务
 curl http://localhost:8000/v1/tasks/list
 ```
+
+---
+
+### 🧩 直接调用调度器（Python SDK）
+
+如果你不想走 HTTP API，可以直接 import 调度器嵌入到自己的 Python 应用中。这也是 `test.py` 压力测试脚本使用的方式——**零网络开销，直接操作 state**。
+
+> 适合：批量离线推理、自定义 pipeline、嵌入上游 agent 框架、不想起 HTTP 服务的场景。
+
+#### 最简示例
+
+```python
+from server import RWKV070ModelLoader, DynamicScheduler
+from server.config import settings
+
+# 1. 加载模型
+loader = RWKV070ModelLoader(settings.model_path, settings.vocab_path)
+
+# 2. 创建调度器
+scheduler = DynamicScheduler(
+    loader,
+    max_batch_size=256,   # 最大并发
+    buffer_size=32,       # 每个 pulse 生成的 token 数
+)
+
+# 3. 提交任务
+tasks = [
+    scheduler.new_task(
+        f"User: {prompt}\n\nAssistant:",
+        max_tokens=200,
+        temperature=0.7,
+        top_p=0.3,
+        top_k=50,
+    )
+    for prompt in ["你好，介绍一下你自己", "用 Python 写一个快速排序", "1+1等于几？"]
+]
+
+# 4. 运行（阻塞，直到所有任务完成）
+scheduler.run()
+
+# 5. 获取结果
+for task in tasks:
+    print(f"[{task.task_id}] {task.decode(task.pop_tokens())[:200]}...")
+```
+
+`run()` 是阻塞调用，内部循环直到所有任务状态变为 `FINISHED`，返回后即可取结果。最简单的用法就是上面 5 步。
+
+#### 关键类与参数
+
+**`RWKV070ModelLoader(model_path, vocab_path=None)`**
+
+加载模型和词表：
+
+```python
+loader = RWKV070ModelLoader("models/rwkv7-2.9b.pth", "eof_v20230424.txt")
+
+# 常用方法
+loader.encode("你好")                # str → list[int]
+loader.decode([123, 456])            # list[int] → str
+loader.gen_state(batch_size=1)       # 生成初始 state（用于 fork 多个 task）
+```
+
+**`DynamicScheduler(loader, max_batch_size, buffer_size)`**
+
+动态调度器，支持 2 的幂次自动扩缩容。另有 `SimpleScheduler` 继承基类不加任何逻辑，供自定义调度策略。
+
+**`scheduler.new_task(prompt, ...)` → `Task`**
+
+创建一个新的推理任务。完整参数：
+
+| 参数 | 类型 | 默认 | 说明 |
+|---|---|---|---|
+| `prompt` | `str \| list[int]` | 必填 | 输入文本（字符串）或已编码的 token 列表 |
+| `max_tokens` | `int` | `50` | 最大生成 token 数。设为 `0` 则只 prefill 不生成（模板模式） |
+| `temperature` | `float` | `0.3` | 采样温度，越高越随机 |
+| `top_p` | `float` | `0.1` | Nucleus 采样阈值 |
+| `top_k` | `int` | `20` | Top-K 采样 |
+| `presence_penalty` | `float` | `0.0` | 存在惩罚，鼓励生成新 token |
+| `repetition_penalty` | `float` | `0.0` | 重复惩罚 |
+| `penalty_decay` | `float` | `0.0` | 惩罚衰减系数 |
+| `seed` | `int` | `42` | 随机种子（确定性输出） |
+| `collect_callback` | `callable` | `None` | 每次 pulse 生成后回调，参数为 `tokens: list[int]` |
+| `finish_callback` | `callable` | `None` | 任务完成时回调，参数为 `all_tokens: list[int]` |
+
+注意：请勿在回调中添加过于耗时的操作！最佳实践为回调收集后在另外线程处理。
+
+**`scheduler.add_task(prompt, ...)` → `None`**
+
+外部添加任务（已创建好的 Task 对象）
+
+**`Task` 对象**
+
+创建后自动完成 prefill（CPU 上），state 保持在 CPU 等待调度：
+
+| 属性 / 方法 | 说明 |
+|---|---|
+| `task_id` | 默认 `"TMP"` |
+| `status` | `PREFILL` → `READY` → `RUNNING` → `FINISHED` |
+| `current_token` | 当前输入 token（prefill 后为 prompt 最后一个 token） |
+| `pop_tokens()` | 取出并清空已收集的生成 token |
+| `decode(tokens)` | 将 token 列表解码为文本 |
+| `stop()` | 停止推理（外部中断） |
+| `continue_gen()` | 将已完成任务重置为 READY，继续生成 |
+
+#### 回调模式
+
+适合流式输出或增量处理场景——不等 `run()` 全部完成就能拿到中间结果：
+
+```python
+def on_tokens(tokens):
+    """每次 pulse 生成 buffer_size 个 token 后回调"""
+    text = loader.decode(tokens)
+    print(text, end="", flush=True)
+
+def on_finish(all_tokens):
+    """任务完成回调"""
+    print(f"\n--- 完成，共 {len(all_tokens)} tokens ---")
+
+task = scheduler.new_task(
+    "User: 写一首关于春天的诗\n\nAssistant:",
+    max_tokens=300,
+    temperature=0.8,
+    collect_callback=on_tokens,   # 每个 pulse 回调
+    finish_callback=on_finish,    # 完成时回调
+)
+scheduler.run()
+```
+
+#### 模板任务（max_tokens=0 + TaskManager）
+
+回调模式适合在线场景，但更高效的用法是利用 `max_tokens=0` 做模板持久化，配合 `TaskManager` 管理 state 生命周期：
+
+```python
+from server import RWKV070ModelLoader, DynamicScheduler
+from server.task.manager import get_task_manager
+from server.config import settings
+
+loader = RWKV070ModelLoader(settings.model_path, settings.vocab_path)
+scheduler = DynamicScheduler(loader, 256, 32)
+task_manager = get_task_manager()
+task_manager.set_dependencies(loader, scheduler.sampler)
+
+# Step 1: 创建模板 —— max_tokens=0，只 prefill 不生成
+tpl = scheduler.new_task(
+    "User: 你是一个资深 Python 后端工程师，请遵循 PEP8 规范。\n\nAssistant: 好的。\n\n",
+    max_tokens=0,
+    temperature=0.3,
+)
+scheduler.run()  # prefill 完成，state 在 CPU
+
+# Step 2: 存入 TaskManager（SQLite 持久化）
+task_manager.put_task("_coder", tpl)
+
+# Step 3: 使用时 fork —— state 自动继承，零 prefill 开销
+for question in ["写一个线程安全的单例", "如何优化数据库连接池？", "解释 GIL 及其影响"]:
+    new_id = task_manager.fork_template("_coder")
+    task = task_manager.get_task(new_id)
+    task.continue_gen()  # 重置状态为 READY
+    task.prefill(f"User: {question}\n\nAssistant:")  # 追加新 prompt
+    task.max_tokens = 500
+    scheduler.add_task(task)
+
+scheduler.run()  # 3 个任务并行推理，共享同一份系统提示词 prefill
+```
+
+**`TaskManager` 常用方法：**
+
+| 方法 | 说明 |
+|---|---|
+| `put_task(task_id, obj)` | 存入缓存（以 `_` 开头的 ID 视为只读模板） |
+| `get_task(task_id)` → Task | 从缓存或 SQLite 取出 |
+| `fork_template(template_id)` → new_id | Fork 模板，state 自动拷贝 |
+| `close_task(task_id)` | 关闭并写入 DB |
+| `delete_task_from_any_level(task_id, force=False)` | 删除任务 |
+
+> **模板 ID 以 `_` 开头被视为只读**，不受 LRU 淘汰、不会被覆盖，重启后仍在 SQLite 中。
+
+#### 后台常驻模式
+
+如果需要持续接收任务而不阻塞当前线程：
+
+```python
+# 启动后台线程
+scheduler.start_daemon()  # 内部循环：有任务就 run()，空闲 sleep 0.5s
+
+# 随时提交新任务
+task = scheduler.new_task("User: 你好\n\nAssistant:", max_tokens=100)
+# 调度器自动发现 READY 任务并开始推理
+
+# 优雅关闭
+scheduler.shutdown()
+```
+
+#### 完整示例：翻译服务
+
+```python
+from server import RWKV070ModelLoader, DynamicScheduler
+from server.config import settings
+
+loader = RWKV070ModelLoader(settings.model_path, settings.vocab_path)
+scheduler = DynamicScheduler(loader, max_batch_size=64, buffer_size=32)
+
+def translate(texts: list[str], source_lang="中文", target_lang="英文"):
+    tasks = [
+        scheduler.new_task(
+            f"User: 将以下{source_lang}翻译为{target_lang}：{t}\n\nAssistant:",
+            max_tokens=300,
+            temperature=0.3,
+            top_p=0.3,
+        )
+        for t in texts
+    ]
+    scheduler.run()
+    return [loader.decode(t.pop_tokens()) for t in tasks]
+
+# 使用
+results = translate(["你好世界", "机器学习很有趣", "今天天气真好"])
+for r in results:
+    print(r)
+```
+
+关于更详细的sdk，请详见代码实现，大部分函数有较详细文档。
 
 ---
 
@@ -658,7 +946,7 @@ flowchart TD
 | `RWKV_MODEL_PATH` | `server/model/rwkv7-g1g-2.9b-20260526-ctx8192.pth` | 模型文件路径 |
 | `RWKV_MAX_BATCH_SIZE` | `256` | 最大批量推理数（2的幂次上限） |
 | `RWKV_BUFFER_SIZE` | `32` | 脉冲步数（每个 pulse 生成的 token 数） |
-| `RWKV_DEFAULT_MAX_TOKENS` | `4096` | 默认最大生成 token 数 |
+| `RWKV_DEFAULT_MAX_TOKENS` | `2000` | 默认最大生成 token 数 |
 | `RWKV_DEFAULT_TEMPERATURE` | `1.0` | 默认采样温度 |
 | `RWKV_DEFAULT_TOP_P` | `0.3` | 默认 top-p 值 |
 | `RWKV_DEFAULT_TOP_K` | `50` | 默认 top-k 值 |
@@ -677,51 +965,6 @@ flowchart TD
 - **BUFFER_SIZE**：越大单次 pulse 生成 token 越多，但高负载下 GPU 显存压力更大。建议范围 16-64
 - **MAX_BATCH_SIZE**：根据显存调整。2.9B 模型建议 256，7.2B 模型建议 256
 - **PRESENCE_PENALTY**：值越高越鼓励多样性，创意写作建议 2.0+，代码生成建议 0.5-1.0
-
----
-
-## 📊 性能表现
-
-### RWKV7 2.9B · RTX 5070 Ti Laptop（12GB）
-
-批量压力测试：256 个长 prompt 任务并发，`max_tokens=2000`，temperature=1.0，buffer_size=32。
-
-| 指标 | 数值 |
-|---|---|
-| **峰值吞吐** | **5,169 tok/s**（256 并发满载） |
-| 全程平均吞吐 | 1,973 tok/s |
-| 单任务速度（256 并发） | ~20 tok/s |
-| 单任务速度（低并发） | ~55-80 tok/s |
-| 总耗时 | 286s（256 任务 × 平均 ~2,147 token 输出） |
-| 显存占用 | 9.0 GB（模型 6.5GB + 256 任务 state ~2.5GB） |
-
-```
- RWKV 推 理 压 力 测 试
- 模型: 2.9B · 显卡: RTX 5070 Ti Laptop GPU · 任务数: 256 · 显存: 9.0 GB
-────────────────────────────────────────────────
- 输入 tokens:  20,140       输出 tokens:  545,440
- 总吞吐量:     1,973 tok/s  输出吞吐:     1,903 tok/s
- 平均每任务输出: 2,147 tokens
-────────────────────────────────────────────────
- 峰值: Iter 2 cap=256 active=256 speed=5168.75 tok/s per_task=20.19 tok/s
-```
-
-> 7.2B 模型的 4090 测试数据待补充。欢迎提交 PR 加入你的跑分结果。
-
----
-
-项目提供了 [Locust](https://locust.io/) 压力测试脚本，默认使用 `/v1/tasks/tmp` 接口（临时任务自动清理），支持 Web UI 和无头模式：
-
-```bash
-# Web UI 模式（浏览器动态调整并发）
-locust -f test/locustfile.py --host=http://localhost:8000
-
-# 无头模式：256 并发，每秒 +10，持续 10 分钟
-locust -f test/locustfile.py --host=http://localhost:8000 --headless \
-  -u 256 -r 10 --run-time 10m --csv=perf_report
-```
-
-脚本会自动记录首包延迟 TTFT、流式总耗时等关键指标。
 
 ---
 

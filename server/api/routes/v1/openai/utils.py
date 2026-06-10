@@ -122,10 +122,9 @@ def messages_to_prompt(messages: List[ChatMessage]) -> str:
     支持字符串和多模态列表格式的content
     默认启用官方推荐的快思考模式，性能和质量最佳
     
-    官方快思考模式格式：Assistant: \n</think
+    官方快思考模式格式：Assistant: <think>\n</think>
     """
     prompt = ""
-    system_prompt = ""
 
     for message in messages:
         # 处理content字段（支持字符串和多模态列表）
@@ -144,7 +143,7 @@ def messages_to_prompt(messages: List[ChatMessage]) -> str:
             content = ""
 
         if message.role == "system":
-            system_prompt = content
+            prompt += f"System: {content}\n"
         elif message.role == "user":
             prompt += f"User: {content}\n"
         elif message.role == "assistant":
@@ -153,11 +152,6 @@ def messages_to_prompt(messages: List[ChatMessage]) -> str:
             # 处理工具返回结果
             prompt += f"Tool: {content}\n"
 
-    # 系统提示词放在最前面
-    if system_prompt:
-        prompt = f"{system_prompt}\n\n{prompt}"
-
-    # 添加官方标准快思考模式标签（精确格式，不能有任何改动）
     prompt += "Assistant: <think>\n</think>"
     
     return prompt
