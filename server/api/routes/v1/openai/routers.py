@@ -190,7 +190,17 @@ async def _merge_chat_tasks(
     finished = [False] * len(tasks)
     finished_count = 0
     while finished_count < len(tasks):
-        typ, idx, data = await output_queue.get()
+        try:
+            typ, idx, data = await asyncio.wait_for(output_queue.get(), timeout=5.0)
+        except asyncio.TimeoutError:
+            for i, t in enumerate(tasks):
+                if not finished[i] and t.status == Status.FINISHED:
+                    finished[i] = True
+                    finished_count += 1
+                    yield ("finish", i, "stop")
+            if finished_count >= len(tasks):
+                break
+            continue
         if typ == "finish":
             if not finished[idx]:
                 finished[idx] = True
@@ -302,6 +312,8 @@ async def _handle_chat_streaming(
                     finished[idx] = True
                     finished_count += 1
                 # 可忽略 finish 事件，最后统一发送 stop chunk
+            if finished_count >= len(tasks):
+                break
             # 检查客户端断开
             if await request.is_disconnected():
                 break

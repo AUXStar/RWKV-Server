@@ -121,7 +121,11 @@ class BaseScheduler(ABC):
             if self._stop_event:
                 return
             if self.tasks:
-                self.run()
+                try:
+                    self.run()
+                except Exception as e:
+                    self.log.exception(e)
+
             else:
                 time.sleep(0.5)
 
@@ -285,10 +289,21 @@ class BaseScheduler(ABC):
         cur = self.current_capacity
         gen = self.worker["generated_tokens"][:cur, : self.buffer_size]
         tasks = self.worker["tasks"][:cur]
-        non_z = gen != 0
+        mask = self.mask[:cur]
+
+        # 1. 优先处理在 generate() 中已经被 mask 的槽位（max_tok<=0 或 eos）
+        masked_indices = torch.where(mask)[0].cpu()
+        self._process_terminated_indices(
+            masked_indices,
+            data_generator=lambda idx, i: gen[i][gen[i] != 0].tolist()
+        )
+
+        # 2. 处理剩余未被 mask 的槽位
+        remaining = ~mask
+        non_z = (gen != 0) & remaining.unsqueeze(1)
         any_row = non_z.any(dim=1)
         all_row = non_z.all(dim=1)
-        zero_row = ~any_row
+        zero_row = ~any_row & remaining
 
         self._process_terminated_indices(torch.where(zero_row)[0].cpu())
 
