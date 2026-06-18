@@ -129,6 +129,70 @@ class TaskUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True, arbitrary_types_allowed=True)
 
 
+class FIMRequest(BaseModel):
+    """Fill In Middle 请求模型
+
+    给定 prefix 和 suffix，模型生成中间填充内容。
+    prompt 构造格式：✿prefix✿✿suffix✿{suffix}✿middle✿{prefix}
+    """
+
+    prefix: str = Field(description="FIM 前缀文本（光标前的内容）")
+    suffix: str = Field(default="", description="FIM 后缀文本（光标后的内容）")
+    max_tokens: int = Field(
+        default=settings.default_max_tokens,
+        ge=1,
+        le=40960,
+        description="最大生成 token 数",
+    )
+    temperature: float = Field(
+        default=settings.default_temperature,
+        ge=0.0,
+        le=2.0,
+        description="温度",
+    )
+    top_k: int = Field(
+        default=settings.default_top_k,
+        ge=-1,
+        le=100,
+        description="Top-K 采样",
+    )
+    top_p: float = Field(
+        default=settings.default_top_p,
+        ge=0.0,
+        le=1.0,
+        description="Top-P 采样",
+    )
+    presence_penalty: float = Field(
+        default=settings.default_presence_penalty,
+        ge=0.0,
+        le=10.0,
+        description="存在惩罚",
+    )
+    repetition_penalty: float = Field(
+        default=settings.default_repetition_penalty,
+        ge=0.0,
+        le=10.0,
+        description="重复惩罚",
+    )
+    penalty_decay: float = Field(
+        default=settings.default_penalty_decay,
+        ge=0.0,
+        le=1.0,
+        description="惩罚衰减",
+    )
+    stream: bool = Field(default=False, description="是否流式输出")
+    seed: int | None = Field(default=None, description="随机种子，为 None 时自动生成")
+
+    model_config = ConfigDict(extra="forbid", strict=True, arbitrary_types_allowed=True)
+
+    @model_validator(mode="after")
+    def _auto_seed(self) -> "FIMRequest":
+        """如果 seed 为 None，则自动生成一个 32 位种子"""
+        if self.seed is None:
+            self.seed = time.time_ns() % (2**32)
+        return self
+
+
 class DataFrame(BaseModel):
     """数据帧模型"""
 

@@ -433,6 +433,7 @@ RWKV-Server 兼容 OpenAI API 标准，可接入主流 LLM 客户端：
 | `/v1/tasks/{task_id}/stop` | `POST` | 停止正在生成的任务 |
 | `/v1/tasks/{task_id}/as_template` | `POST` | 将一个已完成的任务转为持久化模板 |
 | `/v1/tasks/{task_id}/delete` | `POST` | 删除任务（模板需 `force=true`） |
+| `/v1/tasks/fim` | `POST` | Fill In Middle：给定 prefix/suffix，生成中间内容 |
 | `/v1/tasks/list` | `GET` | 列出所有活跃任务 |
 
 #### 临时任务
@@ -553,6 +554,34 @@ curl -X POST http://localhost:8000/v1/tasks/TASK_abc123/delete
 # 查看所有活跃任务
 curl http://localhost:8000/v1/tasks/list
 ```
+
+
+#### Fill In Middle（FIM）
+
+FIM（Fill In Middle）适用于代码补全、文本填充等场景——给定光标前后的文本，模型生成中间缺失的部分。与 rwkv_lightning 使用相同的 prompt 构造格式。
+
+```bash
+# 代码补全示例
+curl -X POST http://localhost:8000/v1/tasks/fim   -H "Content-Type: application/json"   -d '{
+    "prefix": "def hello_world():\n    print(",
+    "suffix": ")\n    return True",
+    "max_tokens": 50,
+    "temperature": 0.8,
+    "stream": false
+  }'
+```
+
+参数说明：
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `prefix` | `string` | 是 | 光标前的文本 |
+| `suffix` | `string` | 否 | 光标后的文本，默认空 |
+| `max_tokens` | `int` | 否 | 最大生成 token 数，默认 2000 |
+| `temperature` | `float` | 否 | 采样温度 |
+| `stream` | `bool` | 否 | 是否流式输出 |
+
+FIM 支持流式和非流式两种模式，行为与普通任务 API 一致。非流式返回 task_id，通过轮询获取结果；流式通过 SSE 实时推送。
 
 ---
 
@@ -744,6 +773,16 @@ task = scheduler.new_task("User: 你好\n\nAssistant:", max_tokens=100)
 
 # 优雅关闭
 scheduler.shutdown()
+```
+
+#### FIM 示例：代码补全
+
+```python
+# FIM 本质是 prompt 构造，两行即可
+prompt = f"✿prefix✿✿suffix✿{suffix}✿middle✿{prefix}"
+task = scheduler.new_task(prompt, max_tokens=100, temperature=0.8)
+scheduler.run()
+print(loader.decode(task.pop_tokens()))
 ```
 
 #### 完整示例：翻译服务

@@ -374,29 +374,33 @@ async def _handle_completion_non_streaming(
     scheduler: BaseScheduler,
     echo: bool,
 ) -> CompletionResponse:
-    """非流式文本补全"""
+    """非流式文本补全 — 复用 _merge_chat_tasks 事件流"""
     completion_id = generate_completion_id()
     created_time = int(time.time())
 
-    futures = []
-    for prompt, task in task_items:
-        future, callback = finish_callback()
-        task.finish_callback = callback
-        scheduler.add_task(task)
-        futures.append((prompt, task, future))
+    tasks = [task for _, task in task_items]
+    prompts = [prompt for prompt, _ in task_items]
+
+    contents = [""] * len(tasks)
+    finish_reasons = ["stop"] * len(tasks)
+
+    async for typ, idx, data in _merge_chat_tasks(tasks, stop_sequences, scheduler):
+        if typ == "text":
+            contents[idx] += data
+        elif typ == "finish":
+            finish_reasons[idx] = data
 
     choices = []
     total_usage = None
 
-    for idx, (prompt, task, future) in enumerate(futures):
-        await future
-        result_text = task.model_loader.decode(task.generated_tokens)
+    for idx, task in enumerate(tasks):
+        result_text = contents[idx]
         result_text, finish_reason = _apply_stop_sequences(result_text, stop_sequences)
 
         if echo:
-            result_text = prompt + result_text
+            result_text = prompts[idx] + result_text
 
-        usage = calculate_completion_usage(task, prompt, echo)
+        usage = calculate_completion_usage(task, prompts[idx], echo)
         if total_usage is None:
             total_usage = usage
         else:
@@ -422,63 +426,16 @@ async def _handle_completion_streaming(
     echo: bool,
     stream_options: Optional[dict],
 ) -> StreamingResponse:
-    """流式文本补全"""
+    """流式文本补全 — 复用 _merge_chat_tasks 事件流"""
     completion_id = generate_completion_id()
     created_time = int(time.time())
-    output_queue = asyncio.Queue()
-    all_tasks = []
-    prompt_map = {}
 
-    async def consumer(generator, idx: int):
-        try:
-            async for item in generator:
-                if item is None:
-                    break
-                await output_queue.put((idx, item))
-        finally:
-            await output_queue.put((idx, None))
-
-    for idx, (prompt, task) in enumerate(task_items):
-        generator, collect, finish = stream_callback()
-        original_collect = collect
-
-        def wrapped_collect(tokens, task=task, idx=idx, orig=original_collect):
-            # 累积 tokens 并检测 stop
-            if not hasattr(task, "_stream_buffer"):
-                task._stream_buffer = []
-            task._stream_buffer.extend(tokens)
-            full_text = task.model_loader.decode(task._stream_buffer)
-            for stop in stop_sequences:
-                if stop in full_text:
-                    stop_pos = full_text.find(stop)
-                    before = full_text[:stop_pos]
-                    # 计算需要发送的增量
-                    prev_text = task.model_loader.decode(task._stream_buffer[:-len(tokens)]) if len(task._stream_buffer) > len(tokens) else ""
-                    delta = before[len(prev_text):]
-                    if delta:
-                        if hasattr(task.model_loader, "tokenize"):
-                            delta_tokens = task.model_loader.tokenize(delta)
-                            orig(delta_tokens)
-                        else:
-                            orig(tokens)
-                    task.stop()
-                    return
-            orig(tokens)
-
-        def wrapped_finish(_):
-            finish(None)
-
-        task.collect_callback = wrapped_collect
-        task.finish_callback = wrapped_finish
-        all_tasks.append(task)
-        prompt_map[idx] = prompt
-        scheduler.add_task(task)
-        asyncio.create_task(consumer(generator, idx))
+    tasks = [task for _, task in task_items]
+    prompts = [prompt for prompt, _ in task_items]
 
     async def sse_generator():
-        # 如果 echo=True，先发送每个 prompt
         if echo:
-            for idx, prompt in prompt_map.items():
+            for idx, prompt in enumerate(prompts):
                 chunk = CompletionChunk(
                     id=completion_id,
                     created=created_time,
@@ -487,40 +444,48 @@ async def _handle_completion_streaming(
                 )
                 yield f"data: {chunk.model_dump_json()}\n\n".encode()
 
+        finished = [False] * len(tasks)
         finished_count = 0
-        while finished_count < len(task_items):
-            if await request.is_disconnected():
-                break
-            try:
-                idx, tokens = await asyncio.wait_for(output_queue.get(), timeout=1.0)
-                if tokens is None:
-                    finished_count += 1
-                    continue
-                text = all_tasks[idx].model_loader.decode(tokens)
+
+        async for typ, idx, data in _merge_chat_tasks(tasks, stop_sequences, scheduler):
+            if typ == "text":
                 chunk = CompletionChunk(
                     id=completion_id,
                     created=created_time,
                     model=MODEL_NAME,
-                    choices=[CompletionChunkChoice(index=idx, text=text, finish_reason=None)],
+                    choices=[CompletionChunkChoice(index=idx, text=data, finish_reason=None)],
                 )
                 yield f"data: {chunk.model_dump_json()}\n\n".encode()
-            except asyncio.TimeoutError:
-                continue
+            elif typ == "finish":
+                if not finished[idx]:
+                    finished[idx] = True
+                    finished_count += 1
+                    chunk = CompletionChunk(
+                        id=completion_id,
+                        created=created_time,
+                        model=MODEL_NAME,
+                        choices=[CompletionChunkChoice(index=idx, text="", finish_reason=data)],
+                    )
+                    yield f"data: {chunk.model_dump_json()}\n\n".encode()
+            if finished_count >= len(tasks):
+                break
+            if await request.is_disconnected():
+                break
 
-        # 发送结束
-        for idx in range(len(task_items)):
-            chunk = CompletionChunk(
-                id=completion_id,
-                created=created_time,
-                model=MODEL_NAME,
-                choices=[CompletionChunkChoice(index=idx, text="", finish_reason="stop")],
-            )
-            yield f"data: {chunk.model_dump_json()}\n\n".encode()
+        for idx in range(len(tasks)):
+            if not finished[idx]:
+                chunk = CompletionChunk(
+                    id=completion_id,
+                    created=created_time,
+                    model=MODEL_NAME,
+                    choices=[CompletionChunkChoice(index=idx, text="", finish_reason="stop")],
+                )
+                yield f"data: {chunk.model_dump_json()}\n\n".encode()
 
         if stream_options and stream_options.get("include_usage"):
             total_usage = None
-            for idx, (prompt, task) in enumerate(task_items):
-                usage = calculate_completion_usage(task, prompt, echo)
+            for idx, task in enumerate(tasks):
+                usage = calculate_completion_usage(task, prompts[idx], echo)
                 if total_usage is None:
                     total_usage = usage
                 else:
@@ -546,8 +511,6 @@ async def _handle_completion_streaming(
             "X-Accel-Buffering": "no",
         },
     )
-
-
 @router.get("/models", response_model=ModelsResponse)
 async def list_models():
     return ModelsResponse(data=[Model(id=MODEL_NAME, created=MODEL_CREATED_TIME)])

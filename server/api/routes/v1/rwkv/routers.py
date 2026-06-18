@@ -14,6 +14,7 @@ from .schemas import (
     TaskResponseModel,
     TaskCreate,
     TaskUpdate,
+    FIMRequest,
     DataFrame,
 )
 
@@ -249,3 +250,25 @@ async def list_tasks():
         "cpu_tasks": status["cpu_cache"],
         "db_tasks": status["database"][:100],
     }
+
+@router.post("/fim")
+async def fim(data: FIMRequest, scheduler: BaseScheduler = Depends(get_scheduler)):
+    """Fill In Middle：给定 prefix 和 suffix，生成中间填充内容
+
+    prompt 构造格式：✿prefix✿✿suffix✿{suffix}✿middle✿{prefix}
+    """
+    prompt = f"✿prefix✿✿suffix✿{data.suffix}✿middle✿{data.prefix}"
+    task_id = gen_id(True)
+
+    return await create(task_id, TaskCreate(
+        prompt=prompt,
+        max_tokens=data.max_tokens,
+        temperature=data.temperature,
+        top_k=data.top_k,
+        top_p=data.top_p,
+        presence_penalty=data.presence_penalty,
+        repetition_penalty=data.repetition_penalty,
+        penalty_decay=data.penalty_decay,
+        stream=data.stream,
+        seed=data.seed,
+    ), scheduler)
