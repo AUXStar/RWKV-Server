@@ -220,7 +220,8 @@ class TaskManager:
         if new_task_id is None:
             new_task_id = f"TASK_{uuid.uuid4().hex}"
         else:
-            if self.is_readonly(new_task_id) and not self.is_temporary(new_task_id):
+            # 模板 ID（_TMPL_）和临时 ID（TMP_）允许 fork
+            if new_task_id.startswith("TASK_") and self.is_readonly(new_task_id):
                 raise ValueError("Forked task ID cannot be read-only")
 
         new_obj = copy.copy(src_obj)

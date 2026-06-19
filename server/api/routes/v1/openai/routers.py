@@ -522,7 +522,22 @@ async def chat_completions(
     data: ChatCompletionRequest,
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
-    prompt = messages_to_prompt(data.messages)
+    # 如果提供了 tools，注入到 system prompt 中
+    messages = data.messages
+    if data.tools:
+        tools_desc = _build_tools_prompt(data.tools)
+        # 找到第一个 system 消息，追加 tools 描述；如果没有，插入到开头
+        has_system = False
+        for msg in messages:
+            if msg.role == "system":
+                msg.content = (msg.content or "") + "\n\n" + tools_desc
+                has_system = True
+                break
+        if not has_system:
+            from server.api.routes.v1.openai.schemas import ChatMessage
+            messages = [ChatMessage(role="system", content=tools_desc)] + list(messages)
+
+    prompt = messages_to_prompt(messages)
     stop_sequences = normalize_stop_sequences(data.stop)
     repetition_penalty = data.frequency_penalty if data.frequency_penalty != 0 else 0
 
@@ -548,6 +563,8 @@ async def chat_completions(
         task = copy.copy(base_task)
         task.task_id = f"TASK_{uuid.uuid4().hex}"
         task.rand_state += i
+        task.model_loader = base_task.model_loader
+        task.batch_sampler = base_task.batch_sampler
         tasks.append(task)
 
     if not data.stream:
@@ -602,3 +619,22 @@ async def completions(
         return await _handle_completion_streaming(
             request, all_items, stop_sequences, scheduler, data.echo, data.stream_options
         )
+        
+
+
+def _build_tools_prompt(tools: list) -> str:
+    """将 OpenAI tools 格式转换为 RWKV 可用的 system prompt 描述"""
+    lines = ["You have access to the following tools. When you need to call a tool, output in this exact format:",
+             "<tool_call>",
+             '{"name": "tool_name", "arguments": {"arg1": "value1"}}',
+             "</tool_call>",
+             "", "Available tools:"]
+    for tool in tools:
+        func = tool.get("function", tool)
+        name = func.get("name", "")
+        desc = func.get("description", "")
+        params = func.get("parameters", {})
+        lines.append(f"- {name}: {desc}")
+        if params:
+            lines.append(f"  Parameters: {params}")
+    return "\n".join(lines)
