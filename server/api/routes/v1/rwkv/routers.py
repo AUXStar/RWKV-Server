@@ -113,7 +113,7 @@ async def get_result(
     task: Task = Depends(get_task),
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
-    toks = task.pop_tokens()
+    toks = task.get_all_tokens()
     result = task.model_loader.decode(toks)
     return TaskResponseModel(
         task_id=task_id,
@@ -123,6 +123,40 @@ async def get_result(
         speed=scheduler.per_speed,
         finished=(task.status == Status.FINISHED),
     )
+
+
+@router.get("/{task_id}/stream")
+async def stream_task(
+    task_id: str,
+    task: Task = Depends(get_task),
+    scheduler: BaseScheduler = Depends(get_scheduler),
+):
+    """订阅 Task 的实时流式输出（支持多消费者同时连接）。
+
+    如果 Task 已完成，一次性返回完整结果。
+    如果 Task 还在运行，从当前位置开始流式。
+    """
+    # 已完成：直接返回结果
+    if task.status == Status.FINISHED:
+        toks = task.get_all_tokens()
+        result = task.model_loader.decode(toks)
+        yield f"data: {json.dumps({'task_id': task_id, 'prefill_time': task.prefill_time})}\n\n"
+        yield f"data: {json.dumps({'data': result, 'task_id': task_id, 'gen_time': max(0, task.finish_time - task.run_time), 'speed': scheduler.per_speed})}\n\n"
+        yield b"data: [DONE]\n\n"
+        return
+
+    # 还在运行：创建新的消费者订阅
+    future, collect, finish = stream_callback()
+    task.collect_callback = collect
+    task.finish_callback = finish
+
+    # 如果 Task 还没开始运行，加入调度
+    if task.status == Status.READY:
+        scheduler.add_task(task)
+
+    # 复用 _stream_sse
+    async for chunk in _stream_sse(task, task_id, future, task.prefill_time):
+        yield chunk
 
 
 @router.post("/{task_id}/fork", response_model=TaskResponseModel)

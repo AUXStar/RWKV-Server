@@ -62,7 +62,7 @@ class Task:
         self.top_p = top_p
         self.seed = seed
 
-        self._generated_tokens = []
+        self._token_batches: list[list[int]] = []
         self.current_token = -1
         self.stop_flag_tensor = None
         self._status = Status.PREFILL
@@ -73,7 +73,7 @@ class Task:
     def info(self):
         return dict(
             task_id = self.task_id,
-            generated_buf = len(self._generated_tokens),
+            generated_buf = sum(len(b) for b in self._token_batches),
             status = self.status,
         )
 
@@ -95,7 +95,7 @@ class Task:
             "seed": self.seed,
             "current_token": self.current_token,
             "_status": self._status,
-            "_generated_tokens": self._generated_tokens,
+            "_token_batches": self._token_batches,
         }
         return state
 
@@ -120,6 +120,9 @@ class Task:
         assert self.status != Status.RUNNING
 
         self._status = Status.PREFILL
+        # 每次 prefill 清除旧 token 历史
+        with self.tokens_lock:
+            self._token_batches.clear()
         prompt = self.tokenize(prompt)
 
         assert len(prompt) >= 1 and all(isinstance(i, int) for i in prompt)
@@ -182,19 +185,34 @@ class Task:
 
     def collect(self, tokens: list[int]):
         with self.tokens_lock:
-            self._generated_tokens.extend(tokens)
+            self._token_batches.append(tokens)
         self.collect_callback(tokens)
 
+    def get_all_tokens(self) -> list[int]:
+        """获取当前所有已生成的 token（不清空）。"""
+        # 读取不需要锁（CPython GIL 保证 list.append 原子性）
+        all_tokens: list[int] = []
+        for batch in self._token_batches:
+            all_tokens.extend(batch)
+        return all_tokens
+
     def pop_tokens(self):
+        """兼容旧接口：获取并清空。"""
         with self.tokens_lock:
-            tokens = self._generated_tokens[:]
-            self._generated_tokens.clear()
-        return tokens
+            all_tokens: list[int] = []
+            for batch in self._token_batches:
+                all_tokens.extend(batch)
+            self._token_batches.clear()
+        return all_tokens
 
     def finish(self):
         self.cpu()
         self.finish_time = time.time()
-        self.finish_callback(self._generated_tokens)
+        # 传合并后的完整 token 列表给 finish_callback
+        all_tokens: list[int] = []
+        for batch in self._token_batches:
+            all_tokens.extend(batch)
+        self.finish_callback(all_tokens)
 
     @property
     def status(self) -> Status:
