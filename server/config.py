@@ -4,7 +4,7 @@ from pydantic import model_validator
 
 
 class Settings(BaseSettings):
-    model_path: str = "server/model/rwkv7-g1g-2.9b-20260526-ctx8192.pth"
+    model_path: str = "model/rwkv7-g1g-2.9b-20260526-ctx8192.pth"
 
     max_batch_size: int = 256
     buffer_size: int = 32

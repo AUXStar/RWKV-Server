@@ -9,13 +9,14 @@ from .....scheduler import BaseScheduler
 from .....task.manager import get_task_manager
 from .....task.task import Task, Status
 from .....utils import finish_callback, stream_callback
-from ....dependencies import get_scheduler
+from ....dependencies import get_scheduler, get_task
 from .schemas import (
     TaskResponseModel,
     TaskCreate,
     TaskUpdate,
     FIMRequest,
     DataFrame,
+    TaskInfo,
 )
 
 router = APIRouter(prefix="/tasks", tags=["rwkv"])
@@ -109,12 +110,9 @@ async def create(task_id:str, data: TaskCreate, scheduler: BaseScheduler):
 @router.get("/{task_id}/get_result", response_model=TaskResponseModel)
 async def get_result(
     task_id: str,
+    task: Task = Depends(get_task),
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
-    task = task_manager.get_task(task_id)
-    if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
-
     toks = task.pop_tokens()
     result = task.model_loader.decode(toks)
     return TaskResponseModel(
@@ -132,12 +130,9 @@ async def fork(
     task_id: str,
     data: TaskUpdate,
     tmp: bool = False,
+    source_task: Task = Depends(get_task), # check exist
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
-    source_task = task_manager.get_task(task_id)
-    if not source_task:
-        raise HTTPException(status_code=404, detail="Source task not found")
-
     new_task_id = task_manager.fork_template(task_id, gen_id(tmp))
     return await continue_task(new_task_id, data, scheduler)
 
@@ -146,12 +141,9 @@ async def fork(
 async def continue_task(
     task_id: str,
     data: TaskUpdate,
+    task: Task = Depends(get_task),
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
-    task = task_manager.get_task(task_id)
-    if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
-
     if data.prompt is not None:
         task.prefill(data.prompt)
 
@@ -194,13 +186,13 @@ async def continue_task(
 
 
 @router.post("/{task_id}/stop")
-async def stop(task_id: str):
-    task = task_manager.get_task(task_id)
-    if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+async def stop(
+    task_id: str,
+    task: Task = Depends(get_task)):
+    
     if task.status != Status.FINISHED:
         task.stop()
-    return {"stopped": task.status == Status.FINISHED}
+    return task.info()
 
 
 @router.post("/{task_id}/as_template", response_model=TaskResponseModel)
@@ -225,10 +217,7 @@ async def convert_to_template(task_id: str):
 
 
 @router.post("/{task_id}/delete")
-async def delete(task_id: str, force: bool = False):
-    task = task_manager.get_task(task_id)
-    if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+async def delete(task_id: str, task: Task = Depends(get_task),force: bool = False):
     if not force and task.task_id.startswith("_"):
         raise HTTPException(
             status_code=403, detail="Cannot delete template without force=true"
@@ -236,7 +225,11 @@ async def delete(task_id: str, force: bool = False):
     if task.status != Status.FINISHED:
         task.stop()
     task_manager.delete_task_from_any_level(task_id, force=force)
-    return {"deleted": True}
+    return task.info()
+
+@router.get("/{task_id}/status",response_model=TaskInfo)
+async def status(task: Task = Depends(get_task)):
+    return task.info()
 
 
 @router.get("/list")

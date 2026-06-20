@@ -70,6 +70,13 @@ class Task:
         self.prefill(prompt)
         self.cpu()
 
+    def info(self):
+        return dict(
+            task_id = self.task_id,
+            generated_buf = len(self._generated_tokens),
+            status = self.status,
+        )
+
     def __getstate__(self):
         state = {
             "task_id": self.task_id,

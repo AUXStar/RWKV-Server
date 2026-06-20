@@ -2,6 +2,7 @@ import time
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from .....task import Status
 from .....config import settings
 
 class TaskResponseModel(BaseModel):
@@ -202,3 +203,8 @@ class DataFrame(BaseModel):
     speed: float = Field(description="生成速度（token/秒）")
 
     model_config = ConfigDict(extra="forbid", strict=True)
+
+class TaskInfo(BaseModel):
+    task_id: str
+    generated_buf:int
+    status:Status

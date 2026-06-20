@@ -819,6 +819,31 @@ for r in results:
 
 ## 🚀 快速开始
 
+### Python SDK —— 优雅调用 RWKV 推理
+
+推荐使用官方 SDK，无需关心批量调度、状态管理、GPU 显存分配——只需创建一个 `Task`，RWKV-Server 会在后台自动完成一切。
+
+```bash
+pip install rwkv-api
+```
+
+```python
+from rwkv_api import Client
+
+client = Client("http://localhost:8000")
+
+# 创建任务并等待结果 —— 服务端自动批量调度
+task = client.create("Hello world", max_tokens=50)
+result = task.wait()
+print(result.result)
+
+# 实时流式输出
+for chunk in client.create_stream("Tell me a story", max_tokens=200):
+    print(chunk, end="", flush=True)
+```
+
+SDK 提供同步/异步双客户端、Task 对象生命周期管理、FIM 代码补全、异常处理等完整功能。详见 [RWKV-API SDK 文档](https://github.com/AUXStar/RWKV-API)。
+
 ### 环境要求
 
 - **Python** >= 3.13
