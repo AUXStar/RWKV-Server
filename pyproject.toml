@@ -1,7 +1,7 @@
 [project]
-name = "rwkv-agent"
+name = "RWKV-Server"
 version = "0.1.0"
-description = "Add your description here"
+description = "RWKV 线性注意力批量推理服务器 —— 用户无感自入队"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -9,17 +9,15 @@ dependencies = [
     "black>=26.3.1",
     "colorama>=0.4.6",
     "fastapi[all]>=0.136.1",
-    "flashinfer-python>=0.6.7",
     "locust>=2.44.1",
     "loguru>=0.7.3",
     "ninja>=1.13.0",
     "numpy>=2.4.3",
     "pydantic>=2.12.5",
-    "robyn>=0.82.1",
     "rwkv>=0.8.32",
-    "tabulate>=0.10.0",
     "torch",
     "torchvision",
+    "uvicorn>=0.46.0",
 ]
 
 [tool.uv.sources]

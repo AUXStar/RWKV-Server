@@ -682,6 +682,7 @@ loader.gen_state(batch_size=1)       # 生成初始 state（用于 fork 多个 t
 | `status` | `PREFILL` → `READY` → `RUNNING` → `FINISHED` |
 | `current_token` | 当前输入 token（prefill 后为 prompt 最后一个 token） |
 | `pop_tokens()` | 取出并清空已收集的生成 token |
+| `get_all_tokens()` | 取出已收集的生成 token，不清空 |
 | `decode(tokens)` | 将 token 列表解码为文本 |
 | `stop()` | 停止推理（外部中断） |
 | `continue_gen()` | 将已完成任务重置为 READY，继续生成 |
@@ -844,7 +845,7 @@ for chunk in client.create_stream("Tell me a story", max_tokens=200):
 
 SDK 提供同步/异步双客户端、Task 对象生命周期管理、FIM 代码补全、异常处理等完整功能。详见 [RWKV-API SDK 文档](https://github.com/AUXStar/RWKV-API)。
 
-**新增：对已创建任务订阅流式输出**
+**对已创建任务订阅流式输出**
 
 ```python
 from rwkv_api import Client
@@ -854,12 +855,12 @@ client = Client("http://localhost:8000")
 # 先创建任务（非流式）
 task = client.create("Hello", max_tokens=200)
 
-# 稍后订阅实时流式输出 —— 支持多消费者同时连接
+# 订阅实时流式输出，重连时传 pos 避免重复
 for chunk in task.stream():
     print(chunk, end="", flush=True)
 ```
 
-服务端支持多消费者广播，每个订阅者独立接收数据，不丢不重。
+轮询读取 `_generated_tokens`，不修改 task callback，支持多消费者独立读取。
 
 ### 环境要求
 

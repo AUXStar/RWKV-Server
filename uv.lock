@@ -141,29 +141,6 @@ wheels = [
 ]
 
 [[package]]
-name = "apache-tvm-ffi"
-version = "0.1.10"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/17/b0/5114e30faffe3279a51a5f3b45dd1b7ce09af1246b62447b45a39a374e54/apache_tvm_ffi-0.1.10.tar.gz", hash = "sha256:974c208766c304c780c17c6d405449e862f83b22c7b6b2b8c28b29d55a806ae3", size = 2691605, upload-time = "2026-04-07T19:58:51.767Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/1a/12/0ba672dba52f9ecc813ce7ff4ef4aa5a2c5f27243d26165f09053f057a76/apache_tvm_ffi-0.1.10-cp312-abi3-macosx_11_0_arm64.whl", hash = "sha256:52ed8fec82451c3af1e205f55500e5adc5eaa1913c82ce15b2064d305d7f880b", size = 2285850, upload-time = "2026-04-07T19:58:12.784Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3c/2a/1978a1c827e1212de4f369ec08cfeb44719bbe6cbeab90b15e967c68c108/apache_tvm_ffi-0.1.10-cp312-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:ec5c4a81e294e6379e4dea68c86266924d3f22829c3de272806c980238e43e59", size = 2476596, upload-time = "2026-04-07T19:58:14.316Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/50/6f/23740f06829030704e6f8f1f7093a06b7a68f904baa40053a5f594705bae/apache_tvm_ffi-0.1.10-cp312-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:73d478395a8625dd92fde7b7fd92b4719f18f480b78336e422cb66cc7985213d", size = 2589574, upload-time = "2026-04-07T19:58:15.94Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/92/d0/54badf5c8f6208e06f331a20ddd154f19c94c2e906da5b8cce7d60727d4b/apache_tvm_ffi-0.1.10-cp312-abi3-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:3829216a8500c2f61062e48c627f6db6c3fa49416b3ffa85bc04243ae5d759f7", size = 2396434, upload-time = "2026-04-07T19:58:17.519Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/51/f7/ca3fdadc2468e8b67a2f3f13bb7aa132c584feefd8a25dbf920e4bf0a03b/apache_tvm_ffi-0.1.10-cp312-abi3-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:96b69030c722572e13e30182733adfa2d604258e988b3f6630a16f397c7f9288", size = 2571084, upload-time = "2026-04-07T19:58:20.399Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/23/2d/bf899e1ba4ea1da6a55a04ad3e9c07338ee06a140862b05310bae9a00cf9/apache_tvm_ffi-0.1.10-cp312-abi3-win_amd64.whl", hash = "sha256:14e59f6f69881d37a25b03943cfac33317a06f6745df0ff2dfb3b0cd3ed3698f", size = 2261853, upload-time = "2026-04-07T19:58:21.772Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e6/ec/305fe5cc45d41a24d8d7236b886cacc2d6dd3c29eab68dc5cec06a9fd22c/apache_tvm_ffi-0.1.10-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:40c7caddf7b73cabf06f814e8d1bdef0f9bd5676bf7563546dd61f14df9e656d", size = 2344135, upload-time = "2026-04-07T19:58:23.512Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2e/5d/b1661512164772fc9ef1642234bf117182b440fc0a0b2ca8bd829fe7b40e/apache_tvm_ffi-0.1.10-cp314-cp314t-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:32b9f4a44c09fcdd0994ee3c4415bf0371d68ea35a46da94ddcc666c9a6cf677", size = 2508518, upload-time = "2026-04-07T19:58:25.3Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/d2/57/7266807b34344b9d8e4d776ebff38fd25f93a73e8c24bc595a67b6b69b3c/apache_tvm_ffi-0.1.10-cp314-cp314t-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:c9b93dc7fdc99d4cc44e9ac95063073b4fb8ced94929197ea3d631b70f554d8a", size = 2617108, upload-time = "2026-04-07T19:58:26.888Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/96/c3/a152ed68f57a491baaf70819224b98643309c7488fdcbc6fa3c84ebb9ca8/apache_tvm_ffi-0.1.10-cp314-cp314t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:74724db54dfb825951e2deb3d2024b2c1867bff456db81512e475f9ccdd9b86b", size = 2432434, upload-time = "2026-04-07T19:58:28.681Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c4/09/5e2877c635edc8ac83caa106a6e78bd4816cbc2e52e1daea652c1fe956cf/apache_tvm_ffi-0.1.10-cp314-cp314t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ac03c04145d9c248992e6f2ec2392a6914966a416eeeeaa729393f40b047be42", size = 2602517, upload-time = "2026-04-07T19:58:30.35Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/81/50/900d55d8c3ca5a3fcdcef3a6d999f316d01f9e45e5297c444a2940eff5d2/apache_tvm_ffi-0.1.10-cp314-cp314t-win_amd64.whl", hash = "sha256:25d9130788f9b4563330122503b21e6c0ed37198f1552df36c1561b3704f1b2f", size = 2370990, upload-time = "2026-04-07T19:58:31.855Z" },
-]
-
-[[package]]
 name = "attrs"
 version = "26.1.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -391,18 +368,15 @@ name = "cuda-bindings"
 version = "13.2.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 dependencies = [
-    { name = "cuda-pathfinder" },
+    { name = "cuda-pathfinder", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
 ]
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/df/93/eef988860a3ca985f82c4f3174fc0cdd94e07331ba9a92e8e064c260337f/cuda_bindings-13.2.0-cp313-cp313-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:6629ca2df6f795b784752409bcaedbd22a7a651b74b56a165ebc0c9dcbd504d0", size = 5614610, upload-time = "2026-03-11T00:12:50.337Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/18/23/6db3aba46864aee357ab2415135b3fe3da7e9f1fa0221fa2a86a5968099c/cuda_bindings-13.2.0-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:7dca0da053d3b4cc4869eff49c61c03f3c5dbaa0bcd712317a358d5b8f3f385d", size = 6149914, upload-time = "2026-03-11T00:12:52.374Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c4/84/d3b6220b51cbc02ca14db7387e97445126b4ff5125aaa6c5dd7dcb75e679/cuda_bindings-13.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:8cebe3ce4aeeca5af9c490e175f76c4b569bbf4a35a62294b777bc77bf7ac4d8", size = 5796512, upload-time = "2026-03-11T00:12:54.483Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c0/87/87a014f045b77c6de5c8527b0757fe644417b184e5367db977236a141602/cuda_bindings-13.2.0-cp314-cp314-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:a6464b30f46692d6c7f65d4a0e0450d81dd29de3afc1bb515653973d01c2cd6e", size = 5685673, upload-time = "2026-03-11T00:12:56.371Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ee/5e/c0fe77a73aaefd3fff25ffaccaac69c5a63eafdf8b9a4c476626ef0ac703/cuda_bindings-13.2.0-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f4af9f3e1be603fa12d5ad6cfca7844c9d230befa9792b5abdf7dd79979c3626", size = 6191386, upload-time = "2026-03-11T00:12:58.965Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e3/73/98bcb069778fe420226db75aff54b5dd6c3ecfd0912edabab723326e80b7/cuda_bindings-13.2.0-cp314-cp314-win_amd64.whl", hash = "sha256:bd658bb5c0e55b7b3e5dd0ed509c6addb298c665db26a9bfba35e1e626000ba2", size = 5938605, upload-time = "2026-03-11T00:13:01.639Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/5f/58/ed2c3b39c8dd5f96aa7a4abef0d47a73932c7a988e30f5fa428f00ed0da1/cuda_bindings-13.2.0-cp314-cp314t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:df850a1ff8ce1b3385257b08e47b70e959932f5f432d0a4e46a355962b4e4771", size = 5507469, upload-time = "2026-03-11T00:13:04.063Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/1f/01/0c941b112ceeb21439b05895eace78ca1aa2eaaf695c8521a068fd9b4c00/cuda_bindings-13.2.0-cp314-cp314t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e8a16384c6494e5485f39314b0b4afb04bee48d49edb16d5d8593fd35bbd231b", size = 6059693, upload-time = "2026-03-11T00:13:06.003Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/52/49/4e01cc06447d39476e138d1b1adec8d35c0d04eccd2c8d69befc08cd66e8/cuda_bindings-13.2.0-cp314-cp314t-win_amd64.whl", hash = "sha256:6ccf14e0c1def3b7200100aafff3a9f7e210ecb6e409329e92dcf6cd2c00d5c7", size = 6662637, upload-time = "2026-03-11T00:13:07.881Z" },
 ]
 
 [[package]]
@@ -411,31 +385,6 @@ version = "1.5.3"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/d3/d6/ac63065d33dd700fee7ebd7d287332401b54e31b9346e142f871e1f0b116/cuda_pathfinder-1.5.3-py3-none-any.whl", hash = "sha256:dff021123aedbb4117cc7ec81717bbfe198fb4e8b5f1ee57e0e084fec5c8577d", size = 49991, upload-time = "2026-04-14T20:09:27.037Z" },
-]
-
-[[package]]
-name = "cuda-python"
-version = "13.2.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "cuda-bindings" },
-    { name = "cuda-pathfinder" },
-]
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/4a/da/b4dbe129f941afe1c24a09ba53521b78875626763d96414798a74763282f/cuda_python-13.2.0-py3-none-any.whl", hash = "sha256:2f092b0ec13a860115fa595411889ee939ad203450ea4f91e9461b174ea7b084", size = 8145, upload-time = "2026-03-11T13:55:19.143Z" },
-]
-
-[[package]]
-name = "cuda-tile"
-version = "1.2.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/f0/1c/2039585d2cef99ce9e863fcf5dc96847b4c193e3c6962cfb25385c9edcfe/cuda_tile-1.2.0-cp313-cp313-manylinux2014_aarch64.whl", hash = "sha256:11eda902e27a6763fc35d69937c237cf88848f91f360b0b420c4ff4e9bddf9fb", size = 207845, upload-time = "2026-03-09T19:05:54.085Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/06/df/e87db07ed37e9931e5ebfb7f95496a5cc17b7f94ea16f13ad0f97ed107b5/cuda_tile-1.2.0-cp313-cp313-manylinux2014_x86_64.whl", hash = "sha256:1fe9efd6567062b10b89dd5611c524bdd2bcf57ac97d0f4c1aabd981eddc5dff", size = 209151, upload-time = "2026-03-09T19:05:37.084Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e9/f8/7ba62912cfd0d072c6bb0fdff2e87b14d62c18a48d3c222ad0d4641e5c43/cuda_tile-1.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:1fa83534190b4c8f6d7f94cad886dba2b3f10151bbd5f6773df5b0b16b05f666", size = 203408, upload-time = "2026-03-09T19:06:10.696Z" },
 ]
 
 [[package]]
@@ -482,30 +431,12 @@ nvtx = [
 ]
 
 [[package]]
-name = "dill"
-version = "0.4.1"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/81/e1/56027a71e31b02ddc53c7d65b01e68edf64dea2932122fe7746a516f75d5/dill-0.4.1.tar.gz", hash = "sha256:423092df4182177d4d8ba8290c8a5b640c66ab35ec7da59ccfa00f6fa3eea5fa", size = 187315, upload-time = "2026-01-19T02:36:56.85Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/1e/77/dc8c558f7593132cf8fefec57c4f60c83b16941c574ac5f619abb3ae7933/dill-0.4.1-py3-none-any.whl", hash = "sha256:1e1ce33e978ae97fcfcff5638477032b801c46c7c65cf717f95fbc2248f79a9d", size = 120019, upload-time = "2026-01-19T02:36:55.663Z" },
-]
-
-[[package]]
 name = "dnspython"
 version = "2.8.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8c/8b/57666417c0f90f08bcafa776861060426765fdb422eb10212086fb811d26/dnspython-2.8.0.tar.gz", hash = "sha256:181d3c6996452cb1189c4046c61599b84a5a86e099562ffde77d26984ff26d0f", size = 368251, upload-time = "2025-09-07T18:58:00.022Z" }
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ba/5a/18ad964b0086c6e62e2e7500f7edc89e3faa45033c71c1893d34eed2b2de/dnspython-2.8.0-py3-none-any.whl", hash = "sha256:01d9bbc4a2d76bf0db7c1f729812ded6d912bd318d3b1cf81d30c0f845dbf3af", size = 331094, upload-time = "2025-09-07T18:57:58.071Z" },
-]
-
-[[package]]
-name = "einops"
-version = "0.8.2"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2c/77/850bef8d72ffb9219f0b1aac23fbc1bf7d038ee6ea666f331fa273031aa2/einops-0.8.2.tar.gz", hash = "sha256:609da665570e5e265e27283aab09e7f279ade90c4f01bcfca111f3d3e13f2827", size = 56261, upload-time = "2026-01-26T04:13:17.638Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2a/09/f8d8f8f31e4483c10a906437b4ce31bdf3d6d417b73fe33f1a8b59e34228/einops-0.8.2-py3-none-any.whl", hash = "sha256:54058201ac7087911181bfec4af6091bb59380360f069276601256a76af08193", size = 65638, upload-time = "2026-01-26T04:13:18.546Z" },
 ]
 
 [[package]]
@@ -653,32 +584,6 @@ source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/d6/17/6e8890271880903e3538660a21d63a6c1fea969ac71d0d6b608b78727fa9/filelock-3.28.0.tar.gz", hash = "sha256:4ed1010aae813c4ee8d9c660e4792475ee60c4a0ba76073ceaf862bd317e3ca6", size = 56474, upload-time = "2026-04-14T22:54:33.625Z" }
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3b/21/2f728888c45033d34a417bfcd248ea2564c9e08ab1bfd301377cf05d5586/filelock-3.28.0-py3-none-any.whl", hash = "sha256:de9af6712788e7171df1b28b15eba2446c69721433fa427a9bee07b17820a9db", size = 39189, upload-time = "2026-04-14T22:54:32.037Z" },
-]
-
-[[package]]
-name = "flashinfer-python"
-version = "0.6.8"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "apache-tvm-ffi" },
-    { name = "click" },
-    { name = "cuda-tile" },
-    { name = "einops" },
-    { name = "ninja" },
-    { name = "numpy" },
-    { name = "nvidia-cudnn-frontend" },
-    { name = "nvidia-cutlass-dsl" },
-    { name = "nvidia-ml-py" },
-    { name = "packaging" },
-    { name = "requests" },
-    { name = "tabulate" },
-    { name = "torch", version = "2.11.0", source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }, marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
-    { name = "torch", version = "2.11.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-    { name = "tqdm" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/7e/14/869ae016b4249db0b312203e4ba19b86406ce98417abf80fd2003af0a1a7/flashinfer_python-0.6.8.tar.gz", hash = "sha256:37b320efa00d8bf14a13f3a3bbc529faad171c47daa18bf381c892bee306d974", size = 6672179, upload-time = "2026-04-16T04:05:39.046Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/9e/f8/54f8764748f1ba7d45a1915a1a51ad08f63b68a2f2141e399bdb0379d146/flashinfer_python-0.6.8-py3-none-any.whl", hash = "sha256:e96d09b810cedd5f26a6764fface84b0d39dc60cbcc6167dc61bde3e949b3ed0", size = 9385224, upload-time = "2026-04-16T04:05:35.904Z" },
 ]
 
 [[package]]
@@ -1070,19 +975,6 @@ wheels = [
 ]
 
 [[package]]
-name = "inquirerpy"
-version = "0.3.4"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "pfzy" },
-    { name = "prompt-toolkit" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/64/73/7570847b9da026e07053da3bbe2ac7ea6cde6bb2cbd3c7a5a950fa0ae40b/InquirerPy-0.3.4.tar.gz", hash = "sha256:89d2ada0111f337483cb41ae31073108b2ec1e618a49d7110b0d7ade89fc197e", size = 44431, upload-time = "2022-06-27T23:11:20.598Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ce/ff/3b59672c47c6284e8005b42e84ceba13864aa0f39f067c973d1af02f5d91/InquirerPy-0.3.4-py3-none-any.whl", hash = "sha256:c65fdfbac1fa00e3ee4fb10679f4d3ed7a012abf4833910e63c295827fe2a7d4", size = 67677, upload-time = "2022-06-27T23:11:17.723Z" },
-]
-
-[[package]]
 name = "itsdangerous"
 version = "2.2.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -1341,23 +1233,6 @@ wheels = [
 ]
 
 [[package]]
-name = "multiprocess"
-version = "0.70.19"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "dill" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a2/f2/e783ac7f2aeeed14e9e12801f22529cc7e6b7ab80928d6dcce4e9f00922d/multiprocess-0.70.19.tar.gz", hash = "sha256:952021e0e6c55a4a9fe4cd787895b86e239a40e76802a789d6305398d3975897", size = 2079989, upload-time = "2026-01-19T06:47:39.744Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e3/45/8004d1e6b9185c1a444d6b55ac5682acf9d98035e54386d967366035a03a/multiprocess-0.70.19-py310-none-any.whl", hash = "sha256:97404393419dcb2a8385910864eedf47a3cadf82c66345b44f036420eb0b5d87", size = 134948, upload-time = "2026-01-19T06:47:32.325Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/86/c2/dec9722dc3474c164a0b6bcd9a7ed7da542c98af8cabce05374abab35edd/multiprocess-0.70.19-py311-none-any.whl", hash = "sha256:928851ae7973aea4ce0eaf330bbdafb2e01398a91518d5c8818802845564f45c", size = 144457, upload-time = "2026-01-19T06:47:33.711Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/71/70/38998b950a97ea279e6bd657575d22d1a2047256caf707d9a10fbce4f065/multiprocess-0.70.19-py312-none-any.whl", hash = "sha256:3a56c0e85dd5025161bac5ce138dcac1e49174c7d8e74596537e729fd5c53c28", size = 150281, upload-time = "2026-01-19T06:47:35.037Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/7f/74/d2c27e03cb84251dfe7249b8e82923643c6d48fa4883b9476b025e7dc7eb/multiprocess-0.70.19-py313-none-any.whl", hash = "sha256:8d5eb4ec5017ba2fab4e34a747c6d2c2b6fecfe9e7236e77988db91580ada952", size = 156414, upload-time = "2026-01-19T06:47:35.915Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a0/61/af9115673a5870fd885247e2f1b68c4f1197737da315b520a91c757a861a/multiprocess-0.70.19-py314-none-any.whl", hash = "sha256:e8cc7fbdff15c0613f0a1f1f8744bef961b0a164c0ca29bdff53e9d2d93c5e5f", size = 160318, upload-time = "2026-01-19T06:47:37.497Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/7e/82/69e539c4c2027f1e1697e09aaa2449243085a0edf81ae2c6341e84d769b6/multiprocess-0.70.19-py39-none-any.whl", hash = "sha256:0d4b4397ed669d371c81dcd1ef33fd384a44d6c3de1bd0ca7ac06d837720d3c5", size = 133477, upload-time = "2026-01-19T06:47:38.619Z" },
-]
-
-[[package]]
 name = "mypy-extensions"
 version = "1.1.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -1500,19 +1375,6 @@ wheels = [
 ]
 
 [[package]]
-name = "nvidia-cudnn-frontend"
-version = "1.22.1"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/29/d3/d698b020ced27b75f1e29862f0bc26759da96fc743570a094632c0dd14a9/nvidia_cudnn_frontend-1.22.1-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:1bc0a0ec8004998a56f222cef618243bbee779930cdf3fe1f4a7604b2b412388", size = 2722225, upload-time = "2026-04-10T17:34:42.315Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2b/04/b7b66e3a0a7b036aca0f9704b335e663609359d0e3bdd7097f6d5ccdb40a/nvidia_cudnn_frontend-1.22.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:b5295f8018cd92119968d948d25b0d2d834afd552627b47450759880dfe32110", size = 2863434, upload-time = "2026-04-10T17:29:55.721Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/54/8c/e9da7bbdf197397d13bb418027951e6181d0bb74c70c648fd97376bc2ed7/nvidia_cudnn_frontend-1.22.1-cp313-cp313-win_amd64.whl", hash = "sha256:7ea7887facf23d5363159073b0080cc09185e73be16ae797831d89f09b96b0f4", size = 2310490, upload-time = "2026-04-10T17:37:47.625Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/6b/5b/951432f82d0226cba869c600dbbf892af9eb5e867b9d40839d0e6c6c3a9c/nvidia_cudnn_frontend-1.22.1-cp314-cp314-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:aecf48a08520002a92d8be8a7191cf8c674a87373823678f54a25305bb35e841", size = 2723269, upload-time = "2026-04-10T17:35:31.507Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3d/ef/dea590a9e1b7bed616274a14ec688a3555266f8b01c73d9f6ad47ca136de/nvidia_cudnn_frontend-1.22.1-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:fb83a3c0419e8258abebf4dbc44a68ad02bc1d63c932479b9644525beecea6b0", size = 2864429, upload-time = "2026-04-10T17:30:37.55Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/36/c7/74e38e48e11b1fd18e934edaa2e45bffc9af349d819f56283c24f576ed26/nvidia_cudnn_frontend-1.22.1-cp314-cp314-win_amd64.whl", hash = "sha256:7a3c3e60b7be3777323426bf7334755ea99c87ffcf4c92bc7ba36c3248393f39", size = 2311675, upload-time = "2026-04-10T17:38:09.635Z" },
-]
-
-[[package]]
 name = "nvidia-cufft"
 version = "12.0.0.61"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -1578,42 +1440,6 @@ wheels = [
 ]
 
 [[package]]
-name = "nvidia-cutlass-dsl"
-version = "4.4.2"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "nvidia-cutlass-dsl-libs-base" },
-]
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a9/03/678dab0383db1ddfc449da216220f40404189eb36eeed9d87a4fa4bdb0e6/nvidia_cutlass_dsl-4.4.2-py3-none-any.whl", hash = "sha256:7cfb9ef19062b055b9372c7a627004724e2755e4c8b16c3cc88807d64501a4ae", size = 10167, upload-time = "2026-03-16T02:18:59.043Z" },
-]
-
-[[package]]
-name = "nvidia-cutlass-dsl-libs-base"
-version = "4.4.2"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "cuda-python" },
-    { name = "numpy" },
-    { name = "typing-extensions" },
-]
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/1b/c9/2f17950ee2deb4b5f6b82f8155515a21792fe296e81bb638f164d8e2ca9b/nvidia_cutlass_dsl_libs_base-4.4.2-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:b59a052cbfb9a25747d1b6d413615456bea38d1f377da085af07c0d86a4c8b39", size = 75477304, upload-time = "2026-03-16T02:27:35.645Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e1/68/27380038ebd9c8eab4be364e833fea144aef597704f44948921668f7adf4/nvidia_cutlass_dsl_libs_base-4.4.2-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:8e3324a33afa7424e93beae7e54a311e80db82b9e4ed4bba2aeeda1d6c888cd9", size = 74355765, upload-time = "2026-03-16T02:24:16.778Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/12/44/0dc7f2e5b5c65106a5bb05e60654f1a79abe92e27e9b00588a73cd26ca1f/nvidia_cutlass_dsl_libs_base-4.4.2-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:af96c1170569138b3cb965202907fbf5ab95d7c1dcc210952d00cdf9ab7b859a", size = 75472171, upload-time = "2026-03-16T02:28:03.136Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/4b/ae/0998f328b28b956d7eb399d16f4ee681ca318b306007264444a623e86c64/nvidia_cutlass_dsl_libs_base-4.4.2-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:95db0c8d1d56992e2f5c2dcd5b3baab0297bedc0cbcefc1e70b57acd934e7b23", size = 74356280, upload-time = "2026-03-16T02:25:43.789Z" },
-]
-
-[[package]]
-name = "nvidia-ml-py"
-version = "13.595.45"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ce/49/c29f6e30d8662d2e94fef17739ea7309cc76aba269922ae999e4cc07f268/nvidia_ml_py-13.595.45.tar.gz", hash = "sha256:c9f34897fe0441ff35bc8f35baf80f830a20b0f4e6ce71e0a325bc0e66acf079", size = 50780, upload-time = "2026-03-19T16:59:44.956Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8a/24/fc256107d23597fa33d319505ce77160fa1a2349c096d01901ffc7cb7fc4/nvidia_ml_py-13.595.45-py3-none-any.whl", hash = "sha256:b65a7977f503d56154b14d683710125ef93594adb63fbf7e559336e3318f1376", size = 51776, upload-time = "2026-03-19T16:59:43.603Z" },
-]
-
-[[package]]
 name = "nvidia-nccl-cu13"
 version = "2.28.9"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -1650,44 +1476,6 @@ wheels = [
 ]
 
 [[package]]
-name = "orjson"
-version = "3.11.8"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/9d/1b/2024d06792d0779f9dbc51531b61c24f76c75b9f4ce05e6f3377a1814cea/orjson-3.11.8.tar.gz", hash = "sha256:96163d9cdc5a202703e9ad1b9ae757d5f0ca62f4fa0cc93d1f27b0e180cc404e", size = 5603832, upload-time = "2026-03-31T16:16:27.878Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/66/7f/95fba509bb2305fab0073558f1e8c3a2ec4b2afe58ed9fcb7d3b8beafe94/orjson-3.11.8-cp313-cp313-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:3f23426851d98478c8970da5991f84784a76682213cd50eb73a1da56b95239dc", size = 229180, upload-time = "2026-03-31T16:15:36.426Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/f6/9d/b237215c743ca073697d759b5503abd2cb8a0d7b9c9e21f524bcf176ab66/orjson-3.11.8-cp313-cp313-macosx_15_0_arm64.whl", hash = "sha256:ebaed4cef74a045b83e23537b52ef19a367c7e3f536751e355a2a394f8648559", size = 128754, upload-time = "2026-03-31T16:15:38.049Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/42/3d/27d65b6d11e63f133781425f132807aef793ed25075fec686fc8e46dd528/orjson-3.11.8-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:97c8f5d3b62380b70c36ffacb2a356b7c6becec86099b177f73851ba095ef623", size = 131877, upload-time = "2026-03-31T16:15:39.484Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/dd/cc/faee30cd8f00421999e40ef0eba7332e3a625ce91a58200a2f52c7fef235/orjson-3.11.8-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:436c4922968a619fb7fef1ccd4b8b3a76c13b67d607073914d675026e911a65c", size = 130361, upload-time = "2026-03-31T16:15:41.274Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/5c/bb/a6c55896197f97b6d4b4e7c7fd77e7235517c34f5d6ad5aadd43c54c6d7c/orjson-3.11.8-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:1ab359aff0436d80bfe8a23b46b5fea69f1e18aaf1760a709b4787f1318b317f", size = 135521, upload-time = "2026-03-31T16:15:42.758Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/9c/7c/ca3a3525aa32ff636ebb1778e77e3587b016ab2edb1b618b36ba96f8f2c0/orjson-3.11.8-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:f89b6d0b3a8d81e1929d3ab3d92bbc225688bd80a770c49432543928fe09ac55", size = 146862, upload-time = "2026-03-31T16:15:44.341Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3c/0c/18a9d7f18b5edd37344d1fd5be17e94dc652c67826ab749c6e5948a78112/orjson-3.11.8-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:29c009e7a2ca9ad0ed1376ce20dd692146a5d9fe4310848904b6b4fee5c5c137", size = 132847, upload-time = "2026-03-31T16:15:46.368Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/23/91/7e722f352ad67ca573cee44de2a58fb810d0f4eb4e33276c6a557979fd8a/orjson-3.11.8-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:705b895b781b3e395c067129d8551655642dfe9437273211d5404e87ac752b53", size = 133637, upload-time = "2026-03-31T16:15:48.123Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/af/04/32845ce13ac5bd1046ddb02ac9432ba856cc35f6d74dde95864fe0ad5523/orjson-3.11.8-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:88006eda83858a9fdf73985ce3804e885c2befb2f506c9a3723cdeb5a2880e3e", size = 141906, upload-time = "2026-03-31T16:15:49.626Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/02/5e/c551387ddf2d7106d9039369862245c85738b828844d13b99ccb8d61fd06/orjson-3.11.8-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:55120759e61309af7fcf9e961c6f6af3dde5921cdb3ee863ef63fd9db126cae6", size = 423722, upload-time = "2026-03-31T16:15:51.176Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/00/a3/ecfe62434096f8a794d4976728cb59bcfc4a643977f21c2040545d37eb4c/orjson-3.11.8-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:98bdc6cb889d19bed01de46e67574a2eab61f5cc6b768ed50e8ac68e9d6ffab6", size = 147801, upload-time = "2026-03-31T16:15:52.939Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/18/6d/0dce10b9f6643fdc59d99333871a38fa5a769d8e2fc34a18e5d2bfdee900/orjson-3.11.8-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:708c95f925a43ab9f34625e45dcdadf09ec8a6e7b664a938f2f8d5650f6c090b", size = 136460, upload-time = "2026-03-31T16:15:54.431Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/01/d6/6dde4f31842d87099238f1f07b459d24edc1a774d20687187443ab044191/orjson-3.11.8-cp313-cp313-win32.whl", hash = "sha256:01c4e5a6695dc09098f2e6468a251bc4671c50922d4d745aff1a0a33a0cf5b8d", size = 131956, upload-time = "2026-03-31T16:15:56.081Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c1/f9/4e494a56e013db957fb77186b818b916d4695b8fa2aa612364974160e91b/orjson-3.11.8-cp313-cp313-win_amd64.whl", hash = "sha256:c154a35dd1330707450bb4d4e7dd1f17fa6f42267a40c1e8a1daa5e13719b4b8", size = 127410, upload-time = "2026-03-31T16:15:57.54Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/57/7f/803203d00d6edb6e9e7eef421d4e1adbb5ea973e40b3533f3cfd9aeb374e/orjson-3.11.8-cp313-cp313-win_arm64.whl", hash = "sha256:4861bde57f4d253ab041e374f44023460e60e71efaa121f3c5f0ed457c3a701e", size = 127338, upload-time = "2026-03-31T16:15:59.106Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/6d/35/b01910c3d6b85dc882442afe5060cbf719c7d1fc85749294beda23d17873/orjson-3.11.8-cp314-cp314-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:ec795530a73c269a55130498842aaa762e4a939f6ce481a7e986eeaa790e9da4", size = 229171, upload-time = "2026-03-31T16:16:00.651Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c2/56/c9ec97bd11240abef39b9e5d99a15462809c45f677420fd148a6c5e6295e/orjson-3.11.8-cp314-cp314-macosx_15_0_arm64.whl", hash = "sha256:c492a0e011c0f9066e9ceaa896fbc5b068c54d365fea5f3444b697ee01bc8625", size = 128746, upload-time = "2026-03-31T16:16:02.673Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3b/e4/66d4f30a90de45e2f0cbd9623588e8ae71eef7679dbe2ae954ed6d66a41f/orjson-3.11.8-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:883206d55b1bd5f5679ad5e6ddd3d1a5e3cac5190482927fdb8c78fb699193b5", size = 131867, upload-time = "2026-03-31T16:16:04.342Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/19/30/2a645fc9286b928675e43fa2a3a16fb7b6764aa78cc719dc82141e00f30b/orjson-3.11.8-cp314-cp314-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:5774c1fdcc98b2259800b683b19599c133baeb11d60033e2095fd9d4667b82db", size = 124664, upload-time = "2026-03-31T16:16:05.837Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/db/44/77b9a86d84a28d52ba3316d77737f6514e17118119ade3f91b639e859029/orjson-3.11.8-cp314-cp314-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:8ac7381c83dd3d4a6347e6635950aa448f54e7b8406a27c7ecb4a37e9f1ae08b", size = 129701, upload-time = "2026-03-31T16:16:07.407Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/b3/ea/eff3d9bfe47e9bc6969c9181c58d9f71237f923f9c86a2d2f490cd898c82/orjson-3.11.8-cp314-cp314-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:14439063aebcb92401c11afc68ee4e407258d2752e62d748b6942dad20d2a70d", size = 141202, upload-time = "2026-03-31T16:16:09.48Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/52/c8/90d4b4c60c84d62068d0cf9e4d8f0a4e05e76971d133ac0c60d818d4db20/orjson-3.11.8-cp314-cp314-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:fa72e71977bff96567b0f500fc5bfd2fdf915f34052c782a4c6ebbdaa97aa858", size = 127194, upload-time = "2026-03-31T16:16:11.02Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8d/c7/ea9e08d1f0ba981adffb629811148b44774d935171e7b3d780ae43c4c254/orjson-3.11.8-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7679bc2f01bb0d219758f1a5f87bb7c8a81c0a186824a393b366876b4948e14f", size = 133639, upload-time = "2026-03-31T16:16:13.434Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/6c/8c/ddbbfd6ba59453c8fc7fe1d0e5983895864e264c37481b2a791db635f046/orjson-3.11.8-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:14f7b8fcb35ef403b42fa5ecfa4ed032332a91f3dc7368fbce4184d59e1eae0d", size = 141914, upload-time = "2026-03-31T16:16:14.955Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/4e/31/dbfbefec9df060d34ef4962cd0afcb6fa7a9ec65884cb78f04a7859526c3/orjson-3.11.8-cp314-cp314-musllinux_1_2_armv7l.whl", hash = "sha256:c2bdf7b2facc80b5e34f48a2d557727d5c5c57a8a450de122ae81fa26a81c1bc", size = 423800, upload-time = "2026-03-31T16:16:16.594Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/87/cf/f74e9ae9803d4ab46b163494adba636c6d7ea955af5cc23b8aaa94cfd528/orjson-3.11.8-cp314-cp314-musllinux_1_2_i686.whl", hash = "sha256:ccd7ba1b0605813a0715171d39ec4c314cb97a9c85893c2c5c0c3a3729df38bf", size = 147837, upload-time = "2026-03-31T16:16:18.585Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/64/e6/9214f017b5db85e84e68602792f742e5dc5249e963503d1b356bee611e01/orjson-3.11.8-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:cdbc8c9c02463fef4d3c53a9ba3336d05496ec8e1f1c53326a1e4acc11f5c600", size = 136441, upload-time = "2026-03-31T16:16:20.151Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/24/dd/3590348818f58f837a75fb969b04cdf187ae197e14d60b5e5a794a38b79d/orjson-3.11.8-cp314-cp314-win32.whl", hash = "sha256:0b57f67710a8cd459e4e54eb96d5f77f3624eba0c661ba19a525807e42eccade", size = 131983, upload-time = "2026-03-31T16:16:21.823Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3f/0f/b6cb692116e05d058f31ceee819c70f097fa9167c82f67fabe7516289abc/orjson-3.11.8-cp314-cp314-win_amd64.whl", hash = "sha256:735e2262363dcbe05c35e3a8869898022af78f89dde9e256924dc02e99fe69ca", size = 127396, upload-time = "2026-03-31T16:16:23.685Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c0/d1/facb5b5051fabb0ef9d26c6544d87ef19a939a9a001198655d0d891062dd/orjson-3.11.8-cp314-cp314-win_arm64.whl", hash = "sha256:6ccdea2c213cf9f3d9490cbd5d427693c870753df41e6cb375bd79bcbafc8817", size = 127330, upload-time = "2026-03-31T16:16:25.496Z" },
-]
-
-[[package]]
 name = "packaging"
 version = "26.1"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -1703,15 +1491,6 @@ source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/fa/36/e27608899f9b8d4dff0617b2d9ab17ca5608956ca44461ac14ac48b44015/pathspec-1.0.4.tar.gz", hash = "sha256:0210e2ae8a21a9137c0d470578cb0e595af87edaa6ebf12ff176f14a02e0e645", size = 131200, upload-time = "2026-01-27T03:59:46.938Z" }
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ef/3c/2c197d226f9ea224a9ab8d197933f9da0ae0aac5b6e0f884e2b8d9c8e9f7/pathspec-1.0.4-py3-none-any.whl", hash = "sha256:fb6ae2fd4e7c921a165808a552060e722767cfa526f99ca5156ed2ce45a5c723", size = 55206, upload-time = "2026-01-27T03:59:45.137Z" },
-]
-
-[[package]]
-name = "pfzy"
-version = "0.3.4"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/d9/5a/32b50c077c86bfccc7bed4881c5a2b823518f5450a30e639db5d3711952e/pfzy-0.3.4.tar.gz", hash = "sha256:717ea765dd10b63618e7298b2d98efd819e0b30cd5905c9707223dceeb94b3f1", size = 8396, upload-time = "2022-01-28T02:26:17.946Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8c/d7/8ff98376b1acc4503253b685ea09981697385ce344d4e3935c2af49e044d/pfzy-0.3.4-py3-none-any.whl", hash = "sha256:5f50d5b2b3207fa72e7ec0ef08372ef652685470974a107d0d4999fc5a903a96", size = 8537, upload-time = "2022-01-28T02:26:16.047Z" },
 ]
 
 [[package]]
@@ -1788,18 +1567,6 @@ source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
 sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
 wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
-]
-
-[[package]]
-name = "prompt-toolkit"
-version = "3.0.52"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "wcwidth" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a1/96/06e01a7b38dce6fe1db213e061a4602dd6032a8a97ef6c1a862537732421/prompt_toolkit-3.0.52.tar.gz", hash = "sha256:28cde192929c8e7321de85de1ddbe736f1375148b02f2e17edd840042b1be855", size = 434198, upload-time = "2025-08-27T15:24:02.057Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/84/03/0d3ce49e2505ae70cf43bc5bb3033955d2fc9f932163e84dc0779cc47f48/prompt_toolkit-3.0.52-py3-none-any.whl", hash = "sha256:9aac639a3bbd33284347de5ad8d68ecc044b91a762dc39b7c21095fcd6a19955", size = 391431, upload-time = "2025-08-27T15:23:59.498Z" },
 ]
 
 [[package]]
@@ -2320,47 +2087,6 @@ wheels = [
 ]
 
 [[package]]
-name = "robyn"
-version = "0.83.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "inquirerpy" },
-    { name = "multiprocess" },
-    { name = "orjson" },
-    { name = "rustimport" },
-    { name = "uvloop", marker = "platform_machine != 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'win32'" },
-    { name = "watchdog" },
-]
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a3/3c/657a041332fe7f293d19e4b8533ced2d1528c661eb377c8ebdbf00d3077f/robyn-0.83.0-cp313-cp313-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:297d5efb34baaf61f972787b8020c1c4da41ae8edbd2a4883b89d001592d1017", size = 3305202, upload-time = "2026-04-12T23:00:22.224Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8f/ff/dd02ad2efc4664680dcf3a1c1bd041212074c6f5827ce5095ca6bb72c421/robyn-0.83.0-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:932850eba15d3e9c739b37dbb8f2bcf8455ff2cf552cf0e9e9d50a9809bb6112", size = 1776193, upload-time = "2026-04-12T23:00:24.058Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/0d/ee/bc35dbdca7274628c10f5577427489619c5af2c2ba04b7bf386ab88e7e48/robyn-0.83.0-cp313-cp313-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:75ed29bb57fc1c3838073ef10d1876a1bec1da36aaca3d81eacbd3a549508e5f", size = 1904509, upload-time = "2026-04-12T23:00:25.623Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/20/95/863a113a498e10bd4c4bfec5d3c862420468ec6f851b24cdc5ef47a152dd/robyn-0.83.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4aa05aac0313a3728cb9a366793bd0a78a071ac32c7e53864bd7dc2182a4c0d2", size = 1807665, upload-time = "2026-04-12T23:00:27.017Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/3a/bf/71faa54c6d50b5be924c0118f7c238f60fd8c13d6c407dfa6f046418a4cd/robyn-0.83.0-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:4dd671ce83692dda0cc142565bd1639c43247db8d4f784f17a7b9016c0982c44", size = 1836802, upload-time = "2026-04-12T23:00:28.469Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/73/90/5335dff3e5b10180223f360a855f7d095977b0b1eb32e0ebbfff94574741/robyn-0.83.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:013885496b75b8a7449c1c2ab3f853205ed334185011080326193a0a566a265d", size = 1899396, upload-time = "2026-04-12T23:00:30.124Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/6d/8d/f12bdb957c9de1a0ec0cc66f19040f9c67829e763a5edb4f96aa8b47c652/robyn-0.83.0-cp313-cp313-win32.whl", hash = "sha256:824b6a57342fdb171848ef0ecba2ef1161b22365f6011a830c14386393af8335", size = 1650792, upload-time = "2026-04-12T23:00:31.751Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/5b/42/1e6ef9fd93b16e0ff682e85b7994038a94be157bcf5e713dffb4c1025065/robyn-0.83.0-cp313-cp313-win_amd64.whl", hash = "sha256:5a47268edd6eeab7d826564ebb7f017c1d31c2970938483312a6cbc8950cd2fe", size = 1730316, upload-time = "2026-04-12T23:00:33.595Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/78/cd/4ed1c681b28e5a1062776af45d100200527d962acf96f5d525a297ef3f94/robyn-0.83.0-cp314-cp314-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:40020ac21808dabd99e1273fb07296f79145274bb59593cf21096a44af78dfc2", size = 3308142, upload-time = "2026-04-12T23:00:35.104Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/96/34/cb4f66e969af532c7a71d7b38dd3e899eec05a15e6bfb48e93a9b2500d43/robyn-0.83.0-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:c6a7610b8ee10adc747877bea3027d83d27587eb2a959e2c331cc804d4b4793e", size = 1777744, upload-time = "2026-04-12T23:00:36.77Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a5/03/3da943ac6125b950ae697ba27fa7059109402f094432b8652530201e78c4/robyn-0.83.0-cp314-cp314-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:d228ec57a3880189e920999df88cdfca7250605d200a0d2146dc77dcd6108c00", size = 1905158, upload-time = "2026-04-12T23:00:38.06Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2d/bb/3394550bacd94d1d86bb5229b7e43e062d3f8116300715b251caf5430f90/robyn-0.83.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a4570d4c338a0be2fb3293aebb9a33db2171640a87bce7566e4ff168530439de", size = 1900821, upload-time = "2026-04-12T23:00:39.903Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/b3/ba/47ec680f704924f116fa75375ad4d5dfd74acdccf6a099bd100aa2a03f23/robyn-0.83.0-cp314-cp314-win32.whl", hash = "sha256:4f3e55a16722c56f99d1b59c0bfaecaab4ecb3a101bdee8af9b7016185884d83", size = 1653630, upload-time = "2026-04-12T23:00:41.621Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e8/44/bec69906bef745c07fa4699677e9d8d93b9b0a83cb5248cddb3ce579d559/robyn-0.83.0-cp314-cp314-win_amd64.whl", hash = "sha256:8c145bc8fc09548a9e6891c0c9cbade998801af814891e158a7777cd5d5ca666", size = 1733450, upload-time = "2026-04-12T23:00:43.381Z" },
-]
-
-[[package]]
-name = "rustimport"
-version = "1.3.4"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-dependencies = [
-    { name = "toml" },
-]
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/95/83/090f4be41dfbfd120a5fe0ed82b1857083bafe0928e876480d72a63e8bf3/rustimport-1.3.4.tar.gz", hash = "sha256:ba80e3c28af07ba3910ad395613d01f9e421bfb59fbb1ac050e2b5d9b78b4980", size = 28817, upload-time = "2023-07-13T14:52:23.479Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/5d/e6/376cc02c6ec2dd29de14225bd322ea742b0b864c05c62abe40208ce64ebd/rustimport-1.3.4-py3-none-any.whl", hash = "sha256:f2b931ff4e0fa931028066a7dacaae449b1a4601fe7a553c35f3dd63aba97ce0", size = 26341, upload-time = "2023-07-13T14:52:21.789Z" },
-]
-
-[[package]]
 name = "rwkv"
 version = "0.8.32"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -2373,7 +2099,7 @@ wheels = [
 ]
 
 [[package]]
-name = "rwkv-agent"
+name = "rwkv-server"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
@@ -2381,19 +2107,17 @@ dependencies = [
     { name = "black" },
     { name = "colorama" },
     { name = "fastapi", extra = ["all"] },
-    { name = "flashinfer-python" },
     { name = "locust" },
     { name = "loguru" },
     { name = "ninja" },
     { name = "numpy" },
     { name = "pydantic" },
-    { name = "robyn" },
     { name = "rwkv" },
-    { name = "tabulate" },
     { name = "torch", version = "2.11.0", source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }, marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
     { name = "torch", version = "2.11.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
     { name = "torchvision", version = "0.26.0", source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }, marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
     { name = "torchvision", version = "0.26.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -2407,19 +2131,17 @@ requires-dist = [
     { name = "black", specifier = ">=26.3.1" },
     { name = "colorama", specifier = ">=0.4.6" },
     { name = "fastapi", extras = ["all"], specifier = ">=0.136.1" },
-    { name = "flashinfer-python", specifier = ">=0.6.7" },
     { name = "locust", specifier = ">=2.44.1" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "ninja", specifier = ">=1.13.0" },
     { name = "numpy", specifier = ">=2.4.3" },
     { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "robyn", specifier = ">=0.82.1" },
     { name = "rwkv", specifier = ">=0.8.32" },
-    { name = "tabulate", specifier = ">=0.10.0" },
     { name = "torch", marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
     { name = "torch", marker = "sys_platform == 'linux' or sys_platform == 'win32'", index = "https://download.pytorch.org/whl/cu130" },
     { name = "torchvision", marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
     { name = "torchvision", marker = "sys_platform == 'linux' or sys_platform == 'win32'", index = "https://download.pytorch.org/whl/cu130" },
+    { name = "uvicorn", specifier = ">=0.46.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -2493,15 +2215,6 @@ wheels = [
 ]
 
 [[package]]
-name = "tabulate"
-version = "0.10.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/46/58/8c37dea7bbf769b20d58e7ace7e5edfe65b849442b00ffcdd56be88697c6/tabulate-0.10.0.tar.gz", hash = "sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d", size = 91754, upload-time = "2026-03-04T18:55:34.402Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/99/55/db07de81b5c630da5cbf5c7df646580ca26dfaefa593667fc6f2fe016d2e/tabulate-0.10.0-py3-none-any.whl", hash = "sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3", size = 39814, upload-time = "2026-03-04T18:55:31.284Z" },
-]
-
-[[package]]
 name = "tokenizers"
 version = "0.22.2"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -2525,15 +2238,6 @@ wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/fd/18/a545c4ea42af3df6effd7d13d250ba77a0a86fb20393143bbb9a92e434d4/tokenizers-0.22.2-cp39-abi3-win32.whl", hash = "sha256:a6bf3f88c554a2b653af81f3204491c818ae2ac6fbc09e76ef4773351292bc92", size = 2502363, upload-time = "2026-01-05T10:45:20.593Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/65/71/0670843133a43d43070abeb1949abfdef12a86d490bea9cd9e18e37c5ff7/tokenizers-0.22.2-cp39-abi3-win_amd64.whl", hash = "sha256:c9ea31edff2968b44a88f97d784c2f16dc0729b8b143ed004699ebca91f05c48", size = 2747786, upload-time = "2026-01-05T10:45:18.411Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/72/f4/0de46cfa12cdcbcd464cc59fde36912af405696f687e53a091fb432f694c/tokenizers-0.22.2-cp39-abi3-win_arm64.whl", hash = "sha256:9ce725d22864a1e965217204946f830c37876eee3b2ba6fc6255e8e903d5fcbc", size = 2612133, upload-time = "2026-01-05T10:45:17.232Z" },
-]
-
-[[package]]
-name = "toml"
-version = "0.10.2"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/be/ba/1f744cdc819428fc6b5084ec34d9b30660f6f9daaf70eead706e3203ec3c/toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f", size = 22253, upload-time = "2020-11-01T01:40:22.204Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b", size = 16588, upload-time = "2020-11-01T01:40:20.672Z" },
 ]
 
 [[package]]
@@ -2770,27 +2474,6 @@ wheels = [
 ]
 
 [[package]]
-name = "watchdog"
-version = "6.0.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/db/7d/7f3d619e951c88ed75c6037b246ddcf2d322812ee8ea189be89511721d54/watchdog-6.0.0.tar.gz", hash = "sha256:9ddf7c82fda3ae8e24decda1338ede66e1c99883db93711d8fb941eaa2d8c282", size = 131220, upload-time = "2024-11-01T14:07:13.037Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/68/98/b0345cabdce2041a01293ba483333582891a3bd5769b08eceb0d406056ef/watchdog-6.0.0-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:490ab2ef84f11129844c23fb14ecf30ef3d8a6abafd3754a6f75ca1e6654136c", size = 96480, upload-time = "2024-11-01T14:06:42.952Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/85/83/cdf13902c626b28eedef7ec4f10745c52aad8a8fe7eb04ed7b1f111ca20e/watchdog-6.0.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:76aae96b00ae814b181bb25b1b98076d5fc84e8a53cd8885a318b42b6d3a5134", size = 88451, upload-time = "2024-11-01T14:06:45.084Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/fe/c4/225c87bae08c8b9ec99030cd48ae9c4eca050a59bf5c2255853e18c87b50/watchdog-6.0.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:a175f755fc2279e0b7312c0035d52e27211a5bc39719dd529625b1930917345b", size = 89057, upload-time = "2024-11-01T14:06:47.324Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/a9/c7/ca4bf3e518cb57a686b2feb4f55a1892fd9a3dd13f470fca14e00f80ea36/watchdog-6.0.0-py3-none-manylinux2014_aarch64.whl", hash = "sha256:7607498efa04a3542ae3e05e64da8202e58159aa1fa4acddf7678d34a35d4f13", size = 79079, upload-time = "2024-11-01T14:06:59.472Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/5c/51/d46dc9332f9a647593c947b4b88e2381c8dfc0942d15b8edc0310fa4abb1/watchdog-6.0.0-py3-none-manylinux2014_armv7l.whl", hash = "sha256:9041567ee8953024c83343288ccc458fd0a2d811d6a0fd68c4c22609e3490379", size = 79078, upload-time = "2024-11-01T14:07:01.431Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/d4/57/04edbf5e169cd318d5f07b4766fee38e825d64b6913ca157ca32d1a42267/watchdog-6.0.0-py3-none-manylinux2014_i686.whl", hash = "sha256:82dc3e3143c7e38ec49d61af98d6558288c415eac98486a5c581726e0737c00e", size = 79076, upload-time = "2024-11-01T14:07:02.568Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/ab/cc/da8422b300e13cb187d2203f20b9253e91058aaf7db65b74142013478e66/watchdog-6.0.0-py3-none-manylinux2014_ppc64.whl", hash = "sha256:212ac9b8bf1161dc91bd09c048048a95ca3a4c4f5e5d4a7d1b1a7d5752a7f96f", size = 79077, upload-time = "2024-11-01T14:07:03.893Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/2c/3b/b8964e04ae1a025c44ba8e4291f86e97fac443bca31de8bd98d3263d2fcf/watchdog-6.0.0-py3-none-manylinux2014_ppc64le.whl", hash = "sha256:e3df4cbb9a450c6d49318f6d14f4bbc80d763fa587ba46ec86f99f9e6876bb26", size = 79078, upload-time = "2024-11-01T14:07:05.189Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/62/ae/a696eb424bedff7407801c257d4b1afda455fe40821a2be430e173660e81/watchdog-6.0.0-py3-none-manylinux2014_s390x.whl", hash = "sha256:2cce7cfc2008eb51feb6aab51251fd79b85d9894e98ba847408f662b3395ca3c", size = 79077, upload-time = "2024-11-01T14:07:06.376Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/b5/e8/dbf020b4d98251a9860752a094d09a65e1b436ad181faf929983f697048f/watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl", hash = "sha256:20ffe5b202af80ab4266dcd3e91aae72bf2da48c0d33bdb15c66658e685e94e2", size = 79078, upload-time = "2024-11-01T14:07:07.547Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/07/f6/d0e5b343768e8bcb4cda79f0f2f55051bf26177ecd5651f84c07567461cf/watchdog-6.0.0-py3-none-win32.whl", hash = "sha256:07df1fdd701c5d4c8e55ef6cf55b8f0120fe1aef7ef39a1c6fc6bc2e606d517a", size = 79065, upload-time = "2024-11-01T14:07:09.525Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/db/d9/c495884c6e548fce18a8f40568ff120bc3a4b7b99813081c8ac0c936fa64/watchdog-6.0.0-py3-none-win_amd64.whl", hash = "sha256:cbafb470cf848d93b5d013e2ecb245d4aa1c8fd0504e863ccefa32445359d680", size = 79070, upload-time = "2024-11-01T14:07:10.686Z" },
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/33/e8/e40370e6d74ddba47f002a32919d91310d6074130fe4e17dabcafc15cbf1/watchdog-6.0.0-py3-none-win_ia64.whl", hash = "sha256:a1914259fa9e1454315171103c6a30961236f508b9b623eae470268bbcc6a22f", size = 79067, upload-time = "2024-11-01T14:07:11.845Z" },
-]
-
-[[package]]
 name = "watchfiles"
 version = "1.1.1"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -2845,15 +2528,6 @@ wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/4f/55/2af26693fd15165c4ff7857e38330e1b61ab8c37d15dc79118cdba115b7a/watchfiles-1.1.1-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8c91ed27800188c2ae96d16e3149f199d62f86c7af5f5f4d2c61a3ed8cd3666c", size = 455072, upload-time = "2025-10-14T15:05:48.928Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/66/1d/d0d200b10c9311ec25d2273f8aad8c3ef7cc7ea11808022501811208a750/watchfiles-1.1.1-cp314-cp314t-musllinux_1_1_aarch64.whl", hash = "sha256:311ff15a0bae3714ffb603e6ba6dbfba4065ab60865d15a6ec544133bdb21099", size = 629104, upload-time = "2025-10-14T15:05:49.908Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e3/bd/fa9bb053192491b3867ba07d2343d9f2252e00811567d30ae8d0f78136fe/watchfiles-1.1.1-cp314-cp314t-musllinux_1_1_x86_64.whl", hash = "sha256:a916a2932da8f8ab582f242c065f5c81bed3462849ca79ee357dd9551b0e9b01", size = 622112, upload-time = "2025-10-14T15:05:50.941Z" },
-]
-
-[[package]]
-name = "wcwidth"
-version = "0.6.0"
-source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
-sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/35/a2/8e3becb46433538a38726c948d3399905a4c7cabd0df578ede5dc51f0ec2/wcwidth-0.6.0.tar.gz", hash = "sha256:cdc4e4262d6ef9a1a57e018384cbeb1208d8abbc64176027e2c2455c81313159", size = 159684, upload-time = "2026-02-06T19:19:40.919Z" }
-wheels = [
-    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/68/5a/199c59e0a824a3db2b89c5d2dade7ab5f9624dbf6448dc291b46d5ec94d3/wcwidth-0.6.0-py3-none-any.whl", hash = "sha256:1a3a1e510b553315f8e146c54764f4fb6264ffad731b3d78088cdb1478ffbdad", size = 94189, upload-time = "2026-02-06T19:19:39.646Z" },
 ]
 
 [[package]]

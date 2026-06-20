@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 import time
 import uuid
+import asyncio
 import json
 from typing import AsyncGenerator
 
@@ -84,6 +85,7 @@ async def create(task_id:str, data: TaskCreate, scheduler: BaseScheduler):
         finish_callback=finish,
     )
 
+    task.task_id = task_id
     task_manager.put_task(task_id, task)
 
     if not data.stream:
@@ -129,35 +131,41 @@ async def get_result(
 async def stream_task(
     task_id: str,
     task: Task = Depends(get_task),
-    scheduler: BaseScheduler = Depends(get_scheduler),
+    pos: int = 0,
 ):
-    """订阅 Task 的实时流式输出（支持多消费者同时连接）。
-
-    如果 Task 已完成，一次性返回完整结果。
-    如果 Task 还在运行，从当前位置开始流式。
-    """
-    # 已完成：直接返回结果
-    if task.status == Status.FINISHED:
-        toks = task.get_all_tokens()
-        result = task.model_loader.decode(toks)
-        yield f"data: {json.dumps({'task_id': task_id, 'prefill_time': task.prefill_time})}\n\n"
-        yield f"data: {json.dumps({'data': result, 'task_id': task_id, 'gen_time': max(0, task.finish_time - task.run_time), 'speed': scheduler.per_speed})}\n\n"
+    """订阅 Task 的实时流式输出（轮询模式）"""
+    async def poll():
+        p = pos
+        first = True
+        while True:
+            tokens = task._generated_tokens
+            if p < len(tokens):
+                batch = tokens[p:]
+                p = len(tokens)
+                text = task.model_loader.decode(batch)
+                if first:
+                    yield (
+                        'data: ' + json.dumps({'task_id': task_id, 'prefill_time': task.prefill_time}) + '\n\n'
+                    ).encode()
+                    first = False
+                yield (
+                    'data: ' + json.dumps({'data': text}) + '\n\n'
+                ).encode()
+            if task.status == Status.FINISHED:
+                break
+            await asyncio.sleep(0.1)
+        if p < len(task._generated_tokens):
+            text = task.model_loader.decode(task._generated_tokens[p:])
+            yield (
+                'data: ' + json.dumps({'data': text}) + '\n\n'
+            ).encode()
         yield b"data: [DONE]\n\n"
-        return
 
-    # 还在运行：创建新的消费者订阅
-    future, collect, finish = stream_callback()
-    task.collect_callback = collect
-    task.finish_callback = finish
-
-    # 如果 Task 还没开始运行，加入调度
-    if task.status == Status.READY:
-        scheduler.add_task(task)
-
-    # 复用 _stream_sse
-    async for chunk in _stream_sse(task, task_id, future, task.prefill_time):
-        yield chunk
-
+    return StreamingResponse(
+        poll(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
+    )
 
 @router.post("/{task_id}/fork", response_model=TaskResponseModel)
 async def fork(
@@ -168,7 +176,9 @@ async def fork(
     scheduler: BaseScheduler = Depends(get_scheduler),
 ):
     new_task_id = task_manager.fork_template(task_id, gen_id(tmp))
-    return await continue_task(new_task_id, data, scheduler)
+    new_task = get_task(new_task_id)
+    new_task.model_loader = source_task.model_loader
+    return await continue_task(new_task_id, data, new_task, scheduler)
 
 
 @router.post("/{task_id}/continue")

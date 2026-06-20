@@ -45,10 +45,10 @@ class RWKV070ModelLoader:
         if not toks[-1]: toks = toks[:-1]
         return self.tokenizer.decode(toks)
 
-    def decode(self, toks: list[int] | str) -> str:
-        if isinstance(toks, list):
-            return self.raw_decode(toks)
-        return toks
+    def decode(self, toks) -> str:
+        if isinstance(toks, str):
+            return toks
+        return self.raw_decode(toks)
 
     # ---------- 向量化 EOS 检测（GPU 高性能） ----------
     def batch_is_eos(self, prev_tokens: torch.Tensor, cur_tokens: torch.Tensor) -> torch.Tensor:

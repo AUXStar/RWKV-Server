@@ -3,6 +3,7 @@ import torch
 import threading
 import enum
 import time
+from array import array
 import loguru
 from ..scheduler.loader import RWKV070ModelLoader
 from ..scheduler.batch_sampler import BatchSampler
@@ -62,7 +63,7 @@ class Task:
         self.top_p = top_p
         self.seed = seed
 
-        self._token_batches: list[list[int]] = []
+        self._generated_tokens = array('H')
         self.current_token = -1
         self.stop_flag_tensor = None
         self._status = Status.PREFILL
@@ -73,7 +74,7 @@ class Task:
     def info(self):
         return dict(
             task_id = self.task_id,
-            generated_buf = sum(len(b) for b in self._token_batches),
+            generated_buf = len(self._generated_tokens),
             status = self.status,
         )
 
@@ -95,12 +96,14 @@ class Task:
             "seed": self.seed,
             "current_token": self.current_token,
             "_status": self._status,
-            "_token_batches": self._token_batches,
+            "_generated_tokens": self._generated_tokens,
         }
         return state
 
     def __setstate__(self, state):
         self.__dict__.update(state)
+        if isinstance(self._generated_tokens, list):
+            self._generated_tokens = array('H', self._generated_tokens)
         self.model_loader = None
         self.batch_sampler = None
         self.prefill_lock = NullLock()
@@ -122,7 +125,7 @@ class Task:
         self._status = Status.PREFILL
         # 每次 prefill 清除旧 token 历史
         with self.tokens_lock:
-            self._token_batches.clear()
+            self._generated_tokens.clear()
         prompt = self.tokenize(prompt)
 
         assert len(prompt) >= 1 and all(isinstance(i, int) for i in prompt)
@@ -185,34 +188,25 @@ class Task:
 
     def collect(self, tokens: list[int]):
         with self.tokens_lock:
-            self._token_batches.append(tokens)
+            self._generated_tokens.fromlist(tokens)
         self.collect_callback(tokens)
 
     def get_all_tokens(self) -> list[int]:
-        """获取当前所有已生成的 token（不清空）。"""
-        # 读取不需要锁（CPython GIL 保证 list.append 原子性）
-        all_tokens: list[int] = []
-        for batch in self._token_batches:
-            all_tokens.extend(batch)
-        return all_tokens
+        """获取当前所有已生成的 token（读取不需要锁，CPython GIL 保证）"""
+        return self._generated_tokens
+
 
     def pop_tokens(self):
-        """兼容旧接口：获取并清空。"""
+        """获取并清空"""
         with self.tokens_lock:
-            all_tokens: list[int] = []
-            for batch in self._token_batches:
-                all_tokens.extend(batch)
-            self._token_batches.clear()
-        return all_tokens
+            tokens = list(self._generated_tokens)
+            self._generated_tokens.clear()
+        return tokens
 
     def finish(self):
         self.cpu()
         self.finish_time = time.time()
-        # 传合并后的完整 token 列表给 finish_callback
-        all_tokens: list[int] = []
-        for batch in self._token_batches:
-            all_tokens.extend(batch)
-        self.finish_callback(all_tokens)
+        self.finish_callback(self._generated_tokens)
 
     @property
     def status(self) -> Status:

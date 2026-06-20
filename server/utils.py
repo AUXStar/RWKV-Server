@@ -51,7 +51,7 @@ def stream_callback():
         dead = []
         for q in _subscribers:
             try:
-                loop.call_soon_threadsafe(q.put_nowait, None)
+                loop.call_soon_threadsafe(q.put_nowait, data)
             except asyncio.QueueFull:
                 dead.append(q)
         for q in dead:
